@@ -1,0 +1,1 @@
+rpython/bin/rpython -Ojit pypy/goal/targetpypystandalone.py
