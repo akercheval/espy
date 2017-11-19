@@ -412,6 +412,9 @@ class W_ListObject(W_Root):
         """Reverses the list."""
         self.strategy.reverse(self)
 
+    def opuesto(self):
+        self.reverse()
+
     def sort(self, reverse):
         """Sorts the list ascending or descending depending on
         argument reverse. Argument must be unwrapped."""
@@ -2158,9 +2161,11 @@ list(iterable) -> new list initialized from iterable's items""",
     __delslice__ = interp2app(W_ListObject.descr_delslice),
 
     sort = interp2app(W_ListObject.descr_sort),
+    ordenar = interp2app(W_ListObject.descr_sort),
     index = interp2app(W_ListObject.descr_index),
     append = interp2app(W_ListObject.append),
     reverse = interp2app(W_ListObject.descr_reverse),
+    opuesto = interp2app(W_ListObject.descr_reverse),
     __reversed__ = interp2app(W_ListObject.descr_reversed),
     count = interp2app(W_ListObject.descr_count),
     pop = interp2app(W_ListObject.descr_pop),
