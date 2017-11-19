@@ -80,7 +80,7 @@ def PyList_GetItem(space, w_list, index):
     if not isinstance(w_list, W_ListObject):
         PyErr_BadInternalCall(space)
     if index < 0 or index >= w_list.length():
-        raise oefmt(space.w_IndexError, "error de índice")
+        raise oefmt(space.w_IndexError, "índice de lista fuera del rango")
     storage = get_list_storage(space, w_list)
     return storage._elems[index]     # borrowed ref
 

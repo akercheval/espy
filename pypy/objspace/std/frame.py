@@ -68,7 +68,7 @@ def list_BINARY_SUBSCR(self, oparg, next_instr):
         try:
             w_result = w_1.getitem(w_2.intval)
         except IndexError:
-            raise oefmt(space.w_IndexError, "error de índice")
+            raise oefmt(space.w_IndexError, "índice de lista fuera del rango")
     else:
         w_result = space.getitem(w_1, w_2)
     self.pushvalue(w_result)

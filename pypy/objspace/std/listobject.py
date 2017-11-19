@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """The builtin list implementation
 
 Lists optimize their storage by holding certain primitive datatypes in
@@ -560,10 +563,10 @@ class W_ListObject(W_Root):
             return self.getslice(start, stop, step, slicelength)
 
         try:
-            index = space.getindex_w(w_index, space.w_IndexError, "list index")
+            index = space.getindex_w(w_index, space.w_IndexError, "índice de lista")
             return self.getitem(index)
         except IndexError:
-            raise oefmt(space.w_IndexError, "error de índice")
+            raise oefmt(space.w_IndexError, "índice de lista fuera del rango")
 
     def descr_getslice(self, space, w_start, w_stop):
         length = self.length()
@@ -586,11 +589,11 @@ class W_ListObject(W_Root):
                 self.setslice(start, step, slicelength, w_other)
             return
 
-        idx = space.getindex_w(w_index, space.w_IndexError, "list index")
+        idx = space.getindex_w(w_index, space.w_IndexError, "índice de lista")
         try:
             self.setitem(idx, w_any)
         except IndexError:
-            raise oefmt(space.w_IndexError, "error de índice")
+            raise oefmt(space.w_IndexError, "índice de lista fuera del rango")
 
     def descr_setslice(self, space, w_start, w_stop, w_iterable):
         length = self.length()
@@ -610,13 +613,13 @@ class W_ListObject(W_Root):
             self.deleteslice(start, step, slicelength)
             return
 
-        idx = space.getindex_w(w_idx, space.w_IndexError, "list index")
+        idx = space.getindex_w(w_idx, space.w_IndexError, "índice de lista")
         if idx < 0:
             idx += self.length()
         try:
             self.pop(idx)
         except IndexError:
-            raise oefmt(space.w_IndexError, "error de índice")
+            raise oefmt(space.w_IndexError, "índice de lista fuera del rango")
 
     def descr_delslice(self, space, w_start, w_stop):
         length = self.length()
@@ -656,7 +659,7 @@ class W_ListObject(W_Root):
         index (default last)'''
         length = self.length()
         if length == 0:
-            raise oefmt(space.w_IndexError, "pop from empty list")
+            raise oefmt(space.w_IndexError, "pop de lista vacía")
         # clearly differentiate between list.pop() and list.pop(index)
         if index == -1:
             return self.pop_end()  # cannot raise because list is not empty
@@ -665,7 +668,7 @@ class W_ListObject(W_Root):
         try:
             return self.pop(index)
         except IndexError:
-            raise oefmt(space.w_IndexError, "pop index out of range")
+            raise oefmt(space.w_IndexError, "índice del pop fuera del rango")
 
     def descr_remove(self, space, w_value):
         'L.remove(value) -- remove first occurrence of value'
@@ -674,7 +677,7 @@ class W_ListObject(W_Root):
             i = self.find(w_value, 0, sys.maxint)
         except ValueError:
             raise oefmt(space.w_ValueError,
-                        "list.remove(): %R is not in list", w_value)
+                        "lista.quitar(): %R no está en la lista", w_value)
         if i < self.length():  # otherwise list was mutated
             self.pop(i)
 
@@ -689,7 +692,7 @@ class W_ListObject(W_Root):
         try:
             i = self.find(w_value, i, stop)
         except ValueError:
-            raise oefmt(space.w_ValueError, "%R is not in list", w_value)
+            raise oefmt(space.w_ValueError, "%R no está en lista", w_value)
         return space.newint(i)
 
     @unwrap_spec(reverse=bool)
@@ -761,7 +764,7 @@ class W_ListObject(W_Root):
             self.__init__(space, sorter.list)
 
         if mucked:
-            raise oefmt(space.w_ValueError, "list modified during sort")
+            raise oefmt(space.w_ValueError, "lista modificada en proceso de ordenación")
 
 find_jmp = jit.JitDriver(greens = ['tp'], reds = 'auto', name = 'list.find')
 
@@ -1327,17 +1330,17 @@ class AbstractUnwrappedStrategy(object):
 
     @staticmethod
     def unerase(storage):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracta")
 
     @staticmethod
     def erase(obj):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracta")
 
     def is_correct_type(self, w_obj):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracta")
 
     def list_is_correct_type(self, w_list):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracta")
 
     @jit.look_inside_iff(lambda space, w_list, list_w:
             jit.loop_unrolling_heuristic(list_w, len(list_w), UNROLL_CUTOFF))
@@ -1516,8 +1519,8 @@ class AbstractUnwrappedStrategy(object):
                 del items[start:start + delta]
         elif len2 != slicelength:  # No resize for extended slices
             raise oefmt(space.w_ValueError,
-                        "attempt to assign sequence of size %d to extended "
-                        "slice of size %d", len2, slicelength)
+                        "intención de asignar sequencia de tamaño %d a parte "
+                        "extendido de tamaño %d", len2, slicelength)
 
         if len2 == 0:
             other_items = []
@@ -2108,7 +2111,7 @@ class CustomCompareSort(SimpleSort):
         except OperationError as e:
             if e.match(space, space.w_TypeError):
                 raise oefmt(space.w_TypeError,
-                            "comparison function must return int")
+                            "función de comparación debe volver ent")
             raise
         return result < 0
 
@@ -2129,48 +2132,72 @@ class CustomKeyCompareSort(CustomCompareSort):
 
 
 W_ListObject.typedef = TypeDef("list",
-    __doc__ = """list() -> new empty list
-list(iterable) -> new list initialized from iterable's items""",
+    __doc__ = """lista() -> nueva lista vacía
+lista(iterable) -> nueva lista iniciada de artículos del iterable""",
     __new__ = interp2app(W_ListObject.descr_new),
+    __nueva__ = interp2app(W_ListObject.descr_new),
     __init__ = interp2app(W_ListObject.descr_init),
     __repr__ = interp2app(W_ListObject.descr_repr),
     __hash__ = None,
 
     __eq__ = interp2app(W_ListObject.descr_eq),
+    __ig__ = interp2app(W_ListObject.descr_eq),
     __ne__ = interp2app(W_ListObject.descr_ne),
+    __ni__ = interp2app(W_ListObject.descr_ne),
     __lt__ = interp2app(W_ListObject.descr_lt),
+    __meq__ = interp2app(W_ListObject.descr_lt),
     __le__ = interp2app(W_ListObject.descr_le),
+    __mei__ = interp2app(W_ListObject.descr_le),
     __gt__ = interp2app(W_ListObject.descr_gt),
+    __maq__ = interp2app(W_ListObject.descr_gt),
     __ge__ = interp2app(W_ListObject.descr_ge),
+    __mai__ = interp2app(W_ListObject.descr_ge),
 
     __len__ = interp2app(W_ListObject.descr_len),
+    __tam__ = interp2app(W_ListObject.descr_len),
     __iter__ = interp2app(W_ListObject.descr_iter),
     __contains__ = interp2app(W_ListObject.descr_contains),
+    __contiene__ = interp2app(W_ListObject.descr_contains),
 
     __add__ = interp2app(W_ListObject.descr_add),
+    __mas__ = interp2app(W_ListObject.descr_add),
     __iadd__ = interp2app(W_ListObject.descr_inplace_add),
+    __imas__ = interp2app(W_ListObject.descr_inplace_add),
     __mul__ = interp2app(W_ListObject.descr_mul),
     __rmul__ = interp2app(W_ListObject.descr_mul),
     __imul__ = interp2app(W_ListObject.descr_inplace_mul),
 
     __getitem__ = interp2app(W_ListObject.descr_getitem),
+    __sacaartic__ = interp2app(W_ListObject.descr_getitem),
     __getslice__ = interp2app(W_ListObject.descr_getslice),
+    __sacaparte__ = interp2app(W_ListObject.descr_getslice),
     __setitem__ = interp2app(W_ListObject.descr_setitem),
+    __ponartic__ = interp2app(W_ListObject.descr_setitem),
     __setslice__ = interp2app(W_ListObject.descr_setslice),
+    __ponparte__ = interp2app(W_ListObject.descr_setslice),
     __delitem__ = interp2app(W_ListObject.descr_delitem),
+    __elimartic__ = interp2app(W_ListObject.descr_delitem),
     __delslice__ = interp2app(W_ListObject.descr_delslice),
+    __elimparte__ = interp2app(W_ListObject.descr_delslice),
 
     sort = interp2app(W_ListObject.descr_sort),
     ordenar = interp2app(W_ListObject.descr_sort),
     index = interp2app(W_ListObject.descr_index),
+    indice = interp2app(W_ListObject.descr_index),
     append = interp2app(W_ListObject.append),
+    adjuntar = interp2app(W_ListObject.append),
     reverse = interp2app(W_ListObject.descr_reverse),
     opuesto = interp2app(W_ListObject.descr_reverse),
     __reversed__ = interp2app(W_ListObject.descr_reversed),
+    __opuestado__ = interp2app(W_ListObject.descr_reversed),
     count = interp2app(W_ListObject.descr_count),
+    total = interp2app(W_ListObject.descr_count),
     pop = interp2app(W_ListObject.descr_pop),
     extend = interp2app(W_ListObject.extend),
+    extender = interp2app(W_ListObject.extend),
     insert = interp2app(W_ListObject.descr_insert),
+    insertar = interp2app(W_ListObject.descr_insert),
     remove = interp2app(W_ListObject.descr_remove),
+    quitar = interp2app(W_ListObject.descr_remove),
 )
 W_ListObject.typedef.flag_sequence_bug_compat = True
