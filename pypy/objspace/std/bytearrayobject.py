@@ -82,7 +82,7 @@ class W_BytearrayObject(W_Root):
     def _len(self):
         return len(self._data) - self._offset
 
-    def _fixindex(self, space, index, errmsg="bytearray index out of range"):
+    def _fixindex(self, space, index, errmsg="índice del bytematriz fuera del rango"):
         # for getitem/setitem/delitem of a single char
         if index >= 0:
             index += self._offset
@@ -180,8 +180,8 @@ class W_BytearrayObject(W_Root):
         length = self._len()
         if length != 1:
             raise oefmt(space.w_TypeError,
-                        "ord() expected a character, but string of length %d "
-                        "found", length)
+                        "ord() anticipaba un carácter, pero palabra de tamaño %d "
+                        "encontrada", length)
         return space.newint(ord(self._data[self._offset]))
 
     @staticmethod
@@ -227,7 +227,7 @@ class W_BytearrayObject(W_Root):
                 raise
         else:
             if count < 0:
-                raise oefmt(space.w_ValueError, "bytearray negative count")
+                raise oefmt(space.w_ValueError, "bytematriz total negativo")
             self._data = resizable_list_supporting_raw_ptr(['\0'] * count)
             self._offset = 0
             return
@@ -415,7 +415,7 @@ class W_BytearrayObject(W_Root):
                                   slicelength, sequence2, empty_elem='\x00')
         else:
             idx = space.getindex_w(w_index, space.w_IndexError,
-                                   "bytearray index")
+                                   "índice de bytematriz")
             newvalue = space.byte_w(w_other)
             self._data[self._fixindex(space, idx)] = newvalue
 
@@ -429,7 +429,7 @@ class W_BytearrayObject(W_Root):
                                       start + self._offset, step, slicelength)
         else:
             idx = space.getindex_w(w_idx, space.w_IndexError,
-                                   "bytearray index")
+                                   "índice de bytematriz")
             idx = self._fixindex(space, idx)
             if idx == self._offset:    # fast path for del x[0] or del[-len]
                 self._delete_from_start(1)
@@ -462,8 +462,8 @@ class W_BytearrayObject(W_Root):
     def descr_pop(self, space, w_idx):
         index = space.int_w(w_idx)
         if self._len() == 0:
-            raise oefmt(space.w_IndexError, "pop from empty bytearray")
-        index = self._fixindex(space, index, "pop index out of range")
+            raise oefmt(space.w_IndexError, "pop de bytematriz vacía")
+        index = self._fixindex(space, index, "índice del pop fuera del rango")
         result = self._data.pop(index)
         return space.newint(ord(result))
 
@@ -474,7 +474,7 @@ class W_BytearrayObject(W_Root):
             if ord(_data[index]) == char:
                 del _data[index]
                 return
-        raise oefmt(space.w_ValueError, "value not found in bytearray")
+        raise oefmt(space.w_ValueError, "valor no encontrado en bytematriz")
 
     _StringMethods_descr_contains = descr_contains
     def descr_contains(self, space, w_sub):
@@ -543,7 +543,7 @@ def _make_data(s):
 
 def _descr_contains_bytearray(data, space, char):
     if not 0 <= char < 256:
-        raise oefmt(space.w_ValueError, "byte must be in range(0, 256)")
+        raise oefmt(space.w_ValueError, "byte tiene que estar en rango(0, 256)")
     for c in data:
         if ord(c) == char:
             return space.w_True
@@ -618,7 +618,7 @@ def _hex_digit_to_int(d):
         return val - 87
     return -1
 
-NON_HEX_MSG = "non-hexadecimal number found in fromhex() arg at position %d"
+NON_HEX_MSG = "número no-hexadecimal encontrado en dehex() arg en posición %d"
 
 def _hexstring_to_array(space, s):
     data = []
@@ -644,171 +644,172 @@ def _hexstring_to_array(space, s):
 
 
 class BytearrayDocstrings:
-    """bytearray(iterable_of_ints) -> bytearray
-    bytearray(string, encoding[, errors]) -> bytearray
-    bytearray(bytes_or_bytearray) -> mutable copy of bytes_or_bytearray
-    bytearray(memory_view) -> bytearray
+    """bytematriz(iterable_de_ents) -> bytematriz
+    bytematriz(palabra, codificación[, errores]) -> bytematriz
+    bytematriz(bytes_o_bytematriz) -> copia mutable de bytes_o_bytematriz
+    bytematriz(vista_memoria) -> bytematriz
 
-    Construct an mutable bytearray object from:
-      - an iterable yielding integers in range(256)
-      - a text string encoded using the specified encoding
-      - a bytes or a bytearray object
-      - any object implementing the buffer API.
+    Construir un objeto bytematriz mutable de:
+        - un iterable que produce enteros en el rango(256)
+        - una palabra codificada usando la codificación especificada
+        - un objeto de bytes o bytematriz
+        - cualquier objecto que implementa el API del búfer
 
-    bytearray(int) -> bytearray.
+    bytematriz(ent) -> bytematriz.
 
-    Construct a zero-initialized bytearray of the given length.
+    Construir un cero-iniciada bytematriz del tamaño dado.
 
     """
 
     def __add__():
-        """x.__add__(y) <==> x+y"""
+        """x.__mas__(y) <==> x+y"""
 
     def __alloc__():
-        """B.__alloc__() -> int
+        """B.__asign__() -> int
 
-        Return the number of bytes actually allocated.
+        Vuelve el numero actual de bytes asignados.
         """
 
     def __contains__():
-        """x.__contains__(y) <==> y in x"""
+        """x.__contiene__(y) <==> y in x"""
 
     def __delitem__():
-        """x.__delitem__(y) <==> del x[y]"""
+        """x.__elimartic__(y) <==> del x[y]"""
 
     def __eq__():
-        """x.__eq__(y) <==> x==y"""
+        """x.__ig__(y) <==> x==y"""
 
     def __ge__():
-        """x.__ge__(y) <==> x>=y"""
+        """x.__mai__(y) <==> x>=y"""
 
     def __getattribute__():
-        """x.__getattribute__('name') <==> x.name"""
+        """x.__sacaatributo__('nombre') <==> x.nombre"""
 
     def __getitem__():
-        """x.__getitem__(y) <==> x[y]"""
+        """x.__sacaartic__(y) <==> x[y]"""
 
     def __gt__():
-        """x.__gt__(y) <==> x>y"""
+        """x.__maq__(y) <==> x>y"""
 
     def __iadd__():
-        """x.__iadd__(y) <==> x+=y"""
+        """x.__imas__(y) <==> x+=y"""
 
     def __imul__():
         """x.__imul__(y) <==> x*=y"""
 
     def __init__():
-        """x.__init__(...) initializes x; see help(type(x)) for signature"""
+        """x.__inic__(...) inicializa x; vea ayuda(tipo(x)) para firma"""
 
     def __iter__():
         """x.__iter__() <==> iter(x)"""
 
     def __le__():
-        """x.__le__(y) <==> x<=y"""
+        """x.__mei__(y) <==> x<=y"""
 
     def __len__():
-        """x.__len__() <==> len(x)"""
+        """x.__tam__() <==> tam(x)"""
 
     def __lt__():
-        """x.__lt__(y) <==> x<y"""
+        """x.__meq__(y) <==> x<y"""
 
     def __mul__():
         """x.__mul__(n) <==> x*n"""
 
     def __ne__():
-        """x.__ne__(y) <==> x!=y"""
+        """x.__ni__(y) <==> x!=y"""
 
     def __reduce__():
-        """Return state information for pickling."""
+        """Vuelve información de estado para envinagración."""
 
     def __repr__():
         """x.__repr__() <==> repr(x)"""
 
     def __rmul__():
-        """x.__rmul__(n) <==> n*x"""
+        """x.__dmul__(n) <==> n*x"""
 
     def __setitem__():
-        """x.__setitem__(i, y) <==> x[i]=y"""
+        """x.__ponartic__(i, y) <==> x[i]=y"""
 
     def __sizeof__():
-        """B.__sizeof__() -> int
+        """B.__tamde__() -> int
 
-        Returns the size of B in memory, in bytes
+        Vuelve el tamaño de B en memoria, en bytes
         """
 
     def __str__():
-        """x.__str__() <==> str(x)"""
+        """x.__pal__() <==> pal(x)"""
 
     def append():
-        """B.append(int) -> None
+        """B.adjuntar(int) -> None
 
-        Append a single item to the end of B.
+        Adjunta un solo artículo al fin de B.
         """
 
     def capitalize():
-        """B.capitalize() -> copy of B
+        """B.mayusc() -> copia de B
 
-        Return a copy of B with only its first character capitalized (ASCII)
-        and the rest lower-cased.
+        Vuelve una copia de B con solo su carácter primera puesta en mayúscula
+        (ASCII) y el resto puesta en minúscula.
         """
 
     def center():
-        """B.center(width[, fillchar]) -> copy of B
+        """B.centro(ancho[, llenacarác]) -> copia de B
 
-        Return B centered in a string of length width.  Padding is
-        done using the specified fill character (default is a space).
+        Vuelve B al centro de una palabra de tamaño ancho. Renneno está hecho
+        usando la carácter especificada (estándar es un espacio).
         """
 
     def count():
-        """B.count(sub[, start[, end]]) -> int
+        """B.total(sub[, empieza[, fin]]) -> ent
 
-        Return the number of non-overlapping occurrences of subsection sub in
-        bytes B[start:end].  Optional arguments start and end are interpreted
-        as in slice notation.
+        Vuelve el número de casos no-sobreponiendos de subsección sub en bytes
+        B[empieza:fin]. Argumentos opcionales empieza y fin son interpretados en
+        notación de cortar.
         """
 
     def decode():
-        """B.decode(encoding=None, errors='strict') -> unicode
+        """B.decodificar(codificación=Nada, errores='estricta') -> unicod
 
-        Decode B using the codec registered for encoding. encoding defaults to
-        the default encoding. errors may be given to set a different error
-        handling scheme.  Default is 'strict' meaning that encoding errors
-        raise a UnicodeDecodeError.  Other possible values are 'ignore' and
-        'replace' as well as any other name registered with
-        codecs.register_error that is able to handle UnicodeDecodeErrors.
+        Decodifica B usando el codec registrado para codificación. codificación
+        se estandardiza ala codificación estándar. errores puede ser dado para
+        poner otra manera de manejar errores. El estándar es 'estricta' que
+        significa que errores de codificación llaman UnicodeDecodeError. Otros
+        valores posibles son 'ignorar' y 'reemplazar', tanto como cualquiera
+        otro nombre registrado con codecs.registrar_error que funciona con
+        UnicodeDecodeError.
         """
 
     def endswith():
-        """B.endswith(suffix[, start[, end]]) -> bool
+        """B.terminacon(sufijo[, empieza[, fin]]) -> bool
 
-        Return True if B ends with the specified suffix, False otherwise.
-        With optional start, test B beginning at that position.
-        With optional end, stop comparing B at that position.
-        suffix can also be a tuple of strings to try.
+        Vuelve Cierto si B termina con el sufijo especificado, Falso si no.
+        Con opcional empieza, prueba B empezando en este posición.
+        Con opcional fin, pare comparando B en este posición.
+        sufijo también puede ser un tuple de palabras para probar.
         """
 
     def expandtabs():
-        """B.expandtabs([tabsize]) -> copy of B
+        """B.expandtabs([tabtam]) -> copia de B
 
-        Return a copy of B where all tab characters are expanded using spaces.
-        If tabsize is not given, a tab size of 8 characters is assumed.
+        Vuelve una copia de B donde todas las carácteres tab son expandidas
+        usando espacios. Si tabtam no es dado, tamaño de 8 carácteres es
+        suponido.
         """
 
     def extend():
-        """B.extend(iterable_of_ints) -> None
+        """B.extender(iterable_de_ents) -> Nada
 
-        Append all the elements from the iterator or sequence to the
-        end of B.
+        Adjunta todos los elementos del iterador o secuencia al final de B.
         """
 
     def find():
-        """B.find(sub[, start[, end]]) -> int
+        """B.encontrar(sub[, empieza[, fin]]) -> ent
 
-        Return the lowest index in B where subsection sub is found,
-        such that sub is contained within B[start,end].  Optional
-        arguments start and end are interpreted as in slice notation.
+        Vuelve el índice más bajo en B donde subsección sub se puede encontar,
+        para que sub esté contenida entre B[empieza:fin]. Opcional argumentos
+        empieza y fin son interpretados como en notación cortar.
 
-        Return -1 on failure.
+        Vuelve -1 si fracasa.
         """
 
     def fromhex():
@@ -818,7 +819,7 @@ class BytearrayDocstrings:
         Spaces between two numbers are accepted.
         Example: bytearray.fromhex('B9 01EF') -> bytearray(b'\xb9\x01\xef').
         """
-
+#XXX hereAK going down
     def index():
         """B.index(sub[, start[, end]]) -> int
 
