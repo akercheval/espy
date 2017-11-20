@@ -18,3 +18,6 @@
         >>>> tam([1, 2, 3])
         3
     ```
+* Allow for accents in type definitions: Right now, for example, the "index" 
+    function of the list type, which should be called "índice" is called
+    "indice" because the pypy compiler freaks out when it finds an accent.

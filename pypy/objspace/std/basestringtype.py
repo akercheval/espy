@@ -2,6 +2,6 @@ from pypy.interpreter.typedef import TypeDef
 
 
 basestring_typedef = TypeDef("basestring",
-    __doc__ =  ("basestring cannot be instantiated; "
-                "it is the base for str and unicode.")
+    __doc__ =  ("basepalabra no se puede instanciar; "
+                "es el base para pal y unicod.")
     )

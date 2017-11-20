@@ -27,7 +27,7 @@ class W_Buffer(W_Root):
 
     def writebuf_w(self, space):
         if self.buf.readonly:
-            raise oefmt(space.w_TypeError, "buffer is read-only")
+            raise oefmt(space.w_TypeError, "búfer es solo-leer")
         return self.buf
 
     def charbuf_w(self, space):
@@ -43,14 +43,14 @@ class W_Buffer(W_Root):
         try:
             buf = w_object.readbuf_w(space)
         except BufferInterfaceNotFound:
-            raise oefmt(space.w_TypeError, "expected a readable buffer object")
+            raise oefmt(space.w_TypeError, "anticipó un objecto búfer leíble")
         if offset == 0 and size == -1:
             return W_Buffer(buf)
         # handle buffer slices
         if offset < 0:
-            raise oefmt(space.w_ValueError, "offset must be zero or positive")
+            raise oefmt(space.w_ValueError, "offset tiene que ser cero o positivo")
         if size < -1:
-            raise oefmt(space.w_ValueError, "size must be zero or positive")
+            raise oefmt(space.w_ValueError, "tamaño tiene que ser cero o positivo")
         buf = SubBuffer(buf, offset, size)
         return W_Buffer(buf)
 
@@ -67,19 +67,19 @@ class W_Buffer(W_Root):
 
     def descr_setitem(self, space, w_index, w_obj):
         if self.buf.readonly:
-            raise oefmt(space.w_TypeError, "buffer is read-only")
+            raise oefmt(space.w_TypeError, "búfer es solo-leer")
         start, stop, step, size = space.decode_index4(w_index,
                                                       self.buf.getlength())
         value = space.readbuf_w(w_obj)
         if step == 0:  # index only
             if value.getlength() != 1:
                 raise oefmt(space.w_TypeError,
-                            "right operand must be a single byte")
+                            "operando derecho tiene que ser un solo byte")
             self.buf.setitem(start, value.getitem(0))
         else:
             if value.getlength() != size:
                 raise oefmt(space.w_TypeError,
-                            "right operand length must match slice length")
+                            "tamaño del operando derecho tiene que ser el mismo que el tamaño del parte cortado")
             if step == 1:
                 self.buf.setslice(start, value.as_str())
             else:
@@ -130,7 +130,7 @@ class W_Buffer(W_Root):
             info = 'read-write buffer'
         addrstring = self.getaddrstring(space)
 
-        return space.newtext("<%s for 0x%s, size %d>" %
+        return space.newtext("<%s para 0x%s, tamaño %d>" %
                              (info, addrstring, self.buf.getlength()))
 
     def descr_pypy_raw_address(self, space):
@@ -139,8 +139,8 @@ class W_Buffer(W_Root):
             ptr = self.buf.get_raw_address()
         except ValueError:
             # report the error using the RPython-level internal repr of self.buf
-            msg = ("cannot find the underlying address of buffer that "
-                   "is internally %r" % (self.buf,))
+            msg = ("no puede encontrar la dirección subyacente del búfer que "
+                   "es internalmente %r" % (self.buf,))
             raise OperationError(space.w_ValueError, space.newtext(msg))
         return space.newint(rffi.cast(lltype.Signed, ptr))
 
@@ -148,28 +148,43 @@ W_Buffer.typedef = TypeDef(
     "buffer", None, None, "read-write",
     __doc__ = """\
 buffer(object [, offset[, size]])
+búfer(objeto [, offset[, tamaño]])
 
-Create a new buffer object which references the given object.
-The buffer will reference a slice of the target object from the
-start of the object (or at the specified offset). The slice will
-extend to the end of the target object (or with the specified size).
+Crear un nuevo objeto búfer que refiere al objecto dado.
+El búfer referirá a un parte del objeto propósito desde la
+empieza del objecto (o al offset especificado). El parte extenderá
+al final del objeto propósito (o con el tamaño especificado).
 """,
+    __nuevo__ = interp2app(W_Buffer.descr_new_buffer),
     __new__ = interp2app(W_Buffer.descr_new_buffer),
+    __tam__ = interp2app(W_Buffer.descr_len),
     __len__ = interp2app(W_Buffer.descr_len),
+    __sacaartic__ = interp2app(W_Buffer.descr_getitem),
     __getitem__ = interp2app(W_Buffer.descr_getitem),
+    __ponartic__ = interp2app(W_Buffer.descr_setitem),
     __setitem__ = interp2app(W_Buffer.descr_setitem),
+    __pal__ = interp2app(W_Buffer.descr_str),
     __str__ = interp2app(W_Buffer.descr_str),
+    __mas__ = interp2app(W_Buffer.descr_add),
     __add__ = interp2app(W_Buffer.descr_add),
+    __ig__ = interp2app(W_Buffer.descr_eq),
     __eq__ = interp2app(W_Buffer.descr_eq),
+    __ni__ = interp2app(W_Buffer.descr_ne),
     __ne__ = interp2app(W_Buffer.descr_ne),
+    __meq__ = interp2app(W_Buffer.descr_lt),
     __lt__ = interp2app(W_Buffer.descr_lt),
+    __mei__ = interp2app(W_Buffer.descr_le),
     __le__ = interp2app(W_Buffer.descr_le),
+    __maq__ = interp2app(W_Buffer.descr_gt),
     __gt__ = interp2app(W_Buffer.descr_gt),
+    __mai__ = interp2app(W_Buffer.descr_ge),
     __ge__ = interp2app(W_Buffer.descr_ge),
     __hash__ = interp2app(W_Buffer.descr_hash),
     __mul__ = interp2app(W_Buffer.descr_mul),
+    __dmul__ = interp2app(W_Buffer.descr_mul),
     __rmul__ = interp2app(W_Buffer.descr_mul),
     __repr__ = interp2app(W_Buffer.descr_repr),
+    __bufer__ = interp2app(W_Buffer.descr_getbuffer),
     __buffer__ = interp2app(W_Buffer.descr_getbuffer),
     _pypy_raw_address = interp2app(W_Buffer.descr_pypy_raw_address),
 )

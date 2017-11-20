@@ -16,7 +16,7 @@ class W_BoolObject(W_IntObject):
         self.intval = int(not not boolval)
 
     def __nonzero__(self):
-        raise Exception("you cannot do that, you must use space.is_true()")
+        raise Exception("no puede hacer esto; tiene que usar space.is_true()")
 
     def __repr__(self):
         """representation for debugging purposes"""
@@ -45,7 +45,7 @@ class W_BoolObject(W_IntObject):
         return space.newbool(space.is_true(w_obj))
 
     def descr_repr(self, space):
-        return space.newtext('True' if self.intval else 'False')
+        return space.newtext('Cierto' if self.intval else 'Falso')
     descr_str = func_with_new_name(descr_repr, 'descr_str')
 
     def descr_nonzero(self, space):
@@ -76,34 +76,53 @@ class W_BoolObject(W_IntObject):
     descr_xor, descr_rxor = _make_bitwise_binop('xor')
 
 
+W_BoolObject.w_Falso = W_BoolObject(False)
 W_BoolObject.w_False = W_BoolObject(False)
+W_BoolObject.w_Cierto = W_BoolObject(True)
 W_BoolObject.w_True = W_BoolObject(True)
 
 
 W_BoolObject.typedef = TypeDef("bool", W_IntObject.typedef,
     __doc__ = """bool(x) -> bool
 
-Returns True when the argument x is true, False otherwise.
-The builtins True and False are the only two instances of the class bool.
-The class bool is a subclass of the class int, and cannot be subclassed.""",
+Vuelve Cierto cuando el argumento x es cierto, Falso si no.
+Los prehechos Cierto y Falso son las únicas instancias de la clase bool.
+La clase bool es un sub-clase de la clase ent, y no se puede ser sub-clasificada.""",
+    __nuevo__ = interp2app(W_BoolObject.descr_new),
     __new__ = interp2app(W_BoolObject.descr_new),
     __repr__ = interp2app(W_BoolObject.descr_repr,
                           doc=W_AbstractIntObject.descr_repr.__doc__),
+    __pal__ = interp2app(W_BoolObject.descr_str,
+                         doc=W_AbstractIntObject.descr_str.__doc__),
     __str__ = interp2app(W_BoolObject.descr_str,
                          doc=W_AbstractIntObject.descr_str.__doc__),
+    __nocero__ = interp2app(W_BoolObject.descr_nonzero,
+                             doc=W_AbstractIntObject.descr_nonzero.__doc__),
     __nonzero__ = interp2app(W_BoolObject.descr_nonzero,
                              doc=W_AbstractIntObject.descr_nonzero.__doc__),
 
+    __y__ = interp2app(W_BoolObject.descr_and,
+                         doc=W_AbstractIntObject.descr_and.__doc__),
     __and__ = interp2app(W_BoolObject.descr_and,
                          doc=W_AbstractIntObject.descr_and.__doc__),
+    __dy__ = interp2app(W_BoolObject.descr_rand,
+                          doc=W_AbstractIntObject.descr_rand.__doc__),
     __rand__ = interp2app(W_BoolObject.descr_rand,
                           doc=W_AbstractIntObject.descr_rand.__doc__),
+    __o__ = interp2app(W_BoolObject.descr_or,
+                        doc=W_AbstractIntObject.descr_or.__doc__),
     __or__ = interp2app(W_BoolObject.descr_or,
                         doc=W_AbstractIntObject.descr_or.__doc__),
+    __do__ = interp2app(W_BoolObject.descr_ror,
+                         doc=W_AbstractIntObject.descr_ror.__doc__),
     __ror__ = interp2app(W_BoolObject.descr_ror,
                          doc=W_AbstractIntObject.descr_ror.__doc__),
+    __oex__ = interp2app(W_BoolObject.descr_xor,
+                         doc=W_AbstractIntObject.descr_xor.__doc__),
     __xor__ = interp2app(W_BoolObject.descr_xor,
                          doc=W_AbstractIntObject.descr_xor.__doc__),
+    __doex__ = interp2app(W_BoolObject.descr_rxor,
+                          doc=W_AbstractIntObject.descr_rxor.__doc__),
     __rxor__ = interp2app(W_BoolObject.descr_rxor,
                           doc=W_AbstractIntObject.descr_rxor.__doc__),
     )
