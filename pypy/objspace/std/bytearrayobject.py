@@ -819,396 +819,516 @@ class BytearrayDocstrings:
         Spaces between two numbers are accepted.
         Example: bytearray.fromhex('B9 01EF') -> bytearray(b'\xb9\x01\xef').
         """
-#XXX hereAK going down
-    def index():
-        """B.index(sub[, start[, end]]) -> int
 
-        Like B.find() but raise ValueError when the subsection is not found.
+    def index():
+        """B.indice(sub[, empieza[, fin]]) -> ent
+
+        Como B.encontrar() pero llama ValueError cuando no se puede encontrar
+        la subsección.
         """
 
     def insert():
-        """B.insert(index, int) -> None
+        """B.insertar(índice, ent) -> Nada
 
-        Insert a single item into the bytearray before the given index.
+        Insertar un solo artículo en el bytematríz antes del índice dado.
         """
 
     def isalnum():
-        """B.isalnum() -> bool
+        """B.esalnum() -> bool
 
-        Return True if all characters in B are alphanumeric
-        and there is at least one character in B, False otherwise.
+        Vuelve Cierto si todos los carácteres en B son alfanuméricos y
+        hay por lo menos un carácter en B, Falso si no.
         """
 
     def isalpha():
-        """B.isalpha() -> bool
+        """B.esalfa() -> bool
 
-        Return True if all characters in B are alphabetic
-        and there is at least one character in B, False otherwise.
+        Vuelve Cierto si todos los carácteres en B son alfabeticos y
+        hay por lo menos un carácter en B, Falso si no.
         """
 
     def isdigit():
-        """B.isdigit() -> bool
+        """B.esdec() -> bool
 
-        Return True if all characters in B are digits
-        and there is at least one character in B, False otherwise.
+        Vuelve Cierto si todos los carácteres en B son números decimales,
+        y hay por lo menos un carácter en B, Falso si no.
         """
 
     def islower():
-        """B.islower() -> bool
+        """B.esminusc() -> bool
 
-        Return True if all cased characters in B are lowercase and there is
-        at least one cased character in B, False otherwise.
+        Vuelve Cierto si todos los carácteres en B son minúsculos y hay
+        por lo menos un carácter en B, Falso si no.
         """
 
     def isspace():
-        """B.isspace() -> bool
+        """B.esespac() -> bool
 
-        Return True if all characters in B are whitespace
-        and there is at least one character in B, False otherwise.
+        Vuelve Cierto si todos los carácteres en B son espacio blanco
+        y hay por lo menos un carácter en B, Falso si no.
         """
 
+    ## XXX check this - AK
     def istitle():
-        """B.istitle() -> bool
+        """B.estitulo() -> bool
 
-        Return True if B is a titlecased string and there is at least one
-        character in B, i.e. uppercase characters may only follow uncased
-        characters and lowercase characters only cased ones. Return False
-        otherwise.
+        Vuelve Cierto si B es en forma título y hay por lo menos un carácter
+        en B, i.e. carácteres en mayúscula solo pueden seguir carácteres en
+        minúscula, y carácteres en minúscula solo siguen mayusculas. Falso si
+        no.
         """
 
     def isupper():
-        """B.isupper() -> bool
+        """B.esmayusc() -> bool
 
-        Return True if all cased characters in B are uppercase and there is
-        at least one cased character in B, False otherwise.
+        Vuelve Cierto si todos los carácteres en B son mayúsculas y hay por
+        lo menus un carácter en B, Falso si no.
         """
 
     def join():
-        """B.join(iterable_of_bytes) -> bytearray
+        """B.juntar(iterable_de_bytes) -> bytematriz
 
-        Concatenate any number of str/bytearray objects, with B
-        in between each pair, and return the result as a new bytearray.
+        Conectar cualquier número de objetos pal/bytematriz, con B
+        entre cada pareja. Vuelve el resultado como nuevo bytematriz.
         """
 
     def ljust():
-        """B.ljust(width[, fillchar]) -> copy of B
+        """B.ijust(ancho[, llenacarác]) -> copia de B
 
-        Return B left justified in a string of length width. Padding is
-        done using the specified fill character (default is a space).
+        Vuelve B justificado a la izquiera en una palabra de tamaño ancho.
+        Relleno está hecho con el carácter especificado (estándar es un
+        espacio).
         """
 
     def lower():
-        """B.lower() -> copy of B
+        """B.minusc() -> copia de B
 
-        Return a copy of B with all ASCII characters converted to lowercase.
+        Vuelve una copia de B con todos los carácteres ASCII convertidos a
+        minúscula.
         """
 
     def lstrip():
-        """B.lstrip([bytes]) -> bytearray
+        """B.idecapar([bytes]) -> bytematriz
 
-        Strip leading bytes contained in the argument
-        and return the result as a new bytearray.
-        If the argument is omitted, strip leading ASCII whitespace.
+        Decapa bytes contenidos al frente del argumento y volver el resulto
+        como nuevo bytematriz. Si el argumento está omitido, decapar espacio
+        blanco ASCII al frente.
         """
 
     def partition():
-        """B.partition(sep) -> (head, sep, tail)
+        """B.particion(sep) -> (cabeza, sep, cola)
 
-        Search for the separator sep in B, and return the part before it,
-        the separator itself, and the part after it.  If the separator is not
-        found, returns B and two empty bytearray objects.
+        Buscar el separador sep en B. Vuelve el parte antes de ello, ello
+        mismo y el parte después de ello. Si el separador no se puede encontrar,
+        vuelve B y dos bytematrizes vacíos.
         """
 
     def pop():
-        """B.pop([index]) -> int
+        """B.pop([índice]) -> ent
 
-        Remove and return a single item from B. If no index
-        argument is given, will pop the last value.
+        Quitar y volver un solo artículo de B. Si no índice está dado,
+        saca el valor final.
         """
 
     def remove():
-        """B.remove(int) -> None
+        """B.quitar(ent) -> Nada
 
-        Remove the first occurrence of a value in B.
+        Quitar la ocurrencia primera de un valor en B.
         """
 
     def replace():
-        """B.replace(old, new[, count]) -> bytearray
+        """B.reemplazar(vieja, nueva[, num]) -> bytematriz
 
-        Return a copy of B with all occurrences of subsection
-        old replaced by new.  If the optional argument count is
-        given, only the first count occurrences are replaced.
+        Vuelve una copia de B con todas ocurrencias de subsección
+        vieja reemplazadas con nueva. Si el argumento opcional num
+        está dado, solo las primeras num ocurrencias son reemplazadas.
         """
 
     def reverse():
-        """B.reverse() -> None
+        """B.invertir() -> None
 
-        Reverse the order of the values in B in place.
+        Invertir el orden de los valores de B en su lugar.
         """
 
     def rfind():
-        """B.rfind(sub[, start[, end]]) -> int
+        """B.dencontrar(sub[, empieza[, fin]]) -> ent
 
-        Return the highest index in B where subsection sub is found,
-        such that sub is contained within B[start,end].  Optional
-        arguments start and end are interpreted as in slice notation.
+        Vuelve el índice más alto en B donde subsección sub se puede
+        encontrar, para que sub se contenga entre B[empieza,fin]. Argumentos
+        opcionales empieza y fin son interpretados como en notación cortar.
 
-        Return -1 on failure.
+        Vuelve -1 si fracasa.
         """
 
     def rindex():
-        """B.rindex(sub[, start[, end]]) -> int
+        """B.dindice(sub[, empieza[, fin]]) -> ent
 
-        Like B.rfind() but raise ValueError when the subsection is not found.
+        Como B.encontrar() pero llama ValueError cuando la subsección no
+        está encontrada.
         """
 
     def rjust():
-        """B.rjust(width[, fillchar]) -> copy of B
+        """B.djust(ancho[, llenacarác]) -> copia de B
 
-        Return B right justified in a string of length width. Padding is
-        done using the specified fill character (default is a space)
+        Vuelve B justificada a la derecha en una palabra de tamaño ancho.
+        Relleno está hecho con el llenacarác especificado (estándar es un
+        espacio).
         """
 
     def rpartition():
-        """B.rpartition(sep) -> (head, sep, tail)
+        """B.dparticion(sep) -> (cabeza, sep, cola)
 
-        Search for the separator sep in B, starting at the end of B,
-        and return the part before it, the separator itself, and the
-        part after it.  If the separator is not found, returns two empty
-        bytearray objects and B.
+        Buscar el separador sep en B, empezando al fin de B, y vuelve
+        el parte antes de ello, ello mismo y el parte despúes de ello.
+        Si no se puede encontrar sep, vuelve dos bytematrizes vacíos.
         """
 
     def rsplit():
-        """B.rsplit(sep=None, maxsplit=-1) -> list of bytearrays
+        """B.dquebrar(sep=Nada, maxquebar=-1) -> lista de bytematrizes
 
-        Return a list of the sections in B, using sep as the delimiter,
-        starting at the end of B and working to the front.
-        If sep is not given, B is split on ASCII whitespace characters
-        (space, tab, return, newline, formfeed, vertical tab).
-        If maxsplit is given, at most maxsplit splits are done.
+        Volver una ista de las secciones en B, usando sep como delimitador,
+        empezando al final de B y siguendo al frente.
+        Si sep no está dado, B está quebrado en carácteres ASCII espacio
+        blanco (espacio, tab, volver, lineanueva, salto de página, tab
+        vertical).
+        Si maxquebrar está dado, al máximo maxquebrar quebraciones están
+        hechos.
         """
 
     def rstrip():
-        """B.rstrip([bytes]) -> bytearray
+        """B.ddecapar([bytes]) -> bytematriz
 
-        Strip trailing bytes contained in the argument
-        and return the result as a new bytearray.
-        If the argument is omitted, strip trailing ASCII whitespace.
+        Decapar bytes en la cola del argumento y volver el resultado como
+        newva bytematriz.
+        Si el argumento está omitido, decapar espacio blanco ASCII en la
+        cola.
         """
 
     def split():
-        """B.split(sep=None, maxsplit=-1) -> list of bytearrays
+        """B.quebrar(sep=Nada, maxsquebrar=-1) -> lista de bytematrizes
 
-        Return a list of the sections in B, using sep as the delimiter.
-        If sep is not given, B is split on ASCII whitespace characters
-        (space, tab, return, newline, formfeed, vertical tab).
-        If maxsplit is given, at most maxsplit splits are done.
+        Volver una ista de las secciones en B, usando sep como delimitador.
+        Si sep no está dado, B está quebrado en carácteres ASCII espacio
+        blanco (espacio, tab, volver, lineanueva, salto de página, tab
+        vertical).
+        Si maxquebrar está dado, al máximo maxquebrar quebraciones están
+        hechos.
         """
 
     def splitlines():
-        """B.splitlines(keepends=False) -> list of lines
+        """B.quebrarlineas(guardarcolas=False) -> lista de líneas
 
-        Return a list of the lines in B, breaking at line boundaries.
-        Line breaks are not included in the resulting list unless keepends
-        is given and true.
+        Volver una lista de las líneas en B, rompiendo en límites de las
+        líneas. Rompes de línea no son incluidos en el resultado a menos
+        que guardarcolas está dado y es Cierto.
         """
 
     def startswith():
-        """B.startswith(prefix[, start[, end]]) -> bool
+        """B.empcon(prefijo[, empieza[, fin]]) -> bool
 
-        Return True if B starts with the specified prefix, False otherwise.
-        With optional start, test B beginning at that position.
-        With optional end, stop comparing B at that position.
-        prefix can also be a tuple of strings to try.
+        Vuelve Cierto si B empieza con el prefijo especificado, Falso si no.
+        Con empieza opcional, prueba B empezando en esta posición.
+        Con fin opcional, pare comparando B en esta posición.
+        prefijo también puede ser un tuple de palabras para probar.
         """
 
     def strip():
-        """B.strip([bytes]) -> bytearray
+        """B.decapar([bytes]) -> bytematriz
 
-        Strip leading and trailing bytes contained in the argument
-        and return the result as a new bytearray.
-        If the argument is omitted, strip ASCII whitespace.
+        Decapa bytes al frente y al fin del argumento y volver el resultado
+        como nueva bytematriz.
+        Si el argumento está omitido, decapar espacio blanco ASCII.
         """
 
     def swapcase():
-        """B.swapcase() -> copy of B
+        """B.minmayusc() -> copia de B
 
-        Return a copy of B with uppercase ASCII characters converted
-        to lowercase ASCII and vice versa.
+        Vuelve una copia de B con todos los carácteres mayúsculos convertidos
+        a minúsculo, y vice versa.
         """
 
     def title():
-        """B.title() -> copy of B
+        """B.titulo() -> copia de B
 
-        Return a titlecased version of B, i.e. ASCII words start with uppercase
-        characters, all remaining cased characters have lowercase.
+        Vuelve una versión de B puesto como titulo, i.e. palabras de ASCII
+        empiezan con mayúscula, y el resto de los carácteres son minusculos.
         """
 
     def translate():
-        """B.translate(table[, deletechars]) -> bytearray
+        """B.traducir(mesa[, elimcarács]) -> bytematriz
 
-        Return a copy of B, where all characters occurring in the
-        optional argument deletechars are removed, and the remaining
-        characters have been mapped through the given translation
-        table, which must be a bytes object of length 256.
+        Vuelve una copia de B donde todos los carácteres que ocurren
+        en el argumento opcional elimcarács son quitados, y el resto
+        de los carácteres han sido aplicados en la mesa de traducción,
+        que tiene que ser un objeto bytes de tamaño 256.
         """
 
     def upper():
-        """B.upper() -> copy of B
+        """B.mayusc() -> copia de B
 
-        Return a copy of B with all ASCII characters converted to uppercase.
+        Vuelve una copia de B con todos carácteres ASCII convertidos a
+        mayúsculo.
         """
 
     def zfill():
-        """B.zfill(width) -> copy of B
+        """B.cllenar(ancho) -> copia de B
 
-        Pad a numeric string B with zeros on the left, to fill a field
-        of the specified width.  B is never truncated.
+        Rellenar una palabra numérica B con ceros a la izquierda, para
+        llenar un campo del ancho especificado. B nunca está truncado.
         """
 
 
 W_BytearrayObject.typedef = TypeDef(
     "bytearray", None, None, "read-write",
     __doc__ = BytearrayDocstrings.__doc__,
+    __nuevo__ = interp2app(W_BytearrayObject.descr_new),
     __new__ = interp2app(W_BytearrayObject.descr_new),
     __hash__ = None,
+    __reducir__ = interp2app(W_BytearrayObject.descr_reduce,
+                            doc=BytearrayDocstrings.__reduce__.__doc__),
     __reduce__ = interp2app(W_BytearrayObject.descr_reduce,
                             doc=BytearrayDocstrings.__reduce__.__doc__),
+    dehex = interp2app(W_BytearrayObject.descr_fromhex, as_classmethod=True,
+                         doc=BytearrayDocstrings.fromhex.__doc__),
     fromhex = interp2app(W_BytearrayObject.descr_fromhex, as_classmethod=True,
                          doc=BytearrayDocstrings.fromhex.__doc__),
-
     __repr__ = interp2app(W_BytearrayObject.descr_repr,
                           doc=BytearrayDocstrings.__repr__.__doc__),
+    __pal__ = interp2app(W_BytearrayObject.descr_str,
+                         doc=BytearrayDocstrings.__str__.__doc__),
     __str__ = interp2app(W_BytearrayObject.descr_str,
                          doc=BytearrayDocstrings.__str__.__doc__),
-
+    __ig__ = interp2app(W_BytearrayObject.descr_eq,
+                        doc=BytearrayDocstrings.__eq__.__doc__),
     __eq__ = interp2app(W_BytearrayObject.descr_eq,
                         doc=BytearrayDocstrings.__eq__.__doc__),
+    __ni__ = interp2app(W_BytearrayObject.descr_ne,
+                        doc=BytearrayDocstrings.__ne__.__doc__),
     __ne__ = interp2app(W_BytearrayObject.descr_ne,
                         doc=BytearrayDocstrings.__ne__.__doc__),
+    __meq__ = interp2app(W_BytearrayObject.descr_lt,
+                        doc=BytearrayDocstrings.__lt__.__doc__),
     __lt__ = interp2app(W_BytearrayObject.descr_lt,
                         doc=BytearrayDocstrings.__lt__.__doc__),
+    __mei__ = interp2app(W_BytearrayObject.descr_le,
+                        doc=BytearrayDocstrings.__le__.__doc__),
     __le__ = interp2app(W_BytearrayObject.descr_le,
                         doc=BytearrayDocstrings.__le__.__doc__),
+    __maq__ = interp2app(W_BytearrayObject.descr_gt,
+                        doc=BytearrayDocstrings.__gt__.__doc__),
     __gt__ = interp2app(W_BytearrayObject.descr_gt,
                         doc=BytearrayDocstrings.__gt__.__doc__),
+    __mai__ = interp2app(W_BytearrayObject.descr_ge,
+                        doc=BytearrayDocstrings.__ge__.__doc__),
     __ge__ = interp2app(W_BytearrayObject.descr_ge,
                         doc=BytearrayDocstrings.__ge__.__doc__),
-
     __iter__ = interp2app(W_BytearrayObject.descr_iter,
                          doc=BytearrayDocstrings.__iter__.__doc__),
+    __tam__ = interp2app(W_BytearrayObject.descr_len,
+                         doc=BytearrayDocstrings.__len__.__doc__),
     __len__ = interp2app(W_BytearrayObject.descr_len,
                          doc=BytearrayDocstrings.__len__.__doc__),
+    __contiene__ = interp2app(W_BytearrayObject.descr_contains,
+                              doc=BytearrayDocstrings.__contains__.__doc__),
     __contains__ = interp2app(W_BytearrayObject.descr_contains,
                               doc=BytearrayDocstrings.__contains__.__doc__),
-
+    __mas__ = interp2app(W_BytearrayObject.descr_add,
+                         doc=BytearrayDocstrings.__add__.__doc__),
     __add__ = interp2app(W_BytearrayObject.descr_add,
                          doc=BytearrayDocstrings.__add__.__doc__),
     __mul__ = interp2app(W_BytearrayObject.descr_mul,
                          doc=BytearrayDocstrings.__mul__.__doc__),
+    __dmul__ = interp2app(W_BytearrayObject.descr_mul,
+                          doc=BytearrayDocstrings.__rmul__.__doc__),
     __rmul__ = interp2app(W_BytearrayObject.descr_mul,
                           doc=BytearrayDocstrings.__rmul__.__doc__),
-
+    __sacaartic__ = interp2app(W_BytearrayObject.descr_getitem,
+                             doc=BytearrayDocstrings.__getitem__.__doc__),
     __getitem__ = interp2app(W_BytearrayObject.descr_getitem,
                              doc=BytearrayDocstrings.__getitem__.__doc__),
-
+    mayusc = interp2app(W_BytearrayObject.descr_capitalize,
+                            doc=BytearrayDocstrings.capitalize.__doc__),
     capitalize = interp2app(W_BytearrayObject.descr_capitalize,
                             doc=BytearrayDocstrings.capitalize.__doc__),
+    centro = interp2app(W_BytearrayObject.descr_center,
+                        doc=BytearrayDocstrings.center.__doc__),
     center = interp2app(W_BytearrayObject.descr_center,
                         doc=BytearrayDocstrings.center.__doc__),
+    total = interp2app(W_BytearrayObject.descr_count,
+                       doc=BytearrayDocstrings.count.__doc__),
     count = interp2app(W_BytearrayObject.descr_count,
                        doc=BytearrayDocstrings.count.__doc__),
+    decodificar = interp2app(W_BytearrayObject.descr_decode,
+                        doc=BytearrayDocstrings.decode.__doc__),
     decode = interp2app(W_BytearrayObject.descr_decode,
                         doc=BytearrayDocstrings.decode.__doc__),
     expandtabs = interp2app(W_BytearrayObject.descr_expandtabs,
                             doc=BytearrayDocstrings.expandtabs.__doc__),
+    encontrar = interp2app(W_BytearrayObject.descr_find,
+                      doc=BytearrayDocstrings.find.__doc__),
     find = interp2app(W_BytearrayObject.descr_find,
                       doc=BytearrayDocstrings.find.__doc__),
+    dencontrar = interp2app(W_BytearrayObject.descr_rfind,
+                       doc=BytearrayDocstrings.rfind.__doc__),
     rfind = interp2app(W_BytearrayObject.descr_rfind,
                        doc=BytearrayDocstrings.rfind.__doc__),
+    indice = interp2app(W_BytearrayObject.descr_index,
+                       doc=BytearrayDocstrings.index.__doc__),
     index = interp2app(W_BytearrayObject.descr_index,
                        doc=BytearrayDocstrings.index.__doc__),
+    dindice = interp2app(W_BytearrayObject.descr_rindex,
+                        doc=BytearrayDocstrings.rindex.__doc__),
     rindex = interp2app(W_BytearrayObject.descr_rindex,
                         doc=BytearrayDocstrings.rindex.__doc__),
+    esalnum = interp2app(W_BytearrayObject.descr_isalnum,
+                         doc=BytearrayDocstrings.isalnum.__doc__),
     isalnum = interp2app(W_BytearrayObject.descr_isalnum,
                          doc=BytearrayDocstrings.isalnum.__doc__),
+    esalfa = interp2app(W_BytearrayObject.descr_isalpha,
+                         doc=BytearrayDocstrings.isalpha.__doc__),
     isalpha = interp2app(W_BytearrayObject.descr_isalpha,
                          doc=BytearrayDocstrings.isalpha.__doc__),
+    esdec = interp2app(W_BytearrayObject.descr_isdigit,
+                         doc=BytearrayDocstrings.isdigit.__doc__),
     isdigit = interp2app(W_BytearrayObject.descr_isdigit,
                          doc=BytearrayDocstrings.isdigit.__doc__),
+    esminusc = interp2app(W_BytearrayObject.descr_islower,
+                         doc=BytearrayDocstrings.islower.__doc__),
     islower = interp2app(W_BytearrayObject.descr_islower,
                          doc=BytearrayDocstrings.islower.__doc__),
+    esespac = interp2app(W_BytearrayObject.descr_isspace,
+                         doc=BytearrayDocstrings.isspace.__doc__),
     isspace = interp2app(W_BytearrayObject.descr_isspace,
                          doc=BytearrayDocstrings.isspace.__doc__),
+    estitulo = interp2app(W_BytearrayObject.descr_istitle,
+                         doc=BytearrayDocstrings.istitle.__doc__),
     istitle = interp2app(W_BytearrayObject.descr_istitle,
                          doc=BytearrayDocstrings.istitle.__doc__),
+    esmayusc = interp2app(W_BytearrayObject.descr_isupper,
+                         doc=BytearrayDocstrings.isupper.__doc__),
     isupper = interp2app(W_BytearrayObject.descr_isupper,
                          doc=BytearrayDocstrings.isupper.__doc__),
+    juntar = interp2app(W_BytearrayObject.descr_join,
+                      doc=BytearrayDocstrings.join.__doc__),
     join = interp2app(W_BytearrayObject.descr_join,
                       doc=BytearrayDocstrings.join.__doc__),
+    ijust = interp2app(W_BytearrayObject.descr_ljust,
+                       doc=BytearrayDocstrings.ljust.__doc__),
     ljust = interp2app(W_BytearrayObject.descr_ljust,
                        doc=BytearrayDocstrings.ljust.__doc__),
+    djust = interp2app(W_BytearrayObject.descr_rjust,
+                       doc=BytearrayDocstrings.rjust.__doc__),
     rjust = interp2app(W_BytearrayObject.descr_rjust,
                        doc=BytearrayDocstrings.rjust.__doc__),
+    minusc = interp2app(W_BytearrayObject.descr_lower,
+                       doc=BytearrayDocstrings.lower.__doc__),
     lower = interp2app(W_BytearrayObject.descr_lower,
                        doc=BytearrayDocstrings.lower.__doc__),
+    particion = interp2app(W_BytearrayObject.descr_partition,
+                           doc=BytearrayDocstrings.partition.__doc__),
     partition = interp2app(W_BytearrayObject.descr_partition,
                            doc=BytearrayDocstrings.partition.__doc__),
+    dparticion = interp2app(W_BytearrayObject.descr_rpartition,
+                            doc=BytearrayDocstrings.rpartition.__doc__),
     rpartition = interp2app(W_BytearrayObject.descr_rpartition,
                             doc=BytearrayDocstrings.rpartition.__doc__),
+    reemplazar = interp2app(W_BytearrayObject.descr_replace,
+                         doc=BytearrayDocstrings.replace.__doc__),
     replace = interp2app(W_BytearrayObject.descr_replace,
                          doc=BytearrayDocstrings.replace.__doc__),
+    quebrar = interp2app(W_BytearrayObject.descr_split,
+                       doc=BytearrayDocstrings.split.__doc__),
     split = interp2app(W_BytearrayObject.descr_split,
                        doc=BytearrayDocstrings.split.__doc__),
+    dquebrar = interp2app(W_BytearrayObject.descr_rsplit,
+                        doc=BytearrayDocstrings.rsplit.__doc__),
     rsplit = interp2app(W_BytearrayObject.descr_rsplit,
                         doc=BytearrayDocstrings.rsplit.__doc__),
+    quebrarlineas = interp2app(W_BytearrayObject.descr_splitlines,
+                            doc=BytearrayDocstrings.splitlines.__doc__),
     splitlines = interp2app(W_BytearrayObject.descr_splitlines,
                             doc=BytearrayDocstrings.splitlines.__doc__),
+    empcon = interp2app(W_BytearrayObject.descr_startswith,
+                            doc=BytearrayDocstrings.startswith.__doc__),
     startswith = interp2app(W_BytearrayObject.descr_startswith,
                             doc=BytearrayDocstrings.startswith.__doc__),
-    endswith = interp2app(W_BytearrayObject.descr_endswith,
+    terminacon = interp2app(W_BytearrayObject.descr_endswith,
                           doc=BytearrayDocstrings.endswith.__doc__),
+    decapar = interp2app(W_BytearrayObject.descr_strip,
+                       doc=BytearrayDocstrings.strip.__doc__),
     strip = interp2app(W_BytearrayObject.descr_strip,
                        doc=BytearrayDocstrings.strip.__doc__),
+    idecapar = interp2app(W_BytearrayObject.descr_lstrip,
+                        doc=BytearrayDocstrings.lstrip.__doc__),
     lstrip = interp2app(W_BytearrayObject.descr_lstrip,
                         doc=BytearrayDocstrings.lstrip.__doc__),
+    ddecapar = interp2app(W_BytearrayObject.descr_rstrip,
+                        doc=BytearrayDocstrings.rstrip.__doc__),
     rstrip = interp2app(W_BytearrayObject.descr_rstrip,
                         doc=BytearrayDocstrings.rstrip.__doc__),
+    minmayusc = interp2app(W_BytearrayObject.descr_swapcase,
+                          doc=BytearrayDocstrings.swapcase.__doc__),
     swapcase = interp2app(W_BytearrayObject.descr_swapcase,
                           doc=BytearrayDocstrings.swapcase.__doc__),
+    titulo = interp2app(W_BytearrayObject.descr_title,
+                       doc=BytearrayDocstrings.title.__doc__),
     title = interp2app(W_BytearrayObject.descr_title,
                        doc=BytearrayDocstrings.title.__doc__),
+    traducir = interp2app(W_BytearrayObject.descr_translate,
+                           doc=BytearrayDocstrings.translate.__doc__),
     translate = interp2app(W_BytearrayObject.descr_translate,
                            doc=BytearrayDocstrings.translate.__doc__),
+    mayusc = interp2app(W_BytearrayObject.descr_upper,
+                       doc=BytearrayDocstrings.upper.__doc__),
     upper = interp2app(W_BytearrayObject.descr_upper,
                        doc=BytearrayDocstrings.upper.__doc__),
+    cllenar = interp2app(W_BytearrayObject.descr_zfill,
+                       doc=BytearrayDocstrings.zfill.__doc__),
     zfill = interp2app(W_BytearrayObject.descr_zfill,
                        doc=BytearrayDocstrings.zfill.__doc__),
 
     __init__ = interp2app(W_BytearrayObject.descr_init,
                           doc=BytearrayDocstrings.__init__.__doc__),
 
+    __imas__ = interp2app(W_BytearrayObject.descr_inplace_add,
+                          doc=BytearrayDocstrings.__iadd__.__doc__),
     __iadd__ = interp2app(W_BytearrayObject.descr_inplace_add,
                           doc=BytearrayDocstrings.__iadd__.__doc__),
     __imul__ = interp2app(W_BytearrayObject.descr_inplace_mul,
                           doc=BytearrayDocstrings.__imul__.__doc__),
+    __ponartic__ = interp2app(W_BytearrayObject.descr_setitem,
+                             doc=BytearrayDocstrings.__setitem__.__doc__),
     __setitem__ = interp2app(W_BytearrayObject.descr_setitem,
                              doc=BytearrayDocstrings.__setitem__.__doc__),
+    __elimartic__ = interp2app(W_BytearrayObject.descr_delitem,
+                             doc=BytearrayDocstrings.__delitem__.__doc__),
     __delitem__ = interp2app(W_BytearrayObject.descr_delitem,
                              doc=BytearrayDocstrings.__delitem__.__doc__),
 
+    adjuntar = interp2app(W_BytearrayObject.descr_append,
+                        doc=BytearrayDocstrings.append.__doc__),
     append = interp2app(W_BytearrayObject.descr_append,
                         doc=BytearrayDocstrings.append.__doc__),
+    extender = interp2app(W_BytearrayObject.descr_extend,
+                        doc=BytearrayDocstrings.extend.__doc__),
     extend = interp2app(W_BytearrayObject.descr_extend,
                         doc=BytearrayDocstrings.extend.__doc__),
+    insertar = interp2app(W_BytearrayObject.descr_insert,
+                        doc=BytearrayDocstrings.insert.__doc__),
     insert = interp2app(W_BytearrayObject.descr_insert,
                         doc=BytearrayDocstrings.insert.__doc__),
     pop = interp2app(W_BytearrayObject.descr_pop,
                      doc=BytearrayDocstrings.pop.__doc__),
+    quitar = interp2app(W_BytearrayObject.descr_remove,
+                        doc=BytearrayDocstrings.remove.__doc__),
     remove = interp2app(W_BytearrayObject.descr_remove,
                         doc=BytearrayDocstrings.remove.__doc__),
+    invertir = interp2app(W_BytearrayObject.descr_reverse,
+                         doc=BytearrayDocstrings.reverse.__doc__),
     reverse = interp2app(W_BytearrayObject.descr_reverse,
                          doc=BytearrayDocstrings.reverse.__doc__),
+    __asign__ = interp2app(W_BytearrayObject.descr_alloc,
+                           doc=BytearrayDocstrings.__alloc__.__doc__),
     __alloc__ = interp2app(W_BytearrayObject.descr_alloc,
                            doc=BytearrayDocstrings.__alloc__.__doc__),
 )
