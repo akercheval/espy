@@ -66,7 +66,7 @@ def raiseattrerror(space, w_obj, name, w_descr=None):
                     "'%T' objeto no tiene atributo '%s'", w_obj, name)
     else:
         raise oefmt(space.w_AttributeError,
-                    "atributo '%s' de '%T' es solo-leer", w_obj, name)
+                    "'%T' atributo de objeto '%s' es solo-leer", w_obj, name)
 
 # Helpers for old-style and mix-style mixup
 
