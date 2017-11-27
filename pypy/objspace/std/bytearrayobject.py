@@ -746,7 +746,7 @@ class BytearrayDocstrings:
         """
 
     def capitalize():
-        """B.mayusc() -> copia de B
+        """B.mayuscular() -> copia de B
 
         Vuelve una copia de B con solo su carácter primera puesta en mayúscula
         (ASCII) y el resto puesta en minúscula.
@@ -1146,7 +1146,7 @@ W_BytearrayObject.typedef = TypeDef(
                              doc=BytearrayDocstrings.__getitem__.__doc__),
     __getitem__ = interp2app(W_BytearrayObject.descr_getitem,
                              doc=BytearrayDocstrings.__getitem__.__doc__),
-    mayusc = interp2app(W_BytearrayObject.descr_capitalize,
+    mayuscular = interp2app(W_BytearrayObject.descr_capitalize,
                             doc=BytearrayDocstrings.capitalize.__doc__),
     capitalize = interp2app(W_BytearrayObject.descr_capitalize,
                             doc=BytearrayDocstrings.capitalize.__doc__),
