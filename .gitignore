@@ -30,3 +30,5 @@ release/
 !pypy/tool/release/
 rpython/_cache/
 .cache/
+
+mail
