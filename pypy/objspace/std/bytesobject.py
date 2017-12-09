@@ -60,49 +60,49 @@ class W_AbstractBytesObject(W_Root):
         return space.unicode_w(decode_object(space, self, encoding, None))
 
     def descr_add(self, space, w_other):
-        """x.__add__(y) <==> x+y"""
+        """x.__mas__(y) <==> x+y"""
 
     def descr_contains(self, space, w_sub):
-        """x.__contains__(y) <==> y in x"""
+        """x.__contiene__(y) <==> y in x"""
 
     def descr_eq(self, space, w_other):
-        """x.__eq__(y) <==> x==y"""
+        """x.__ig__(y) <==> x==y"""
 
     def descr__format__(self, space, w_format_spec):
-        """S.__format__(format_spec) -> string
+        """S.__formato__(formato_espec) -> palabra
 
-        Return a formatted version of S as described by format_spec.
+        Vuelve una versión formateada de S, describido por formato_espec.
         """
 
     def descr_ge(self, space, w_other):
-        """x.__ge__(y) <==> x>=y"""
+        """x.__mai__(y) <==> x>=y"""
 
     def descr_getitem(self, space, w_index):
-        """x.__getitem__(y) <==> x[y]"""
+        """x.__sacaartic__(y) <==> x[y]"""
 
     def descr_getnewargs(self, space):
         ""
 
     def descr_getslice(self, space, w_start, w_stop):
-        """x.__getslice__(i, j) <==> x[i:j]
+        """x.__sacaparte__(i, j) <==> x[i:j]
 
-        Use of negative indices is not supported.
+        Uso de índices negativos no es apoyado.
         """
 
     def descr_gt(self, space, w_other):
-        """x.__gt__(y) <==> x>y"""
+        """x.__maq__(y) <==> x>y"""
 
     def descr_hash(self, space):
         """x.__hash__() <==> hash(x)"""
 
     def descr_le(self, space, w_other):
-        """x.__le__(y) <==> x<=y"""
+        """x.__mei__(y) <==> x<=y"""
 
     def descr_len(self, space):
-        """x.__len__() <==> len(x)"""
+        """x.__tam__() <==> tam(x)"""
 
     def descr_lt(self, space, w_other):
-        """x.__lt__(y) <==> x<y"""
+        """x.__meq__(y) <==> x<y"""
 
     def descr_mod(self, space, w_values):
         """x.__mod__(y) <==> x%y"""
@@ -111,163 +111,162 @@ class W_AbstractBytesObject(W_Root):
         """x.__mul__(n) <==> x*n"""
 
     def descr_ne(self, space, w_other):
-        """x.__ne__(y) <==> x!=y"""
+        """x.__ni__(y) <==> x!=y"""
 
     def descr_repr(self, space):
         """x.__repr__() <==> repr(x)"""
 
     def descr_rmod(self, space, w_values):
-        """x.__rmod__(y) <==> y%x"""
+        """x.__dmod__(y) <==> y%x"""
 
     def descr_rmul(self, space, w_times):
-        """x.__rmul__(n) <==> n*x"""
+        """x.__dmul__(n) <==> n*x"""
 
     def descr_str(self, space):
-        """x.__str__() <==> str(x)"""
+        """x.__pal__() <==> pal(x)"""
 
     def descr_capitalize(self, space):
-        """S.capitalize() -> string
+        """S.mayuscular() -> palabra
 
-        Return a capitalized version of S, i.e. make the first character
-        have upper case and the rest lower case.
+        Vuelve una versión de S puesta en mayusculas, i.e. poner el carácter
+        primero en mayúsculo y el resto en minusculo.
         """
 
     @unwrap_spec(width=int, w_fillchar=WrappedDefault(' '))
     def descr_center(self, space, width, w_fillchar):
-        """S.center(width[, fillchar]) -> string
+        """S.centro(ancho[, llenacarác]) -> palabra
 
-        Return S centered in a string of length width. Padding is
-        done using the specified fill character (default is a space).
+        Vuelve S en el centro de una palabra de tamaño ancho. Relleno está
+        hecho con la llenacarác especificada (estándar es un espacio).
         """
 
     def descr_count(self, space, w_sub, w_start=None, w_end=None):
-        """S.count(sub[, start[, end]]) -> int
+        """S.total(sub[, empieza[, fin]]) -> ent
 
-        Return the number of non-overlapping occurrences of substring sub in
-        string S[start:end].  Optional arguments start and end are interpreted
-        as in slice notation.
+        Vuelve el numero de casos no sobreponiendos del sub-palabra sub en
+        palabra S[empieza:fin]. Argumentos opcionales empieza y fin son
+        interpretados como en notación cortar.
         """
 
     def descr_decode(self, space, w_encoding=None, w_errors=None):
-        """S.decode(encoding=None, errors='strict') -> object
+        """S.decodificar(codificación=Nada, errores='estricto') -> objeto
 
-        Decode S using the codec registered for encoding. encoding defaults
-        to the default encoding. errors may be given to set a different error
-        handling scheme. Default is 'strict' meaning that encoding errors raise
-        a UnicodeDecodeError. Other possible values are 'ignore' and 'replace'
-        as well as any other name registered with codecs.register_error that is
-        able to handle UnicodeDecodeErrors.
+        Decodificar S usando el codec registrado para codificación. Errores se
+        pueden pasar a una esquema de encargación de errores diferente. El
+        estándar es 'estricto', es decir que los errores llaman
+        UnicodeDecodeError. Otros valores posibles son 'ignorar' y 'reemplazar'
+        y cualquier otro nombre registrado con codecs.register_error que puede
+        llamar UnicodeDecodeErrors.
         """
 
     def descr_encode(self, space, w_encoding=None, w_errors=None):
-        """S.encode(encoding=None, errors='strict') -> object
+        """S.codificar(codificación=Nada, errores='estricto') -> objeto
 
-        Encode S using the codec registered for encoding. encoding defaults
-        to the default encoding. errors may be given to set a different error
-        handling scheme. Default is 'strict' meaning that encoding errors raise
-        a UnicodeEncodeError. Other possible values are 'ignore', 'replace' and
-        'xmlcharrefreplace' as well as any other name registered with
-        codecs.register_error that is able to handle UnicodeEncodeErrors.
+        Codificar S usando el codec para codificación. Errores se pueden
+        pasar a una esquema de encargación de errores diferente. El estándar
+        es 'estricto', es decir que los errores llaman UnicodeEncodeError.
+        Otros valores posibles son 'ignorar', 'reemplazar' y 'xmlcharrefreplace'
+        y cualquier otro nombre registrado con codecs.register_error que puede
+        llamar UnicodeEncodeErrors.
         """
 
     def descr_endswith(self, space, w_suffix, w_start=None, w_end=None):
-        """S.endswith(suffix[, start[, end]]) -> bool
+        """S.terminacon(sufijo[, empieza[, fin]]) -> bool
 
-        Return True if S ends with the specified suffix, False otherwise.
-        With optional start, test S beginning at that position.
-        With optional end, stop comparing S at that position.
-        suffix can also be a tuple of strings to try.
+        Vuelve Cierto si S termina con el sufijo especificado, Falso si no.
+        Con empieza opcional, prueba S al inicio de esa posición.
+        Con fin opcional, pare comparando S en esa posición.
+        sufijo también puede ser un tuple de palabrase para probar.
         """
 
     @unwrap_spec(tabsize=int)
     def descr_expandtabs(self, space, tabsize=8):
-        """S.expandtabs([tabsize]) -> string
+        """S.expandtabs([tabtamaño]) -> palabra
 
-        Return a copy of S where all tab characters are expanded using spaces.
-        If tabsize is not given, a tab size of 8 characters is assumed.
+        Vuelve una copia de S donde todos los tabs son expandidos usando
+        espacios. Si tabtamaño no está dado, un tamaño de 8 carácteres está
+        asumido.
         """
 
     def descr_find(self, space, w_sub, w_start=None, w_end=None):
-        """S.find(sub[, start[, end]]) -> int
+        """S.encontrar(sub[, empieza[, fin]]) -> ent
 
-        Return the lowest index in S where substring sub is found,
-        such that sub is contained within S[start:end].  Optional
-        arguments start and end are interpreted as in slice notation.
-
-        Return -1 on failure.
+        Vuelve la índice más baja en S donde la sub-palabra sub
+        está encontrada, para que sub esté contenido entre S[empieza:fin].
+        Vuelve -1 si fracasa.
         """
 
     def descr_format(self, space, __args__):
-        """S.format(*args, **kwargs) -> string
+        """S.formato(*args, **kwargs) -> palabra
 
-        Return a formatted version of S, using substitutions from args and
-        kwargs.  The substitutions are identified by braces ('{' and '}').
+        Vuelve una versión de S formateado, usando substituciones de args y
+        kwargs. Las substituciones son identificados con llaves ('{' y '}').
         """
 
     def descr_index(self, space, w_sub, w_start=None, w_end=None):
-        """S.index(sub[, start[, end]]) -> int
+        """S.indice(sub[, empieza[, fin]]) -> ent
 
-        Like S.find() but raise ValueError when the substring is not found.
+        Como S.encontrar() pero llama ValueError cuando el sub-palabra no
+        se puede encontrar.
         """
 
     def descr_isalnum(self, space):
-        """S.isalnum() -> bool
+        """S.esalnum() -> bool
 
-        Return True if all characters in S are alphanumeric
-        and there is at least one character in S, False otherwise.
+        Vuelve Cierto si todos los carácteres en S son alfanuméricos
+        y hay por lo menos un carácter en S, Falso si no.
         """
 
     def descr_isalpha(self, space):
-        """S.isalpha() -> bool
+        """S.esalfa() -> bool
 
-        Return True if all characters in S are alphabetic
-        and there is at least one character in S, False otherwise.
+        Vuelve Cierto si todos los carácteres en S son alfabéticos y hay
+        por lo menos un carácter en S, Falso si no.
         """
 
     def descr_isdigit(self, space):
-        """S.isdigit() -> bool
+        """S.esdec() -> bool
 
-        Return True if all characters in S are digits
-        and there is at least one character in S, False otherwise.
+        Vuelve Cierto si todos los carácteres en S son dígitos y hay por
+        lo menus un carácter en S, Falso si no.
         """
 
     def descr_islower(self, space):
-        """S.islower() -> bool
+        """S.esminusc() -> bool
 
-        Return True if all cased characters in S are lowercase and there is
-        at least one cased character in S, False otherwise.
+        Vuelve Cierto si todos los carácteres en S están en minúscula y
+        hay por lo menos un carácter en S, Falso si no.
         """
 
     def descr_isspace(self, space):
-        """S.isspace() -> bool
+        """S.esespac() -> bool
 
-        Return True if all characters in S are whitespace
-        and there is at least one character in S, False otherwise.
+        Vuelve Cierto si todos los carácteres en S son espacio blanco y
+        hay por lo menos un carácter en S, Falso si no.
         """
 
     def descr_istitle(self, space):
-        """S.istitle() -> bool
+        """S.estitulo() -> bool
 
-        Return True if S is a titlecased string and there is at least one
-        character in S, i.e. uppercase characters may only follow uncased
-        characters and lowercase characters only cased ones. Return False
-        otherwise.
+        Vuelve Cierto si S está en formato de título y hay por lo menos
+        un carácter en S, Falso si no.
         """
 
     def descr_isupper(self, space):
-        """S.isupper() -> bool
+        """S.esmayusc() -> bool
 
-        Return True if all cased characters in S are uppercase and there is
-        at least one cased character in S, False otherwise.
+        Vuelve Cierto si todos los carácteres en S son en mayúsculo y hay
+        por lo menos un carácter en S, Falso si no.
         """
 
     def descr_join(self, space, w_list):
-        """S.join(iterable) -> string
+        """S.juntar(iterable) -> palabra
 
-        Return a string which is the concatenation of the strings in the
-        iterable.  The separator between elements is S.
+        Vuelve una palabra que es la juntación de las palabras en el
+        iterable. El separador entre elementos es S.
         """
 
+    ### HereAK
     @unwrap_spec(width=int, w_fillchar=WrappedDefault(' '))
     def descr_ljust(self, space, width, w_fillchar):
         """S.ljust(width[, fillchar]) -> string

@@ -848,7 +848,7 @@ class BytearrayDocstrings:
         """
 
     def isdigit():
-        """B.esdec() -> bool
+        """B.esdig() -> bool
 
         Vuelve Cierto si todos los carácteres en B son números decimales,
         y hay por lo menos un carácter en B, Falso si no.
@@ -1188,7 +1188,7 @@ W_BytearrayObject.typedef = TypeDef(
                          doc=BytearrayDocstrings.isalpha.__doc__),
     isalpha = interp2app(W_BytearrayObject.descr_isalpha,
                          doc=BytearrayDocstrings.isalpha.__doc__),
-    esdec = interp2app(W_BytearrayObject.descr_isdigit,
+    esdig = interp2app(W_BytearrayObject.descr_isdigit,
                          doc=BytearrayDocstrings.isdigit.__doc__),
     isdigit = interp2app(W_BytearrayObject.descr_isdigit,
                          doc=BytearrayDocstrings.isdigit.__doc__),
