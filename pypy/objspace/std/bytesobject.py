@@ -266,117 +266,122 @@ class W_AbstractBytesObject(W_Root):
         iterable. El separador entre elementos es S.
         """
 
-    ### HereAK
     @unwrap_spec(width=int, w_fillchar=WrappedDefault(' '))
     def descr_ljust(self, space, width, w_fillchar):
-        """S.ljust(width[, fillchar]) -> string
+        """S.ijust(ancho[, lleneacarác]) -> palabra
 
-        Return S left-justified in a string of length width. Padding is
-        done using the specified fill character (default is a space).
+        Vuelve S justificado a la izquierda en una palabra de tamaño
+        ancho. Relleno está hecho con el carácter especificado (estándar
+        es un espacio).
         """
 
     def descr_lower(self, space):
-        """S.lower() -> string
+        """S.minusc() -> palabra
 
-        Return a copy of the string S converted to lowercase.
+        Vuelve una copia de la palabra S convertido a minúscula.
         """
 
     def descr_lstrip(self, space, w_chars=None):
-        """S.lstrip([chars]) -> string or unicode
+        """S.idecapar([carács]) -> palabra o unicod
 
-        Return a copy of the string S with leading whitespace removed.
-        If chars is given and not None, remove characters in chars instead.
-        If chars is unicode, S will be converted to unicode before stripping
+        Vuelve una copia de la palabra S con espacio blanco al frente quitado.
+        Si carács está dado y no es Nada, quita carácteres en carács en lugar
+        de espacio blanco. Si carács es unicod, S será convertido a unicode
+        antes de decapar.
         """
 
     def descr_partition(self, space, w_sub):
-        """S.partition(sep) -> (head, sep, tail)
+        """S.particion(sep) -> (cabeza, sep, cola)
 
-        Search for the separator sep in S, and return the part before it,
-        the separator itself, and the part after it.  If the separator is not
-        found, return S and two empty strings.
+        Busca el separador sep en S, y volver la parte antes de ello, el
+        separador, y el parte después de ello. Si sep no está encontrado,
+        volver S y dos palabras vacías.
         """
 
     @unwrap_spec(count=int)
     def descr_replace(self, space, w_old, w_new, count=-1):
-        """S.replace(old, new[, count]) -> string
+        """S.reemplazar(viejo, nuevo[, total]) -> palabra
 
-        Return a copy of string S with all occurrences of substring
-        old replaced by new.  If the optional argument count is
-        given, only the first count occurrences are replaced.
+        Vuelve una copia de la palabra S con todas occurencias de la
+        sub-palabra viejo reemplazadas por nuevo. Si el argumento
+        opcional total está dado, solamente las primeras total occurencias
+        son reemplazadas.
         """
 
     def descr_rfind(self, space, w_sub, w_start=None, w_end=None):
-        """S.rfind(sub[, start[, end]]) -> int
+        """S.dencontrar(sub[, empieza[, fin]]) -> ent
 
-        Return the highest index in S where substring sub is found,
-        such that sub is contained within S[start:end].  Optional
-        arguments start and end are interpreted as in slice notation.
-
-        Return -1 on failure.
+        Vuelve la índice más alta en S donde sub-palabra sub está
+        encontrada, para que sub esté contenida en S[empieza:fin].
+        Vuelve -1 si fracasa.
         """
 
     def descr_rindex(self, space, w_sub, w_start=None, w_end=None):
-        """S.rindex(sub[, start[, end]]) -> int
+        """S.dindice(sub[, empieza[, fin]]) -> ent
 
-        Like S.rfind() but raise ValueError when the substring is not found.
+        Como S.dencontrar() pero llama ValueError cuando la sub-palabra
+        no está encontrada.
         """
 
     @unwrap_spec(width=int, w_fillchar=WrappedDefault(' '))
     def descr_rjust(self, space, width, w_fillchar):
-        """S.rjust(width[, fillchar]) -> string
+        """S.djust(ancho[, llenacarác]) -> palabra
 
-        Return S right-justified in a string of length width. Padding is
-        done using the specified fill character (default is a space).
+        Vuelve S justificado a la derecha en una palabra de tamaño
+        ancho. Relleno está hecho con el carácter especificado (estándar
+        es un espacio).
         """
 
     def descr_rpartition(self, space, w_sub):
-        """S.rpartition(sep) -> (head, sep, tail)
+        """S.dparticion(sep) -> (cabeza, sep, cola)
 
-        Search for the separator sep in S, starting at the end of S, and return
-        the part before it, the separator itself, and the part after it.  If
-        the separator is not found, return two empty strings and S.
+        Busca el separador sep en S, empezando al fin de S, y volver la
+        parte antes de ello, el separador, y el parte después de ello.
+        Si sep no está encontrado, volver S y dos palabras vacías.
         """
 
     @unwrap_spec(maxsplit=int)
     def descr_rsplit(self, space, w_sep=None, maxsplit=-1):
-        """S.rsplit(sep=None, maxsplit=-1) -> list of strings
+        """S.dquebrar(sep=Nada, maxquebrar=-1) -> lista de palabras
 
-        Return a list of the words in the string S, using sep as the
-        delimiter string, starting at the end of the string and working
-        to the front.  If maxsplit is given, at most maxsplit splits are
-        done. If sep is not specified or is None, any whitespace string
-        is a separator.
+        Volver una lista de las secciones en S, usando sep como delimitador,
+        empezando al final de S y siguendo al frente.
+        Si sep no está dado o es Nada, cualquier espacio blanco es un
+        separador.
+        Si maxquebrar está dado, al máximo maxquebrar quebraciones están
+        hechos.
         """
 
     def descr_rstrip(self, space, w_chars=None):
-        """S.rstrip([chars]) -> string or unicode
+        """S.ddecapar([carács]) -> palabra o unicod
 
-        Return a copy of the string S with trailing whitespace removed.
-        If chars is given and not None, remove characters in chars instead.
-        If chars is unicode, S will be converted to unicode before stripping
+        Vuelve una copia de la palabra S con espacio blanco al final quitado.
+        Si carács está dado y no es Nada, quita carácteres en carács en lugar
+        de espacio blanco. Si carács es unicod, S será convertido a unicode
+        antes de decapar.
         """
 
     @unwrap_spec(maxsplit=int)
     def descr_split(self, space, w_sep=None, maxsplit=-1):
-        """S.split(sep=None, maxsplit=-1) -> list of strings
+        """S.quebrar(sep=Nada, maxquebrar=-1) -> lista de palabras
 
-        Return a list of the words in the string S, using sep as the
-        delimiter string.  If maxsplit is given, at most maxsplit
-        splits are done. If sep is not specified or is None, any
-        whitespace string is a separator and empty strings are removed
-        from the result.
+        Volver una lista de las secciones en S, usando sep como delimitador.
+        Si sep no está dado o es Nada, cualquier espacio blanco es un
+        separador.
+        Si maxquebrar está dado, al máximo maxquebrar quebraciones están
+        hechos.
         """
 
     @unwrap_spec(keepends=bool)
     def descr_splitlines(self, space, keepends=False):
-        """S.splitlines(keepends=False) -> list of strings
+        """S.quebrarlineas(guardacolas=Falso) -> lista de palabras
 
-        Return a list of the lines in S, breaking at line boundaries.
-        Line breaks are not included in the resulting list unless keepends
-        is given and true.
+        Volver una lista de las líneas en S, rompiendo en límites de las
+        líneas. Rompes de línea no son incluidos en el resultado a menos
+        que guardarcolas está dado y es Cierto.
         """
 
+## hereAK
     def descr_startswith(self, space, w_prefix, w_start=None, w_end=None):
         """S.startswith(prefix[, start[, end]]) -> bool
 
