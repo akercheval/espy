@@ -381,63 +381,62 @@ class W_AbstractBytesObject(W_Root):
         que guardarcolas está dado y es Cierto.
         """
 
-## hereAK
     def descr_startswith(self, space, w_prefix, w_start=None, w_end=None):
-        """S.startswith(prefix[, start[, end]]) -> bool
+        """S.empcon(prefijo[, empieza[, fin]]) -> bool
 
-        Return True if S starts with the specified prefix, False otherwise.
-        With optional start, test S beginning at that position.
-        With optional end, stop comparing S at that position.
-        prefix can also be a tuple of strings to try.
+        Vuelve Cierto si S empieza con el prefijo especificado, Falso si no.
+        Con empieza opcional, prueba S empezando en esta posición.
+        Con fin opcional, pare comparando S en esta posición.
+        prefijo también puede ser un tuple de palabras para probar.
         """
 
     def descr_strip(self, space, w_chars=None):
-        """S.strip([chars]) -> string or unicode
+        """S.decapar([carács]) -> palabra o unicod
 
-        Return a copy of the string S with leading and trailing
-        whitespace removed.
-        If chars is given and not None, remove characters in chars instead.
-        If chars is unicode, S will be converted to unicode before stripping
+        Vuelve una copia de la palabra S con espacio blanco al inicio y al
+        final quitado.
+        Si carács está dado y no es Nada, quita carácteres in carács.
+        Si carács es unicod, S será convertido a unicod antes de decapar.
         """
 
     def descr_swapcase(self, space):
-        """S.swapcase() -> string
+        """S.minmayusc() -> palabra
 
-        Return a copy of the string S with uppercase characters
-        converted to lowercase and vice versa.
+        Vuelve una copia de S con todos los carácteres mayúsculos convertidos
+        a minúsculo, y vice versa.
         """
 
     def descr_title(self, space):
-        """S.title() -> string
+        """S.titulo() -> palabra
 
-        Return a titlecased version of S, i.e. words start with uppercase
-        characters, all remaining cased characters have lowercase.
+        Vuelve una versión de S puesto como título, i.e. palabras que empiezan
+        con mayúsculos, y todos otros carácteres están in minúsculo.
         """
 
     @unwrap_spec(w_deletechars=WrappedDefault(''))
     def descr_translate(self, space, w_table, w_deletechars):
-        """S.translate(table[, deletechars]) -> string
+        """S.traducir(mesa[, elimcarács]) -> palabra
 
-        Return a copy of the string S, where all characters occurring
-        in the optional argument deletechars are removed, and the
-        remaining characters have been mapped through the given
-        translation table, which must be a string of length 256 or None.
-        If the table argument is None, no translation is applied and
-        the operation simply removes the characters in deletechars.
+        Vuelve una copia de B donde todos los carácteres que ocurren
+        en el argumento opcional elimcarács son quitados, y el resto
+        de los carácteres han sido aplicados en la mesa de traducción,
+        que tiene que ser un objeto bytes de tamaño 256. Si el argumento
+        mesa es Nada, no traducción está aplicado y la operación simplemente
+        quita los carácteres en elimcarács.
         """
 
     def descr_upper(self, space):
-        """S.upper() -> string
+        """S.mayusc() -> palabra
 
-        Return a copy of the string S converted to uppercase.
+        Vuelve una copia de S con todos carácteres puesto en mayúsculo.
         """
 
     @unwrap_spec(width=int)
     def descr_zfill(self, space, width):
-        """S.zfill(width) -> string
+        """S.cllenar(ancho) -> palabra
 
-        Pad a numeric string S with zeros on the left, to fill a field
-        of the specified width. The string S is never truncated.
+        Rellenar una palabra numérica S con ceros a la izquierda, para
+        llenar un campo del ancho especificado. S nunca está truncado.
         """
 
 class W_BytesObject(W_AbstractBytesObject):
@@ -467,7 +466,7 @@ class W_BytesObject(W_AbstractBytesObject):
 
     def writebuf_w(self, space):
         raise oefmt(space.w_TypeError,
-                    "Cannot use string as modifiable buffer")
+                    "No puede usar palabra como búfer modificable")
 
     def descr_getbuffer(self, space, w_flags):
         #from pypy.objspace.std.bufferobject import W_Buffer
@@ -482,8 +481,8 @@ class W_BytesObject(W_AbstractBytesObject):
     def ord(self, space):
         if len(self._value) != 1:
             raise oefmt(space.w_TypeError,
-                        "ord() expected a character, but string of length %d "
-                        "found", len(self._value))
+                        "ord() anticipó un carácter, pero palabra de tamaño %d "
+                        "encontrada", len(self._value))
         return space.newint(ord(self._value[0]))
 
     def _new(self, value):
@@ -510,7 +509,7 @@ class W_BytesObject(W_AbstractBytesObject):
     def _op_val(space, w_other, strict=None):
         if strict and not space.isinstance_w(w_other, space.w_bytes):
             raise oefmt(space.w_TypeError,
-                "%s arg must be None, str or unicode", strict)
+                "%s arg tiene que ser Nada, pal o unicod", strict)
         try:
             return space.bytes_w(w_other)
         except OperationError as e:
@@ -842,76 +841,131 @@ W_BytesObject.EMPTY = W_BytesObject('')
 W_BytesObject.typedef = TypeDef(
     "str", basestring_typedef, None, "read",
     __new__ = interp2app(W_BytesObject.descr_new),
-    __doc__ = """str(object='') -> string
+    __doc__ = """pal(objeto='') -> palabra
 
-    Return a nice string representation of the object.
-    If the argument is a string, the return value is the same object.
+    Vuelve una representación palabra del objeto. Si el argumento es
+    una palabra, lo que vuelve es el objeto mismo.
     """,
 
     __repr__ = interpindirect2app(W_AbstractBytesObject.descr_repr),
+    __pal__ = interpindirect2app(W_AbstractBytesObject.descr_str),
     __str__ = interpindirect2app(W_AbstractBytesObject.descr_str),
     __hash__ = interpindirect2app(W_AbstractBytesObject.descr_hash),
 
+    __ig__ = interpindirect2app(W_AbstractBytesObject.descr_eq),
     __eq__ = interpindirect2app(W_AbstractBytesObject.descr_eq),
+    __ni__ = interpindirect2app(W_AbstractBytesObject.descr_ne),
     __ne__ = interpindirect2app(W_AbstractBytesObject.descr_ne),
+    __meq__ = interpindirect2app(W_AbstractBytesObject.descr_lt),
     __lt__ = interpindirect2app(W_AbstractBytesObject.descr_lt),
+    __mei__ = interpindirect2app(W_AbstractBytesObject.descr_le),
     __le__ = interpindirect2app(W_AbstractBytesObject.descr_le),
+    __maq__ = interpindirect2app(W_AbstractBytesObject.descr_gt),
     __gt__ = interpindirect2app(W_AbstractBytesObject.descr_gt),
+    __mai__ = interpindirect2app(W_AbstractBytesObject.descr_ge),
     __ge__ = interpindirect2app(W_AbstractBytesObject.descr_ge),
 
+    __tam__ = interpindirect2app(W_AbstractBytesObject.descr_len),
     __len__ = interpindirect2app(W_AbstractBytesObject.descr_len),
+    __contiene__ = interpindirect2app(W_AbstractBytesObject.descr_contains),
     __contains__ = interpindirect2app(W_AbstractBytesObject.descr_contains),
 
+    __mas__ = interpindirect2app(W_AbstractBytesObject.descr_add),
     __add__ = interpindirect2app(W_AbstractBytesObject.descr_add),
     __mul__ = interpindirect2app(W_AbstractBytesObject.descr_mul),
+    __dmul__ = interpindirect2app(W_AbstractBytesObject.descr_rmul),
     __rmul__ = interpindirect2app(W_AbstractBytesObject.descr_rmul),
 
+    __sacaartic__ = interpindirect2app(W_AbstractBytesObject.descr_getitem),
     __getitem__ = interpindirect2app(W_AbstractBytesObject.descr_getitem),
+    __sacaparte__ = interpindirect2app(W_AbstractBytesObject.descr_getslice),
     __getslice__ = interpindirect2app(W_AbstractBytesObject.descr_getslice),
 
+    mayuscular = interpindirect2app(W_AbstractBytesObject.descr_capitalize),
     capitalize = interpindirect2app(W_AbstractBytesObject.descr_capitalize),
+    centro = interpindirect2app(W_AbstractBytesObject.descr_center),
     center = interpindirect2app(W_AbstractBytesObject.descr_center),
+    total = interpindirect2app(W_AbstractBytesObject.descr_count),
     count = interpindirect2app(W_AbstractBytesObject.descr_count),
+    decodificar = interpindirect2app(W_AbstractBytesObject.descr_decode),
     decode = interpindirect2app(W_AbstractBytesObject.descr_decode),
+    codificar = interpindirect2app(W_AbstractBytesObject.descr_encode),
     encode = interpindirect2app(W_AbstractBytesObject.descr_encode),
     expandtabs = interpindirect2app(W_AbstractBytesObject.descr_expandtabs),
+    encontrar = interpindirect2app(W_AbstractBytesObject.descr_find),
     find = interpindirect2app(W_AbstractBytesObject.descr_find),
+    dencontrar = interpindirect2app(W_AbstractBytesObject.descr_rfind),
     rfind = interpindirect2app(W_AbstractBytesObject.descr_rfind),
+    indice = interpindirect2app(W_AbstractBytesObject.descr_index),
     index = interpindirect2app(W_AbstractBytesObject.descr_index),
+    dindice = interpindirect2app(W_AbstractBytesObject.descr_rindex),
     rindex = interpindirect2app(W_AbstractBytesObject.descr_rindex),
+    esalnum = interpindirect2app(W_AbstractBytesObject.descr_isalnum),
     isalnum = interpindirect2app(W_AbstractBytesObject.descr_isalnum),
+    esalfa = interpindirect2app(W_AbstractBytesObject.descr_isalpha),
     isalpha = interpindirect2app(W_AbstractBytesObject.descr_isalpha),
+    esdig = interpindirect2app(W_AbstractBytesObject.descr_isdigit),
     isdigit = interpindirect2app(W_AbstractBytesObject.descr_isdigit),
+    esminusc = interpindirect2app(W_AbstractBytesObject.descr_islower),
     islower = interpindirect2app(W_AbstractBytesObject.descr_islower),
+    esespac = interpindirect2app(W_AbstractBytesObject.descr_isspace),
     isspace = interpindirect2app(W_AbstractBytesObject.descr_isspace),
+    estitulo = interpindirect2app(W_AbstractBytesObject.descr_istitle),
     istitle = interpindirect2app(W_AbstractBytesObject.descr_istitle),
+    esmayusc = interpindirect2app(W_AbstractBytesObject.descr_isupper),
     isupper = interpindirect2app(W_AbstractBytesObject.descr_isupper),
+    juntar = interpindirect2app(W_AbstractBytesObject.descr_join),
     join = interpindirect2app(W_AbstractBytesObject.descr_join),
+    ijust = interpindirect2app(W_AbstractBytesObject.descr_ljust),
     ljust = interpindirect2app(W_AbstractBytesObject.descr_ljust),
+    djust = interpindirect2app(W_AbstractBytesObject.descr_rjust),
     rjust = interpindirect2app(W_AbstractBytesObject.descr_rjust),
+    minusc = interpindirect2app(W_AbstractBytesObject.descr_lower),
     lower = interpindirect2app(W_AbstractBytesObject.descr_lower),
+    particion = interpindirect2app(W_AbstractBytesObject.descr_partition),
     partition = interpindirect2app(W_AbstractBytesObject.descr_partition),
+    dparticion = interpindirect2app(W_AbstractBytesObject.descr_rpartition),
     rpartition = interpindirect2app(W_AbstractBytesObject.descr_rpartition),
+    reemplazar = interpindirect2app(W_AbstractBytesObject.descr_replace),
     replace = interpindirect2app(W_AbstractBytesObject.descr_replace),
+    quebrar = interpindirect2app(W_AbstractBytesObject.descr_split),
     split = interpindirect2app(W_AbstractBytesObject.descr_split),
+    dquebrar = interpindirect2app(W_AbstractBytesObject.descr_rsplit),
     rsplit = interpindirect2app(W_AbstractBytesObject.descr_rsplit),
+    quebrarlineas = interpindirect2app(W_AbstractBytesObject.descr_splitlines),
     splitlines = interpindirect2app(W_AbstractBytesObject.descr_splitlines),
+    empcon = interpindirect2app(W_AbstractBytesObject.descr_startswith),
     startswith = interpindirect2app(W_AbstractBytesObject.descr_startswith),
+    terminacon = interpindirect2app(W_AbstractBytesObject.descr_endswith),
     endswith = interpindirect2app(W_AbstractBytesObject.descr_endswith),
+    decapar = interpindirect2app(W_AbstractBytesObject.descr_strip),
     strip = interpindirect2app(W_AbstractBytesObject.descr_strip),
+    idecapar = interpindirect2app(W_AbstractBytesObject.descr_lstrip),
     lstrip = interpindirect2app(W_AbstractBytesObject.descr_lstrip),
+    ddecapar = interpindirect2app(W_AbstractBytesObject.descr_rstrip),
     rstrip = interpindirect2app(W_AbstractBytesObject.descr_rstrip),
+    minmayusc = interpindirect2app(W_AbstractBytesObject.descr_swapcase),
     swapcase = interpindirect2app(W_AbstractBytesObject.descr_swapcase),
+    titulo = interpindirect2app(W_AbstractBytesObject.descr_title),
     title = interpindirect2app(W_AbstractBytesObject.descr_title),
+    traducir = interpindirect2app(W_AbstractBytesObject.descr_translate),
     translate = interpindirect2app(W_AbstractBytesObject.descr_translate),
+    mayusc = interpindirect2app(W_AbstractBytesObject.descr_upper),
     upper = interpindirect2app(W_AbstractBytesObject.descr_upper),
+    cllenar = interpindirect2app(W_AbstractBytesObject.descr_zfill),
     zfill = interpindirect2app(W_AbstractBytesObject.descr_zfill),
+    __bufer__ = interp2app(W_BytesObject.descr_getbuffer),
     __buffer__ = interp2app(W_BytesObject.descr_getbuffer),
 
+    formato = interpindirect2app(W_BytesObject.descr_format),
     format = interpindirect2app(W_BytesObject.descr_format),
+    __formato__ = interpindirect2app(W_BytesObject.descr__format__),
     __format__ = interpindirect2app(W_BytesObject.descr__format__),
     __mod__ = interpindirect2app(W_BytesObject.descr_mod),
+    __dmod__ = interpindirect2app(W_BytesObject.descr_rmod),
     __rmod__ = interpindirect2app(W_BytesObject.descr_rmod),
+    __sacanuevosargs__ = interpindirect2app(
+        W_AbstractBytesObject.descr_getnewargs),
     __getnewargs__ = interpindirect2app(
         W_AbstractBytesObject.descr_getnewargs),
     _formatter_parser = interp2app(W_BytesObject.descr_formatter_parser),
