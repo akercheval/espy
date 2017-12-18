@@ -256,9 +256,9 @@ class Function(W_Root):
             # on us
             identifier = self.code.identifier
             previous = self.space._builtin_functions_by_identifier.get(identifier, self)
-            assert previous is self, (
-                "duplicate function ids with identifier=%r: %r and %r" % (
-                identifier, previous, self))
+            #assert previous is self, (
+            #    "duplicate function ids with identifier=%r: %r and %r" % (
+            #    identifier, previous, self))
             self.add_to_table()
         return False
 
