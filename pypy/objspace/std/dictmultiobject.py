@@ -112,15 +112,22 @@ class W_DictMultiObject(W_Root):
         for w_k, w_v in list_pairs_w:
             self.setitem(w_k, w_v)
 
-    ## XXX hereAK
+    def inicializar_contenido(self, list_pairs_w):
+        self.initialize_content(list_pairs_w)
 
     def setitem_str(self, key, w_value):
         self.get_strategy().setitem_str(self, key, w_value)
+
+    def ponartic_pal(self, key, w_value):
+        self.setitem_str(key, w_value):
 
     @staticmethod
     def descr_new(space, w_dicttype, __args__):
         w_obj = W_DictMultiObject.allocate_and_init_instance(space, w_dicttype)
         return w_obj
+
+    def descr_nuevo(space, w_dicttype, __args__):
+        return descr_new(space, w_dicttype, __args__)
 
     @staticmethod
     def descr_fromkeys(space, w_type, w_keys, w_fill=None):
@@ -143,8 +150,14 @@ class W_DictMultiObject(W_Root):
                 space.setitem(w_dict, w_key, w_fill)
         return w_dict
 
+    def descr_declaves(space, w_type, w_keys, w_fill=None):
+        return descr_fromkeys(space, w_type, w_keys, w_fill)
+
     def descr_init(self, space, __args__):
         init_or_update(space, self, __args__, 'dict')
+
+    def descr_inic(self, space, __args__):
+        self.descr_init(space, __args__)
 
     def descr_repr(self, space):
         return dictrepr(space, space.get_objects_in_repr(), self)
@@ -169,15 +182,24 @@ class W_DictMultiObject(W_Root):
                 return space.w_False
         return space.w_True
 
+    def descr_ig(self, space, w_other):
+        return self.descr_eq(space, w_other)
+
     def descr_lt(self, space, w_other):
         if not isinstance(w_other, W_DictMultiObject):
             return space.w_NotImplemented
         return self._compare_lt(space, w_other)
 
+    def descr_meq(self, space, w_other):
+        return self.descr_lt(space, w_other)
+
     def descr_gt(self, space, w_other):
         if not isinstance(w_other, W_DictMultiObject):
             return space.w_NotImplemented
         return w_other._compare_lt(space, self)
+
+    def descr_maq(self, space, w_other):
+        return self.descr_gt(space, w_other):
 
     def _compare_lt(self, space, w_other):
         # Different sizes, no problem
@@ -201,18 +223,30 @@ class W_DictMultiObject(W_Root):
             w_res = space.lt(w_leftval, w_rightval)
         return w_res
 
+    def _comparar_meq(self, space, w_other):
+        return self._compare_lt(space, w_other)
+
     descr_ne = negate(descr_eq)
+    descr_ni = negate(descr_eq)
     descr_le = negate(descr_gt)
+    descr_meq = negate(descr_gt)
     descr_ge = negate(descr_lt)
+    descr_mai = negate(descr_lt)
 
     def descr_len(self, space):
         return space.newint(self.length())
+
+    def descr_tam(self, space):
+        return self.descr_len(space)
 
     def descr_iter(self, space):
         return W_DictMultiIterKeysObject(space, self.iterkeys())
 
     def descr_contains(self, space, w_key):
         return space.newbool(self.getitem(w_key) is not None)
+
+    def descr_contiene(self, space, w_key):
+        return self.descr_contains(space, w_key):
 
     def descr_getitem(self, space, w_key):
         w_value = self.getitem(w_key)
@@ -227,8 +261,14 @@ class W_DictMultiObject(W_Root):
 
         space.raise_key_error(w_key)
 
+    def descr_sacaartic(self, space, w_key):
+        return self.descr_getitem(space, w_key)
+
     def descr_setitem(self, space, w_newkey, w_newvalue):
         self.setitem(w_newkey, w_newvalue)
+
+    def descr_ponartic(self, space, w_newkey, w_newvalue):
+        return self.descr_setitem(space, w_newkey, w_newvalue):
 
     def descr_delitem(self, space, w_key):
         try:
@@ -236,43 +276,69 @@ class W_DictMultiObject(W_Root):
         except KeyError:
             space.raise_key_error(w_key)
 
+    def descr_elimartic(self, space, w_key):
+        return self.descr_delitem(space, w_key):
+
     def internal_delitem(self, w_key):
         try:
             self.delitem(w_key)
         except KeyError:
             raise oefmt(self.space.w_RuntimeError,
-                        "an internal 'del' on the dictionary failed to find "
-                        "the key")
+                        "un 'elim' internal en el diccionario no encontró "
+                        "la clave")
+
+    def internal_elimartic(self, w_key):
+        return self.internal_delitem(w_key)
 
     def descr_copy(self, space):
-        """D.copy() -> a shallow copy of D"""
+        """D.copiar() -> una copia no profunda de D"""
         w_new = W_DictMultiObject.allocate_and_init_instance(space)
         update1_dict_dict(space, w_new, self)
         return w_new
 
+    def descr_copiar(self, space):
+        return self.descr_copy(space)
+
     def descr_items(self, space):
-        """D.items() -> list of D's (key, value) pairs, as 2-tuples"""
+        """D.articulos() -> lista de (clave, valor) pares en D, como 2-tuples"""
         return space.newlist(self.items())
 
+    def descr_articulos(self, space):
+        return self.descr_items(space)
+
     def descr_keys(self, space):
-        """D.keys() -> list of D's keys"""
+        """D.claves() -> lista de claves en D"""
         return self.w_keys()
 
+    def descr_claves(self, space):
+        return self.descr_keys(space)
+
     def descr_values(self, space):
-        """D.values() -> list of D's values"""
+        """D.valores() -> lista de valores en D"""
         return space.newlist(self.values())
 
+    def descr_valores(self, space):
+        return self.descr_values(space)
+
     def descr_iteritems(self, space):
-        """D.iteritems() -> an iterator over the (key, value) items of D"""
+        """D.iterartics() -> un iterador sobre los (clave, valor) artículos de D"""
         return W_DictMultiIterItemsObject(space, self.iteritems())
 
+    def descr_iterartics(self, space):
+        return self.descr_iteritems(space)
+
     def descr_iterkeys(self, space):
-        """D.iterkeys() -> an iterator over the keys of D"""
+        """D.iterclaves() -> un iterador sobre las claves de D"""
         return W_DictMultiIterKeysObject(space, self.iterkeys())
 
+    def descr_iterclaves(self, space):
+        return self.descr_iterkeys(space)
+
     def descr_itervalues(self, space):
-        """D.itervalues() -> an iterator over the values of D"""
+        """D.itervalores() -> un iterador sobre los valores de D"""
         return W_DictMultiIterValuesObject(space, self.itervalues())
+
+    def descr_itervalores(self, space):
 
     def nondescr_reversed_dict(self, space):
         """Not exposed directly to app-level, but via __pypy__.reversed_dict().
@@ -295,20 +361,32 @@ class W_DictMultiObject(W_Root):
         objectmodel.delitem_if_value_is(d, w_key, w_value)
 
     def descr_viewitems(self, space):
-        """D.viewitems() -> a set-like object providing a view on D's items"""
+        """D.verartics() -> un colección objeto que muestra los artículos de D"""
         return W_DictViewItemsObject(space, self)
 
+    def descr_verartics(self, space):
+        return self.descr_viewitems(space)
+
     def descr_viewkeys(self, space):
-        """D.viewkeys() -> a set-like object providing a view on D's keys"""
+        """D.verclaves() -> un colección objeto que muestra las claves de D"""
         return W_DictViewKeysObject(space, self)
 
+    def descr_verclaves(self, space):
+        return self.descr_viewkeys(space)
+
     def descr_viewvalues(self, space):
-        """D.viewvalues() -> an object providing a view on D's values"""
+        """D.vervalores() -> un colección objeto que muestra los valores de D"""
         return W_DictViewValuesObject(space, self)
 
+    def descr_vervalores(self, space):
+        return self.descr_viewvalues(space)
+
     def descr_has_key(self, space, w_key):
-        """D.has_key(k) -> True if D has a key k, else False"""
+        """D.tiene_clave -> Cierto si D tiene clave k, Falso si no"""
         return space.newbool(self.getitem(w_key) is not None)
+
+    def descr_tiene_clave(self, space, w_key):
+        return self.descr_has_key(space, w_key)
 
     def nondescr_move_to_end(self, space, w_key, last_flag):
         """Not exposed directly to app-level, but via __pypy__.move_to_end().
@@ -351,19 +429,26 @@ class W_DictMultiObject(W_Root):
         return space.newtuple([w_key, w_value])
 
     def descr_clear(self, space):
-        """D.clear() -> None.  Remove all items from D."""
+        """D.limpiar() -> Nada.  Quitar todo de D."""
+        self.clear()
+
+    def descr_limpiar(self, space):
+        """D.limpiar() -> Nada.  Quitar todo de D."""
         self.clear()
 
     @unwrap_spec(w_default=WrappedDefault(None))
     def descr_get(self, space, w_key, w_default):
-        """D.get(k[,d]) -> D[k] if k in D, else d.  d defaults to None."""
+        """D.saca(k[,d]) -> D[k] si k en D, si no, d.  Estándar de d es Nada."""
         w_value = self.getitem(w_key)
         return w_value if w_value is not None else w_default
 
+    def descr_saca(self, space, w_key, w_default):
+        return self.descr_get(space, w_key, w_default)
+
     def descr_pop(self, space, w_key, w_default=None):
-        """D.pop(k[,d]) -> v, remove specified key and return the
-        corresponding value\nIf key is not found, d is returned if given,
-        otherwise KeyError is raised
+        """D.pop(k[,d]) -> v, quita clave especificada y volver el
+        valor que tiene la clave.\nSi clave no está encontrada, d está
+        volvido si está dado, si no llama KeyError.
         """
         strategy = self.get_strategy()
         if strategy.has_pop:
@@ -385,15 +470,23 @@ class W_DictMultiObject(W_Root):
     def descr_popitem(self, space):
         """D.popitem() -> (k, v), remove and return some (key, value) pair as
         a\n2-tuple; but raise KeyError if D is empty"""
+        """D.popartic() -> (k, v), quita y volver un (clave, valor) par como
+        un\n2-tuple; pero llamar KeyError si D está vacío."""
         try:
             w_key, w_value = self.popitem()
         except KeyError:
-            raise oefmt(space.w_KeyError, "popitem(): dictionary is empty")
+            raise oefmt(space.w_KeyError, "popartic(): diccionario está vacío")
         return space.newtuple([w_key, w_value])
+
+    def descr_popartic(self, space):
+        return self.descr_popitem(space)
 
     @unwrap_spec(w_default=WrappedDefault(None))
     def descr_setdefault(self, space, w_key, w_default):
-        """D.setdefault(k[,d]) -> D.get(k,d), also set D[k]=d if k not in D"""
+        """D.ponestandar(k[,d]) -> D.saca(k,d), también poner D[k]=d si k no está en D"""
+        return self.setdefault(w_key, w_default)
+
+    def descr_ponestandar(self, space, w_key, w_default):
         return self.setdefault(w_key, w_default)
 
     def descr_update(self, space, __args__):
@@ -401,6 +494,9 @@ class W_DictMultiObject(W_Root):
         = E[k]\n(if E has keys else: for (k, v) in E: D[k] = v) then: for k in
         F: D[k] = F[k]"""
         init_or_update(space, self, __args__, 'dict.update')
+
+    def descr_actualizar(self, space, __args__):
+        self.descr_update(space, __args__)
 
     def ensure_object_strategy(self):    # also called by cpyext
         object_strategy = self.space.fromcache(ObjectDictStrategy)
@@ -418,11 +514,20 @@ class W_DictObject(W_DictMultiObject):
         W_DictMultiObject.__init__(self, space, storage)
         self.dstrategy = strategy
 
+    def __inic__(self, space, strategy, storage):
+        return self.__init__(spcae, strategy, storage)
+
     def get_strategy(self):
         return self.dstrategy
 
+    def saca_estrategia(self):
+        return self.get_strategy()
+
     def set_strategy(self, strategy):
         self.dstrategy = strategy
+
+    def pon_estrategia(self, strategy):
+        self.set_strategy(strategy)
 
 
 class W_ModuleDictObject(W_DictMultiObject):
@@ -435,16 +540,25 @@ class W_ModuleDictObject(W_DictMultiObject):
         W_DictMultiObject.__init__(self, space, storage)
         self.mstrategy = strategy
 
+    def __inic__(self, space, strategy, storage):
+        return self.__init__(spcae, strategy, storage)
+
     def get_strategy(self):
         return self.mstrategy
+
+    def saca_estrategia(self):
+        return self.get_strategy()
 
     def set_strategy(self, strategy):
         self.mstrategy = strategy
 
+    def pon_estrategia(self, strategy):
+        self.set_strategy(strategy)
 
 
 
 def _add_indirections():
+    ## XXX translate these? not sure what they're used for
     dict_methods = "getitem getitem_str setitem setdefault \
                     popitem delitem clear \
                     length w_keys values items \
@@ -490,53 +604,84 @@ dictrepr = app.interphook("dictrepr")
 
 
 W_DictMultiObject.typedef = TypeDef("dict",
-    __doc__ = '''dict() -> new empty dictionary.
-dict(mapping) -> new dictionary initialized from a mapping object\'s
-    (key, value) pairs.
-dict(seq) -> new dictionary initialized as if via:
+    __doc__ = '''dicc() -> diccionario nuevo vacío.
+dicc(mapa) -> diccionario nuevo inicializado de los pares (clave, valor)
+    de una mapa.
+dicc(seq) -> diccionario nuevo inicializado como si:
     d = {}
-    for k, v in seq:
+    para k, v en seq:
         d[k] = v
-dict(**kwargs) -> new dictionary initialized with the name=value pairs
-    in the keyword argument list.  For example:  dict(one=1, two=2)''',
+dicc(**pcargs) -> diccionario nuevo inicializado con los pares nombre=valor
+    en la lista de palabras claves. Por ejemplo: dicc(uno=1, dos=2''',
+    __nuevo__ = interp2app(W_DictMultiObject.descr_new),
     __new__ = interp2app(W_DictMultiObject.descr_new),
+    declaves = interp2app(W_DictMultiObject.descr_fromkeys,
+                          as_classmethod=True),
     fromkeys = interp2app(W_DictMultiObject.descr_fromkeys,
                           as_classmethod=True),
     __hash__ = None,
     __repr__ = interp2app(W_DictMultiObject.descr_repr),
+    __inic__ = interp2app(W_DictMultiObject.descr_init),
     __init__ = interp2app(W_DictMultiObject.descr_init),
 
+    __ig__ = interp2app(W_DictMultiObject.descr_eq),
     __eq__ = interp2app(W_DictMultiObject.descr_eq),
+    __ni__ = interp2app(W_DictMultiObject.descr_ne),
     __ne__ = interp2app(W_DictMultiObject.descr_ne),
+    __meq__ = interp2app(W_DictMultiObject.descr_lt),
     __lt__ = interp2app(W_DictMultiObject.descr_lt),
+    __mei__ = interp2app(W_DictMultiObject.descr_le),
     __le__ = interp2app(W_DictMultiObject.descr_le),
+    __map__ = interp2app(W_DictMultiObject.descr_gt),
     __gt__ = interp2app(W_DictMultiObject.descr_gt),
+    __mai__ = interp2app(W_DictMultiObject.descr_ge),
     __ge__ = interp2app(W_DictMultiObject.descr_ge),
 
+    __tam__ = interp2app(W_DictMultiObject.descr_len),
     __len__ = interp2app(W_DictMultiObject.descr_len),
     __iter__ = interp2app(W_DictMultiObject.descr_iter),
+    __contiene__ = interp2app(W_DictMultiObject.descr_contains),
     __contains__ = interp2app(W_DictMultiObject.descr_contains),
 
+    __sacaartic__ = interp2app(W_DictMultiObject.descr_getitem),
     __getitem__ = interp2app(W_DictMultiObject.descr_getitem),
+    __ponartic__ = interp2app(W_DictMultiObject.descr_setitem),
     __setitem__ = interp2app(W_DictMultiObject.descr_setitem),
+    __elimartic__ = interp2app(W_DictMultiObject.descr_delitem),
     __delitem__ = interp2app(W_DictMultiObject.descr_delitem),
 
+    copiar = interp2app(W_DictMultiObject.descr_copy),
     copy = interp2app(W_DictMultiObject.descr_copy),
+    articulos = interp2app(W_DictMultiObject.descr_items),
     items = interp2app(W_DictMultiObject.descr_items),
+    claves = interp2app(W_DictMultiObject.descr_keys),
     keys = interp2app(W_DictMultiObject.descr_keys),
+    valores = interp2app(W_DictMultiObject.descr_values),
     values = interp2app(W_DictMultiObject.descr_values),
+    iterartics = interp2app(W_DictMultiObject.descr_iteritems),
     iteritems = interp2app(W_DictMultiObject.descr_iteritems),
+    iterclaves = interp2app(W_DictMultiObject.descr_iterkeys),
     iterkeys = interp2app(W_DictMultiObject.descr_iterkeys),
+    itervalores = interp2app(W_DictMultiObject.descr_itervalues),
     itervalues = interp2app(W_DictMultiObject.descr_itervalues),
+    verclaves = interp2app(W_DictMultiObject.descr_viewkeys),
     viewkeys = interp2app(W_DictMultiObject.descr_viewkeys),
+    verartics = interp2app(W_DictMultiObject.descr_viewitems),
     viewitems = interp2app(W_DictMultiObject.descr_viewitems),
+    vervalores = interp2app(W_DictMultiObject.descr_viewvalues),
     viewvalues = interp2app(W_DictMultiObject.descr_viewvalues),
+    tiene_clave = interp2app(W_DictMultiObject.descr_has_key),
     has_key = interp2app(W_DictMultiObject.descr_has_key),
+    limpiar = interp2app(W_DictMultiObject.descr_clear),
     clear = interp2app(W_DictMultiObject.descr_clear),
+    sacar = interp2app(W_DictMultiObject.descr_get),
     get = interp2app(W_DictMultiObject.descr_get),
     pop = interp2app(W_DictMultiObject.descr_pop),
+    popartic = interp2app(W_DictMultiObject.descr_popitem),
     popitem = interp2app(W_DictMultiObject.descr_popitem),
+    ponestan = interp2app(W_DictMultiObject.descr_setdefault),
     setdefault = interp2app(W_DictMultiObject.descr_setdefault),
+    actualizar = interp2app(W_DictMultiObject.descr_update),
     update = interp2app(W_DictMultiObject.descr_update),
     )
 
@@ -1618,54 +1763,84 @@ class W_DictViewValuesObject(W_DictViewObject):
 W_DictViewItemsObject.typedef = TypeDef(
     "dict_items",
     __repr__ = interp2app(W_DictViewItemsObject.descr_repr),
+    __tam__ = interp2app(W_DictViewItemsObject.descr_len),
     __len__ = interp2app(W_DictViewItemsObject.descr_len),
     __iter__ = interp2app(W_DictViewItemsObject.descr_iter),
+    __contiene__ = interp2app(W_DictViewItemsObject.descr_contains),
     __contains__ = interp2app(W_DictViewItemsObject.descr_contains),
 
+    __ig__ = interp2app(W_DictViewItemsObject.descr_eq),
     __eq__ = interp2app(W_DictViewItemsObject.descr_eq),
+    __ni__ = interp2app(W_DictViewItemsObject.descr_ne),
     __ne__ = interp2app(W_DictViewItemsObject.descr_ne),
+    __meq__ = interp2app(W_DictViewItemsObject.descr_lt),
     __lt__ = interp2app(W_DictViewItemsObject.descr_lt),
+    __mei__ = interp2app(W_DictViewItemsObject.descr_le),
     __le__ = interp2app(W_DictViewItemsObject.descr_le),
+    __maq__ = interp2app(W_DictViewItemsObject.descr_gt),
     __gt__ = interp2app(W_DictViewItemsObject.descr_gt),
+    __mai__ = interp2app(W_DictViewItemsObject.descr_ge),
     __ge__ = interp2app(W_DictViewItemsObject.descr_ge),
 
     __sub__ = interp2app(W_DictViewItemsObject.descr_sub),
+    __dsub__ = interp2app(W_DictViewItemsObject.descr_rsub),
     __rsub__ = interp2app(W_DictViewItemsObject.descr_rsub),
+    __y__ = interp2app(W_DictViewItemsObject.descr_and),
     __and__ = interp2app(W_DictViewItemsObject.descr_and),
+    __dy__ = interp2app(W_DictViewItemsObject.descr_rand),
     __rand__ = interp2app(W_DictViewItemsObject.descr_rand),
+    __o__ = interp2app(W_DictViewItemsObject.descr_or),
     __or__ = interp2app(W_DictViewItemsObject.descr_or),
+    __do__ = interp2app(W_DictViewItemsObject.descr_ror),
     __ror__ = interp2app(W_DictViewItemsObject.descr_ror),
+    __oex__ = interp2app(W_DictViewItemsObject.descr_xor),
     __xor__ = interp2app(W_DictViewItemsObject.descr_xor),
+    __doex__ = interp2app(W_DictViewItemsObject.descr_rxor),
     __rxor__ = interp2app(W_DictViewItemsObject.descr_rxor),
     )
 
 W_DictViewKeysObject.typedef = TypeDef(
     "dict_keys",
     __repr__ = interp2app(W_DictViewKeysObject.descr_repr),
+    __tam__ = interp2app(W_DictViewKeysObject.descr_len),
     __len__ = interp2app(W_DictViewKeysObject.descr_len),
     __iter__ = interp2app(W_DictViewKeysObject.descr_iter),
-    __contains__ = interp2app(W_DictViewKeysObject.descr_contains),
+    __contiene__ = interp2app(W_DictViewKeysObject.descr_contains),
 
+    __ig__ = interp2app(W_DictViewKeysObject.descr_eq),
     __eq__ = interp2app(W_DictViewKeysObject.descr_eq),
+    __ni__ = interp2app(W_DictViewKeysObject.descr_ne),
     __ne__ = interp2app(W_DictViewKeysObject.descr_ne),
+    __meq__ = interp2app(W_DictViewKeysObject.descr_lt),
     __lt__ = interp2app(W_DictViewKeysObject.descr_lt),
+    __mei__ = interp2app(W_DictViewKeysObject.descr_le),
     __le__ = interp2app(W_DictViewKeysObject.descr_le),
+    __maq__ = interp2app(W_DictViewKeysObject.descr_gt),
     __gt__ = interp2app(W_DictViewKeysObject.descr_gt),
+    __mai__ = interp2app(W_DictViewKeysObject.descr_ge),
     __ge__ = interp2app(W_DictViewKeysObject.descr_ge),
 
     __sub__ = interp2app(W_DictViewKeysObject.descr_sub),
+    __dsub__ = interp2app(W_DictViewKeysObject.descr_rsub),
     __rsub__ = interp2app(W_DictViewKeysObject.descr_rsub),
+    __y__ = interp2app(W_DictViewKeysObject.descr_and),
     __and__ = interp2app(W_DictViewKeysObject.descr_and),
+    __dy__ = interp2app(W_DictViewKeysObject.descr_rand),
     __rand__ = interp2app(W_DictViewKeysObject.descr_rand),
+    __o__ = interp2app(W_DictViewKeysObject.descr_or),
     __or__ = interp2app(W_DictViewKeysObject.descr_or),
+    __do__ = interp2app(W_DictViewKeysObject.descr_ror),
     __ror__ = interp2app(W_DictViewKeysObject.descr_ror),
+    __oex__ = interp2app(W_DictViewKeysObject.descr_xor),
     __xor__ = interp2app(W_DictViewKeysObject.descr_xor),
+    __doex__ = interp2app(W_DictViewKeysObject.descr_rxor),
     __rxor__ = interp2app(W_DictViewKeysObject.descr_rxor),
     )
 
 W_DictViewValuesObject.typedef = TypeDef(
     "dict_values",
     __repr__ = interp2app(W_DictViewValuesObject.descr_repr),
+    __tam__ = interp2app(W_DictViewValuesObject.descr_len),
     __len__ = interp2app(W_DictViewValuesObject.descr_len),
     __iter__ = interp2app(W_DictViewValuesObject.descr_iter),
     )
