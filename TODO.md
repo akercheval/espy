@@ -21,3 +21,9 @@
 * Allow for accents in type definitions: Right now, for example, the "index" 
     function of the list type, which should be called "índice" is called
     "indice" because the pypy compiler freaks out when it finds an accent.
+* There are some files and things I've skipped:
+..* `pypy/objspace/std/dictproxyobject.py` - I've never heard of this and don't 
+        know what it does
+..* There's an XXX in dictmultiobject `_add_indirections` function where
+        internal function names are created as raw strings. I didn't change it
+        because I'm not entirely sure whether it's necessary to, but it might be.

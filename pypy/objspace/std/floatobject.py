@@ -216,7 +216,7 @@ class W_FloatObject(W_Root):
                 if e.match(space, space.w_TypeError):
                     raise oefmt(
                         space.w_TypeError,
-                        "float() argument must be a string or a number")
+                        "flot() argumento tiene que ser palabra o número")
                 raise
             value = _string_to_float(space, w_value, value)
         w_obj = space.allocate_instance(W_FloatObject, w_floattype)
@@ -230,7 +230,7 @@ class W_FloatObject(W_Root):
             return space.newtext(_float_format)
         elif kind == "double":
             return space.newtext(_double_format)
-        raise oefmt(space.w_ValueError, "only float and double are valid")
+        raise oefmt(space.w_ValueError, "solo flot y doble son válidos")
 
     @staticmethod
     @unwrap_spec(s='text')
@@ -241,7 +241,7 @@ class W_FloatObject(W_Root):
         while i < length and s[i].isspace():
             i += 1
         if i == length:
-            raise oefmt(space.w_ValueError, "invalid hex string")
+            raise oefmt(space.w_ValueError, "palabra hex inválida")
         sign = 1
         if s[i] == "-":
             sign = -1
@@ -249,7 +249,7 @@ class W_FloatObject(W_Root):
         elif s[i] == "+":
             i += 1
         if length == i:
-            raise oefmt(space.w_ValueError, "invalid hex string")
+            raise oefmt(space.w_ValueError, "palabra hex inválida")
         if s[i] == "i" or s[i] == "I":
             i += 1
             if length - i >= 2 and s[i:i + 2].lower() == "nf":
@@ -280,7 +280,7 @@ class W_FloatObject(W_Root):
             total_digits = co_end - co_start
             float_digits = co_end - whole_end
             if not total_digits:
-                raise oefmt(space.w_ValueError, "invalid hex string")
+                raise oefmt(space.w_ValueError, "palabra hex inválida")
             const_one = rfloat.DBL_MIN_EXP - rfloat.DBL_MANT_DIG + sys.maxint // 2
             const_two = sys.maxint // 2 + 1 - rfloat.DBL_MAX_EXP
             if total_digits > min(const_one, const_two) // 4:
@@ -288,16 +288,16 @@ class W_FloatObject(W_Root):
             if i < length and (s[i] == "p" or s[i] == "P"):
                 i += 1
                 if i == length:
-                    raise oefmt(space.w_ValueError, "invalid hex string")
+                    raise oefmt(space.w_ValueError, "palabra hex inválida")
                 exp_sign = 1
                 if s[i] == "-" or s[i] == "+":
                     if s[i] == "-":
                         exp_sign = -1
                     i += 1
                     if i == length:
-                        raise oefmt(space.w_ValueError, "invalid hex string")
+                        raise oefmt(space.w_ValueError, "palabra hex inválida")
                 if not s[i].isdigit():
-                    raise oefmt(space.w_ValueError, "invalid hex string")
+                    raise oefmt(space.w_ValueError, "palabra hex inválid")
                 exp = ord(s[i]) - ord('0')
                 i += 1
                 while i < length and s[i].isdigit():
@@ -322,7 +322,7 @@ class W_FloatObject(W_Root):
             if not total_digits or exp <= -sys.maxint / 2:
                 value = 0.0
             elif exp >= sys.maxint // 2:
-                raise oefmt(space.w_OverflowError, "too large")
+                raise oefmt(space.w_OverflowError, "demasiado grande")
             else:
                 exp -= 4 * float_digits
                 top_exp = exp + 4 * (total_digits - 1)
@@ -333,7 +333,7 @@ class W_FloatObject(W_Root):
                 if top_exp < rfloat.DBL_MIN_EXP - rfloat.DBL_MANT_DIG:
                     value = 0.0
                 elif top_exp > rfloat.DBL_MAX_EXP:
-                    raise oefmt(space.w_OverflowError, "too large")
+                    raise oefmt(space.w_OverflowError, "demasiado grande")
                 else:
                     lsb = max(top_exp, rfloat.DBL_MIN_EXP) - rfloat.DBL_MANT_DIG
                     value = 0
@@ -366,12 +366,12 @@ class W_FloatObject(W_Root):
                                 mant_dig = rfloat.DBL_MANT_DIG
                                 if (top_exp == rfloat.DBL_MAX_EXP and
                                     value == math.ldexp(2 * half_eps, mant_dig)):
-                                    raise oefmt(space.w_OverflowError, "too large")
+                                    raise oefmt(space.w_OverflowError, "demasiado grande")
                         value = math.ldexp(value, (exp + 4*key_digit))
         while i < length and s[i].isspace():
             i += 1
         if i != length:
-            raise oefmt(space.w_ValueError, "invalid hex string")
+            raise oefmt(space.w_ValueError, "palabra hex inválida")
         w_float = space.newfloat(sign * value)
         return space.call_function(w_cls, w_float)
 
@@ -417,10 +417,10 @@ class W_FloatObject(W_Root):
             return W_LongObject.fromfloat(space, self.floatval)
         except OverflowError:
             raise oefmt(space.w_OverflowError,
-                        "cannot convert float infinity to integer")
+                        "no puede convertir flot infinito a entero")
         except ValueError:
             raise oefmt(space.w_ValueError,
-                        "cannot convert float NaN to integer")
+                        "no puede convertir flot NuN a entero")
 
     def descr_trunc(self, space):
         try:
@@ -443,11 +443,17 @@ class W_FloatObject(W_Root):
         return space.newtuple([self.descr_float(space)])
 
     descr_eq = make_compare_func('eq')
+    descr_ig = make_compare_func('eq')
     descr_ne = make_compare_func('ne')
+    descr_ni = make_compare_func('ne')
     descr_lt = make_compare_func('lt')
+    descr_meq = make_compare_func('lt')
     descr_le = make_compare_func('le')
+    descr_mei = make_compare_func('le')
     descr_gt = make_compare_func('gt')
+    descr_maq = make_compare_func('gt')
     descr_ge = make_compare_func('ge')
+    descr_mai = make_compare_func('ge')
 
     def descr_add(self, space, w_rhs):
         w_rhs = self._to_float(space, w_rhs)
@@ -491,7 +497,7 @@ class W_FloatObject(W_Root):
             return space.w_NotImplemented
         rhs = w_rhs.floatval
         if rhs == 0.0:
-            raise oefmt(space.w_ZeroDivisionError, "float division")
+            raise oefmt(space.w_ZeroDivisionError, "flot división")
         return W_FloatObject(self.floatval / rhs)
 
     def descr_rdiv(self, space, w_lhs):
@@ -500,7 +506,7 @@ class W_FloatObject(W_Root):
             return space.w_NotImplemented
         selfval = self.floatval
         if selfval == 0.0:
-            raise oefmt(space.w_ZeroDivisionError, "float division")
+            raise oefmt(space.w_ZeroDivisionError, "flot división")
         return W_FloatObject(w_lhs.floatval / selfval)
 
     def descr_floordiv(self, space, w_rhs):
@@ -522,7 +528,7 @@ class W_FloatObject(W_Root):
         x = self.floatval
         y = w_rhs.floatval
         if y == 0.0:
-            raise oefmt(space.w_ZeroDivisionError, "float modulo")
+            raise oefmt(space.w_ZeroDivisionError, "flot modulo")
         mod = math_fmod(x, y)
         if mod:
             # ensure the remainder has the same sign as the denominator
@@ -561,16 +567,16 @@ class W_FloatObject(W_Root):
         if w_rhs is None:
             return space.w_NotImplemented
         if not space.is_w(w_third_arg, space.w_None):
-            raise oefmt(space.w_TypeError, "pow() 3rd argument not allowed "
-                                           "unless all arguments are integers")
+            raise oefmt(space.w_TypeError, "pot() argumento tercero no válido "
+                                           "a menos que todos argumentos sean enteros")
         x = self.floatval
         y = w_rhs.floatval
 
         try:
             result = _pow(space, x, y)
         except PowDomainError:
-            raise oefmt(space.w_ValueError, "negative number cannot be raised "
-                                            "to a fractional power")
+            raise oefmt(space.w_ValueError, "número negativo no se puede elevar "
+                                            "a una potencia fraccionaria")
         return W_FloatObject(result)
 
     @unwrap_spec(w_third_arg=WrappedDefault(None))
@@ -601,10 +607,10 @@ class W_FloatObject(W_Root):
             num, den = float_as_rbigint_ratio(value)
         except OverflowError:
             raise oefmt(space.w_OverflowError,
-                        "cannot pass infinity to as_integer_ratio()")
+                        "no puede pasar infinito a como_ratio_entero()")
         except ValueError:
             raise oefmt(space.w_ValueError,
-                        "cannot pass nan to as_integer_ratio()")
+                        "no puede pasar NuN a como_ratio_entero()")
 
         w_num = space.newlong_from_rbigint(num)
         w_den = space.newlong_from_rbigint(den)
@@ -647,57 +653,91 @@ class W_FloatObject(W_Root):
 
 
 W_FloatObject.typedef = TypeDef("float",
-    __doc__ = '''float(x) -> floating point number
+    __doc__ = '''flot(x) -> número flot
 
-Convert a string or number to a floating point number, if possible.''',
+Convertir una palabra o número a flot, si es posible.''',
+    __nuevo__ = interp2app(W_FloatObject.descr__new__),
     __new__ = interp2app(W_FloatObject.descr__new__),
+    __sacaformato__ = interp2app(W_FloatObject.descr___getformat__, as_classmethod=True),
     __getformat__ = interp2app(W_FloatObject.descr___getformat__, as_classmethod=True),
+    dehex = interp2app(W_FloatObject.descr_fromhex, as_classmethod=True),
     fromhex = interp2app(W_FloatObject.descr_fromhex, as_classmethod=True),
     __repr__ = interp2app(W_FloatObject.descr_repr),
+    __pal__ = interp2app(W_FloatObject.descr_str),
     __str__ = interp2app(W_FloatObject.descr_str),
     __hash__ = interp2app(W_FloatObject.descr_hash),
+    __formato__ = interp2app(W_FloatObject.descr_format),
     __format__ = interp2app(W_FloatObject.descr_format),
+    __forzar__ = interp2app(W_FloatObject.descr_coerce),
     __coerce__ = interp2app(W_FloatObject.descr_coerce),
+    __nocero__ = interp2app(W_FloatObject.descr_nonzero),
     __nonzero__ = interp2app(W_FloatObject.descr_nonzero),
+    __ent__ = interp2app(W_FloatObject.descr_trunc),
     __int__ = interp2app(W_FloatObject.descr_trunc),
+    __flot__ = interp2app(W_FloatObject.descr_float),
     __float__ = interp2app(W_FloatObject.descr_float),
+    __larg__ = interp2app(W_FloatObject.descr_long),
     __long__ = interp2app(W_FloatObject.descr_long),
     __trunc__ = interp2app(W_FloatObject.descr_trunc),
     __neg__ = interp2app(W_FloatObject.descr_neg),
     __pos__ = interp2app(W_FloatObject.descr_pos),
     __abs__ = interp2app(W_FloatObject.descr_abs),
+    __sacanuevosargs__ = interp2app(W_FloatObject.descr_getnewargs),
     __getnewargs__ = interp2app(W_FloatObject.descr_getnewargs),
 
+    __ig__ = interp2app(W_FloatObject.descr_eq),
     __eq__ = interp2app(W_FloatObject.descr_eq),
+    __ni__ = interp2app(W_FloatObject.descr_ne),
     __ne__ = interp2app(W_FloatObject.descr_ne),
+    __meq__ = interp2app(W_FloatObject.descr_lt),
     __lt__ = interp2app(W_FloatObject.descr_lt),
+    __mei__ = interp2app(W_FloatObject.descr_le),
     __le__ = interp2app(W_FloatObject.descr_le),
+    __maq__ = interp2app(W_FloatObject.descr_gt),
     __gt__ = interp2app(W_FloatObject.descr_gt),
+    __mai__ = interp2app(W_FloatObject.descr_ge),
     __ge__ = interp2app(W_FloatObject.descr_ge),
 
+    __mas__ = interp2app(W_FloatObject.descr_add),
     __add__ = interp2app(W_FloatObject.descr_add),
+    __dmas__ = interp2app(W_FloatObject.descr_radd),
     __radd__ = interp2app(W_FloatObject.descr_radd),
+    __rest__ = interp2app(W_FloatObject.descr_sub),
     __sub__ = interp2app(W_FloatObject.descr_sub),
+    __drest__ = interp2app(W_FloatObject.descr_rsub),
     __rsub__ = interp2app(W_FloatObject.descr_rsub),
     __mul__ = interp2app(W_FloatObject.descr_mul),
+    __dmul__ = interp2app(W_FloatObject.descr_rmul),
     __rmul__ = interp2app(W_FloatObject.descr_rmul),
     __div__ = interp2app(W_FloatObject.descr_div),
+    __ddiv__ = interp2app(W_FloatObject.descr_rdiv),
     __rdiv__ = interp2app(W_FloatObject.descr_rdiv),
+    __divcierto__ = interp2app(W_FloatObject.descr_div),
     __truediv__ = interp2app(W_FloatObject.descr_div),
+    __ddivcierto__ = interp2app(W_FloatObject.descr_rdiv),
     __rtruediv__ = interp2app(W_FloatObject.descr_rdiv),
+    __divinferior__ = interp2app(W_FloatObject.descr_floordiv),
     __floordiv__ = interp2app(W_FloatObject.descr_floordiv),
+    __ddivinferior__ = interp2app(W_FloatObject.descr_rfloordiv),
     __rfloordiv__ = interp2app(W_FloatObject.descr_rfloordiv),
     __mod__ = interp2app(W_FloatObject.descr_mod),
+    __dmod__ = interp2app(W_FloatObject.descr_rmod),
     __rmod__ = interp2app(W_FloatObject.descr_rmod),
     __divmod__ = interp2app(W_FloatObject.descr_divmod),
+    __ddivmod__ = interp2app(W_FloatObject.descr_rdivmod),
     __rdivmod__ = interp2app(W_FloatObject.descr_rdivmod),
+    __pot__ = interp2app(W_FloatObject.descr_pow),
     __pow__ = interp2app(W_FloatObject.descr_pow),
+    __dpot__ = interp2app(W_FloatObject.descr_rpow),
     __rpow__ = interp2app(W_FloatObject.descr_rpow),
 
     real = GetSetProperty(W_FloatObject.descr_get_real),
     imag = GetSetProperty(W_FloatObject.descr_get_imag),
+    conjugar = interp2app(W_FloatObject.descr_conjugate),
     conjugate = interp2app(W_FloatObject.descr_conjugate),
+    es_entero = interp2app(W_FloatObject.descr_is_integer),
     is_integer = interp2app(W_FloatObject.descr_is_integer),
+    como_ratio_entero = interp2app(W_FloatObject.descr_as_integer_ratio),
     as_integer_ratio = interp2app(W_FloatObject.descr_as_integer_ratio),
     hex = interp2app(W_FloatObject.descr_hex),
 )
@@ -754,7 +794,7 @@ def _divmod_w(space, w_float1, w_float2):
     x = w_float1.floatval
     y = w_float2.floatval
     if y == 0.0:
-        raise oefmt(space.w_ZeroDivisionError, "float modulo")
+        raise oefmt(space.w_ZeroDivisionError, "flot modulo")
     mod = math_fmod(x, y)
     # fmod is typically exact, so vx-mod is *mathematically* an
     # exact multiple of wx.  But this is fp arithmetic, and fp
@@ -839,7 +879,7 @@ def _pow(space, x, y):
     if x == 0.0:
         if y < 0.0:
             raise oefmt(space.w_ZeroDivisionError,
-                        "0.0 cannot be raised to a negative power")
+                        "0.0 no se puede elevar a una potencia negativa")
 
     negate_result = False
     # special case: "(-1.0) ** bignum" should not raise PowDomainError,
@@ -867,9 +907,9 @@ def _pow(space, x, y):
         # We delegate to our implementation of math.pow() the error detection.
         z = math.pow(x, y)
     except OverflowError:
-        raise oefmt(space.w_OverflowError, "float power")
+        raise oefmt(space.w_OverflowError, "flot potencia")
     except ValueError:
-        raise oefmt(space.w_ValueError, "float power")
+        raise oefmt(space.w_ValueError, "flot potencia")
 
     if negate_result:
         z = -z
