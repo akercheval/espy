@@ -82,7 +82,6 @@ import foo.bar
 LOAD_CONST  None
 IMPORT_NAME foo.bar
 STORE_NAME  foo
-
 (I hate this style)
 
 there are other forms, but i don't support them (should hit an
@@ -213,7 +212,7 @@ def process(r, codeob, scope, toplevel=False):
                     if postop != _op_.LOAD_ATTR:
                         break
                     seenloadattr = True
-                    
+
                 assert postop in storeops, 'postop'
 
                 storename = name_for_op(codeob, postop, postoparg)
@@ -561,10 +560,10 @@ def html_for_module(module):
         ourlink = link_for_name('', module, d)
         head = [html.title(module.name + '.' + d)]
         body = [html.h1([html.a(module.name, href=link_for_module(ourlink, module)), '.' + d])]
-        
+
         contents = []
 
-        for n in defuses[d]: 
+        for n in defuses[d]:
             N = module.system.modules[n]
             contents.append(html.li(html.a(n, href=link_for_module(ourlink, N))))
 

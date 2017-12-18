@@ -90,6 +90,9 @@ class W_DictMultiObject(W_Root):
         self.space = space
         self.dstorage = storage
 
+    def __inic__(self, space, storage):
+        self.__init__(space, storage)
+
     def __repr__(self):
         """representation for debugging purposes"""
         return "%s(%s)" % (self.__class__.__name__, self.get_strategy())
@@ -102,9 +105,14 @@ class W_DictMultiObject(W_Root):
             result[key] = val
         return result
 
+    def desembalar(w_dict, space):
+        return unwrap(w_dict, space)
+
     def initialize_content(self, list_pairs_w):
         for w_k, w_v in list_pairs_w:
             self.setitem(w_k, w_v)
+
+    ## XXX hereAK
 
     def setitem_str(self, key, w_value):
         self.get_strategy().setitem_str(self, key, w_value)

@@ -41,9 +41,16 @@ class ModuleDictStrategy(DictStrategy):
     def get_empty_storage(self):
         return self.erase({})
 
+    def saca_almacenamiento_vacio(self):
+        return self.get_empty_storage()
+
     def mutated(self):
         self.version = VersionTag()
 
+    def mutado(self):
+        self.mutated()
+
+    #XXX not translating this because it seems irrelevant - AK
     def getdictvalue_no_unwrapping(self, w_dict, key):
         # NB: it's important to promote self here, so that self.version is a
         # no-op due to the quasi-immutable field
@@ -62,9 +69,15 @@ class ModuleDictStrategy(DictStrategy):
             self.switch_to_object_strategy(w_dict)
             w_dict.setitem(w_key, w_value)
 
+    def ponartic(self, w_dict, w_key, w_value):
+        self.setitem(w_dict, w_key, w_value)
+
     def setitem_str(self, w_dict, key, w_value):
         cell = self.getdictvalue_no_unwrapping(w_dict, key)
         return self._setitem_str_cell_known(cell, w_dict, key, w_value)
+
+    def ponartic_pal(self, w_dict, key, w_value):
+        return self.setitem_str(w_dict, key, w_value)
 
     def _setitem_str_cell_known(self, cell, w_dict, key, w_value):
         w_value = write_cell(self.space, cell, w_value)
@@ -87,6 +100,9 @@ class ModuleDictStrategy(DictStrategy):
             self.switch_to_object_strategy(w_dict)
             return w_dict.setdefault(w_key, w_default)
 
+    def ponestan(self, w_dict, w_key, w_default):
+        return self.setdefault(w_dict, w_key, w_default)
+
     def delitem(self, w_dict, w_key):
         space = self.space
         w_key_type = space.type(w_key)
@@ -105,8 +121,14 @@ class ModuleDictStrategy(DictStrategy):
             self.switch_to_object_strategy(w_dict)
             w_dict.delitem(w_key)
 
+    def elimartic(self, w_dict, w_key):
+        self.delitem(w_dict, w_key)
+
     def length(self, w_dict):
         return len(self.unerase(w_dict.dstorage))
+
+    def tamano(self, w_dict):
+        return self.length(w_dict)
 
     def getitem(self, w_dict, w_key):
         space = self.space
@@ -120,18 +142,30 @@ class ModuleDictStrategy(DictStrategy):
             self.switch_to_object_strategy(w_dict)
             return w_dict.getitem(w_key)
 
+    def sacaartic(self, w_dict, w_key):
+        return self.getitem(w_dict, w_key)
+
     def getitem_str(self, w_dict, key):
         cell = self.getdictvalue_no_unwrapping(w_dict, key)
         return unwrap_cell(self.space, cell)
+
+    def sacaartic_pal(self, w_dict, w_key):
+        return self.getitem_str(w_dict, w_key)
 
     def w_keys(self, w_dict):
         space = self.space
         l = self.unerase(w_dict.dstorage).keys()
         return space.newlist_text(l)
 
+    def w_claves(self, w_dict):
+        return self.w_keys(w_dict)
+
     def values(self, w_dict):
         iterator = self.unerase(w_dict.dstorage).itervalues
         return [unwrap_cell(self.space, cell) for cell in iterator()]
+
+    def valores(self, w_dict):
+        return self.values(w_dict)
 
     def items(self, w_dict):
         space = self.space
@@ -139,9 +173,15 @@ class ModuleDictStrategy(DictStrategy):
         return [space.newtuple([_wrapkey(space, key), unwrap_cell(self.space, cell)])
                 for key, cell in iterator()]
 
+    def articulos(self, w_dict):
+        return self.items(w_dict)
+
     def clear(self, w_dict):
         self.unerase(w_dict.dstorage).clear()
         self.mutated()
+
+    def limpiar(self, w_dict):
+        self.clear(w_dict)
 
     def popitem(self, w_dict):
         space = self.space
@@ -150,6 +190,11 @@ class ModuleDictStrategy(DictStrategy):
         self.mutated()
         return _wrapkey(space, key), unwrap_cell(self.space, cell)
 
+    def popartic(self, w_dict):
+        return self.popitem(w_dict)
+
+
+    ## XXX not translating -AK
     def switch_to_object_strategy(self, w_dict):
         space = self.space
         d = self.unerase(w_dict.dstorage)
@@ -163,16 +208,28 @@ class ModuleDictStrategy(DictStrategy):
     def getiterkeys(self, w_dict):
         return self.unerase(w_dict.dstorage).iterkeys()
 
+    def sacaclavesiter(self, w_dict):
+        return self.getiterkeys(w_dict)
+
     def getitervalues(self, w_dict):
         return self.unerase(w_dict.dstorage).itervalues()
 
+    def sacavaloresiter(self, w_dict):
+        return self.getitervalues(w_dict)
+
     def getiteritems_with_hash(self, w_dict):
         return objectmodel.iteritems_with_hash(self.unerase(w_dict.dstorage))
+
+    def sacavaloresiter_con_hash(self, w_dict):
+        return self.getiteritems_with_hash(w_dict)
 
     wrapkey = _wrapkey
 
     def wrapvalue(space, value):
         return unwrap_cell(space, value)
+
+    def valorembalaje(space, value):
+        return wrapvalue(space, value)
 
 
 create_iterator_classes(ModuleDictStrategy)

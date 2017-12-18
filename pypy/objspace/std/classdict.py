@@ -33,8 +33,14 @@ class ClassDictStrategy(DictStrategy):
         else:
             return None
 
+    def sacaartic(self, w_dict, w_key):
+        return self.getitem(w_dict, w_key)
+
     def getitem_str(self, w_dict, key):
         return self.unerase(w_dict.dstorage).getdictvalue(self.space, key)
+
+    def sacaartic_pal(self, w_dict, key):
+        return self.getitem_str(w_dict, key)
 
     def setitem(self, w_dict, w_key, w_value):
         space = self.space
@@ -42,7 +48,10 @@ class ClassDictStrategy(DictStrategy):
             self.setitem_str(w_dict, self.space.text_w(w_key), w_value)
         else:
             raise oefmt(space.w_TypeError,
-                        "cannot add non-string keys to dict of a type")
+                        "no puede añadir claves no-palabra a dicc de un tipo")
+
+    def ponartic(self, w_dict, w_key, w_value):
+        self.setitem(w_dict, w_key, w_value)
 
     def setitem_str(self, w_dict, key, w_value):
         w_type = self.unerase(w_dict.dstorage)
@@ -60,12 +69,18 @@ class ClassDictStrategy(DictStrategy):
             # cache.  User code shoud call PyType_Modified().
             w_type.dict_w[key] = w_value
 
+    def ponartic_pal(self, w_dict, key, w_value):
+        self.setitem_str(w_dict, key, w_value)
+
     def setdefault(self, w_dict, w_key, w_default):
         w_result = self.getitem(w_dict, w_key)
         if w_result is not None:
             return w_result
         self.setitem(w_dict, w_key, w_default)
         return w_default
+
+    def ponestan(self, w_dict, w_key, w_default):
+        return self.setdefault(w_dict, w_key, w_default)
 
     def delitem(self, w_dict, w_key):
         space = self.space
@@ -77,8 +92,14 @@ class ClassDictStrategy(DictStrategy):
         else:
             raise KeyError
 
+    def elimartic(self, w_dict, w_key):
+        self.delitem(w_dict, w_key)
+
     def length(self, w_dict):
         return len(self.unerase(w_dict.dstorage).dict_w)
+
+    def tamano(self, w_dict):
+        return self.length(w_dict)
 
     def w_keys(self, w_dict):
         space = self.space
@@ -88,33 +109,57 @@ class ClassDictStrategy(DictStrategy):
         return [unwrap_cell(self.space, w_value) for w_value in
                 self.unerase(w_dict.dstorage).dict_w.itervalues()]
 
+    def valores(self, w_dict):
+        return self.values(w_values)
+
     def items(self, w_dict):
         space = self.space
         return [space.newtuple([space.newtext(key), unwrap_cell(self.space, w_value)])
                     for (key, w_value) in self.unerase(w_dict.dstorage).dict_w.iteritems()]
+
+    def articulos(self, w_dict):
+        return self.items(w_dict)
 
     def clear(self, w_dict):
         space = self.space
         w_type = self.unerase(w_dict.dstorage)
         if not w_type.is_heaptype():
             raise oefmt(space.w_TypeError,
-                        "can't clear dictionary of type '%N'", w_type)
+                        "no puede limpiar diccionario de tipo '%N'", w_type)
         w_type.dict_w.clear()
         w_type.mutated(None)
+
+    def limpiar(self, w_dict):
+        self.clear(w_dict)
 
     def getiterkeys(self, w_dict):
         return self.unerase(w_dict.dstorage).dict_w.iterkeys()
 
+    def sacaclavesiter(self, w_dict):
+        return self.getiterkeys(w_dict)
+
     def getitervalues(self, w_dict):
         return self.unerase(w_dict.dstorage).dict_w.itervalues()
+
+    def sacavaloresiter(self, w_dict):
+        return self.getitervalues(w_dict)
 
     def getiteritems_with_hash(self, w_dict):
         return iteritems_with_hash(self.unerase(w_dict.dstorage).dict_w)
 
+    def sacavaloresiter_con_hash(self, w_dict):
+        return self.getiteritems_with_hash(w_dict)
+
     def wrapkey(space, key):
         return space.newtext(key)
 
+    def claveembalaje(space, key):
+        return wrapkey(space, key)
+
     def wrapvalue(space, value):
         return unwrap_cell(space, value)
+
+    def valorembalaje(space, value):
+        return wrapvalue(space, value)
 
 create_iterator_classes(ClassDictStrategy)
