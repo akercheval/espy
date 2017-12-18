@@ -119,7 +119,7 @@ class W_DictMultiObject(W_Root):
         self.get_strategy().setitem_str(self, key, w_value)
 
     def ponartic_pal(self, key, w_value):
-        self.setitem_str(key, w_value):
+        self.setitem_str(key, w_value)
 
     @staticmethod
     def descr_new(space, w_dicttype, __args__):
@@ -199,7 +199,7 @@ class W_DictMultiObject(W_Root):
         return w_other._compare_lt(space, self)
 
     def descr_maq(self, space, w_other):
-        return self.descr_gt(space, w_other):
+        return self.descr_gt(space, w_other)
 
     def _compare_lt(self, space, w_other):
         # Different sizes, no problem
@@ -246,7 +246,7 @@ class W_DictMultiObject(W_Root):
         return space.newbool(self.getitem(w_key) is not None)
 
     def descr_contiene(self, space, w_key):
-        return self.descr_contains(space, w_key):
+        return self.descr_contains(space, w_key)
 
     def descr_getitem(self, space, w_key):
         w_value = self.getitem(w_key)
@@ -268,7 +268,7 @@ class W_DictMultiObject(W_Root):
         self.setitem(w_newkey, w_newvalue)
 
     def descr_ponartic(self, space, w_newkey, w_newvalue):
-        return self.descr_setitem(space, w_newkey, w_newvalue):
+        return self.descr_setitem(space, w_newkey, w_newvalue)
 
     def descr_delitem(self, space, w_key):
         try:
@@ -277,7 +277,7 @@ class W_DictMultiObject(W_Root):
             space.raise_key_error(w_key)
 
     def descr_elimartic(self, space, w_key):
-        return self.descr_delitem(space, w_key):
+        return self.descr_delitem(space, w_key)
 
     def internal_delitem(self, w_key):
         try:
@@ -337,8 +337,6 @@ class W_DictMultiObject(W_Root):
     def descr_itervalues(self, space):
         """D.itervalores() -> un iterador sobre los valores de D"""
         return W_DictMultiIterValuesObject(space, self.itervalues())
-
-    def descr_itervalores(self, space):
 
     def nondescr_reversed_dict(self, space):
         """Not exposed directly to app-level, but via __pypy__.reversed_dict().
