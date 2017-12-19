@@ -30,7 +30,7 @@ class BaseStringFormatter(object):
             w_result = self.values_w[self.values_pos]
         except IndexError:
             raise oefmt(self.space.w_TypeError,
-                        "not enough arguments for format string")
+                        "no hay suficientes argumentos para palabra formato")
         else:
             self.values_pos += 1
             return w_result
@@ -38,15 +38,15 @@ class BaseStringFormatter(object):
     def checkconsumed(self):
         if self.values_pos < len(self.values_w) and self.w_valuedict is None:
             raise oefmt(self.space.w_TypeError,
-                        "not all arguments converted during string formatting")
+                        "no todos argumentos convertidos durante palabra formato")
 
     def std_wp_int(self, r, prefix='', keep_zero=False):
         # use self.prec to add some '0' on the left of the number
         if self.prec >= 0:
             if self.prec > 1000:
                 raise oefmt(self.space.w_OverflowError,
-                            "formatted integer is too long (precision too "
-                            "large?)")
+                            "entero formateado es demasiado largo (precisión "
+                            "demasiado grande?)")
             sign = r[0] == '-'
             padding = self.prec - (len(r)-int(sign))
             if padding > 0:
@@ -168,7 +168,7 @@ def make_formatter_subclass(do_unicode):
             try:
                 return self.fmt[self.fmtpos]
             except IndexError:
-                raise oefmt(self.space.w_ValueError, "incomplete format")
+                raise oefmt(self.space.w_ValueError, "formato incompleto")
 
         # Only shows up if we've already started inlining format(), so just
         # unconditionally unroll this.
@@ -184,7 +184,7 @@ def make_formatter_subclass(do_unicode):
                     c = fmt[i]
                 except IndexError:
                     space = self.space
-                    raise oefmt(space.w_ValueError, "incomplete format key")
+                    raise oefmt(space.w_ValueError, "clave de formato incompleto")
                 if c == ')':
                     pcount -= 1
                     if pcount == 0:
@@ -199,7 +199,7 @@ def make_formatter_subclass(do_unicode):
             # return the value corresponding to a key in the input dict
             space = self.space
             if self.w_valuedict is None:
-                raise oefmt(space.w_TypeError, "format requires a mapping")
+                raise oefmt(space.w_TypeError, "formato necesita mapa")
             if do_unicode:
                 w_key = space.newunicode(key)
             else:
@@ -278,7 +278,7 @@ def make_formatter_subclass(do_unicode):
                 if not (0 <= digit <= 9):
                     break
                 if result > (maxval - digit) / 10:
-                    raise oefmt(space.w_ValueError, "%s too big", name)
+                    raise oefmt(space.w_ValueError, "%s demasiado grande", name)
                 result = result * 10 + digit
                 self.forward()
                 c = self.peekchr()
@@ -336,7 +336,7 @@ def make_formatter_subclass(do_unicode):
             c = self.fmt[self.fmtpos - 1]
             w_s = space.newunicode(c) if do_unicode else space.newbytes(c)
             raise oefmt(space.w_ValueError,
-                        "unsupported format character %R (%s) at index %d",
+                        "carácter de formato no apoyado %R (%s) en índice %d",
                         w_s, hex(ord(c)), self.fmtpos - 1)
 
         @specialize.argtype(1)
@@ -423,7 +423,7 @@ def make_formatter_subclass(do_unicode):
             w_impl = space.lookup(w_value, '__str__')
             if w_impl is None:
                 raise oefmt(space.w_TypeError,
-                            "operand does not support unary str")
+                            "operando no apoya pal unario")
             w_result = space.get_and_call_function(w_impl, w_value)
             if space.isinstance_w(w_result,
                                               space.w_unicode):
@@ -456,14 +456,14 @@ def make_formatter_subclass(do_unicode):
             if space.isinstance_w(w_value, space.w_bytes):
                 s = space.bytes_w(w_value)
                 if len(s) != 1:
-                    raise oefmt(space.w_TypeError, "%c requires int or char")
+                    raise oefmt(space.w_TypeError, "%c necesita ent o carác")
                 self.std_wp(s)
             elif space.isinstance_w(w_value, space.w_unicode):
                 if not do_unicode:
                     raise NeedUnicodeFormattingError
                 ustr = space.unicode_w(w_value)
                 if len(ustr) != 1:
-                    raise oefmt(space.w_TypeError, "%c requires int or unichar")
+                    raise oefmt(space.w_TypeError, "%c necesita ent o unicarác")
                 self.std_wp(ustr)
             else:
                 n = space.int_w(w_value)
@@ -472,14 +472,14 @@ def make_formatter_subclass(do_unicode):
                         c = unichr(n)
                     except ValueError:
                         raise oefmt(space.w_OverflowError,
-                                    "unicode character code out of range")
+                                    "carácter unicod fuera del rango")
                     self.std_wp(c)
                 else:
                     try:
                         s = chr(n)
                     except ValueError:
                         raise oefmt(space.w_OverflowError,
-                                    "character code not in range(256)")
+                                    "código de carácter no en rango(256)")
                     self.std_wp(s)
 
     return StringFormatter
@@ -554,7 +554,7 @@ def format_num_helper_generator(fmt, digits):
                 if operr.match(space, space.w_TypeError):
                     raise oefmt(
                         space.w_TypeError,
-                        "%s format: a number is required, not %T", fmt, w_value)
+                        "%s formato: necesita un numero, no %T", fmt, w_value)
                 else:
                     raise
         try:

@@ -1781,7 +1781,7 @@ W_DictViewItemsObject.typedef = TypeDef(
     __ge__ = interp2app(W_DictViewItemsObject.descr_ge),
 
     __sub__ = interp2app(W_DictViewItemsObject.descr_sub),
-    __dsub__ = interp2app(W_DictViewItemsObject.descr_rsub),
+    __drest__ = interp2app(W_DictViewItemsObject.descr_rsub),
     __rsub__ = interp2app(W_DictViewItemsObject.descr_rsub),
     __y__ = interp2app(W_DictViewItemsObject.descr_and),
     __and__ = interp2app(W_DictViewItemsObject.descr_and),
@@ -1819,7 +1819,7 @@ W_DictViewKeysObject.typedef = TypeDef(
     __ge__ = interp2app(W_DictViewKeysObject.descr_ge),
 
     __sub__ = interp2app(W_DictViewKeysObject.descr_sub),
-    __dsub__ = interp2app(W_DictViewKeysObject.descr_rsub),
+    __drest__ = interp2app(W_DictViewKeysObject.descr_rsub),
     __rsub__ = interp2app(W_DictViewKeysObject.descr_rsub),
     __y__ = interp2app(W_DictViewKeysObject.descr_and),
     __and__ = interp2app(W_DictViewKeysObject.descr_and),

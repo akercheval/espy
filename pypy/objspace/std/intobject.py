@@ -50,17 +50,17 @@ class W_AbstractIntObject(W_Root):
         return space.newlong_from_rbigint(b)
 
     def int(self, space):
-        """x.__int__() <==> int(x)"""
+        """x.__ent__() <==> ent(x)"""
         raise NotImplementedError
 
     def descr_format(self, space, w_format_spec):
         raise NotImplementedError
 
     def descr_pow(self, space, w_exponent, w_modulus=None):
-        """x.__pow__(y[, z]) <==> pow(x, y[, z])"""
+        """x.__pot__(y[, z]) <==> pot(x, y[, z])"""
         raise NotImplementedError
     descr_rpow = func_with_new_name(descr_pow, 'descr_rpow')
-    descr_rpow.__doc__ = "y.__rpow__(x[, z]) <==> pow(x, y[, z])"
+    descr_rpow.__doc__ = "y.__dpot__(x[, z]) <==> pot(x, y[, z])"
 
     def _abstract_unaryop(opname, doc=SENTINEL):
         if doc is SENTINEL:
@@ -76,11 +76,11 @@ class W_AbstractIntObject(W_Root):
 
     descr_coerce = _abstract_unaryop('coerce')
     descr_conjugate = _abstract_unaryop(
-        'conjugate', "Returns self, the complex conjugate of any int.")
+        'conjugate', "Vuelve mismo, el conjugado complejo de un ent.")
     descr_bit_length = _abstract_unaryop('bit_length', """\
-        int.bit_length() -> int
+        int.bit_tamano() -> ent
 
-        Number of bits necessary to represent self in binary.
+        Número de bits usado para representar mismo en binario.
         >>> bin(37)
         '0b100101'
         >>> (37).bit_length()
@@ -92,16 +92,16 @@ class W_AbstractIntObject(W_Root):
 
     descr_long = _abstract_unaryop('long')
     descr_index = _abstract_unaryop(
-        'index', "x[y:z] <==> x[y.__index__():z.__index__()]")
+        'index', "x[y:z] <==> x[y.__indice__():z.__indice__()]")
     descr_trunc = _abstract_unaryop('trunc',
-                                    "Truncating an Integral returns itself.")
+                                    "Truncar un Entero vuelve sí mismo.")
     descr_float = _abstract_unaryop('float')
 
     descr_pos = _abstract_unaryop('pos', "x.__pos__() <==> +x")
     descr_neg = _abstract_unaryop('neg', "x.__neg__() <==> -x")
     descr_abs = _abstract_unaryop('abs')
-    descr_nonzero = _abstract_unaryop('nonzero', "x.__nonzero__() <==> x != 0")
-    descr_invert = _abstract_unaryop('invert', "x.__invert__() <==> ~x")
+    descr_nonzero = _abstract_unaryop('nonzero', "x.__nocero__() <==> x != 0")
+    descr_invert = _abstract_unaryop('invert', "x.__vuelta__() <==> ~x")
 
     def _abstract_cmpop(opname):
         @func_renamer('descr_' + opname)
@@ -154,14 +154,14 @@ def _floordiv(space, x, y):
     try:
         z = ovfcheck(x // y)
     except ZeroDivisionError:
-        raise oefmt(space.w_ZeroDivisionError, "integer division by zero")
+        raise oefmt(space.w_ZeroDivisionError, "división entera por cero")
     return wrapint(space, z)
 _div = func_with_new_name(_floordiv, '_div')
 
 
 def _truediv(space, x, y):
     if not y:
-        raise oefmt(space.w_ZeroDivisionError, "division by zero")
+        raise oefmt(space.w_ZeroDivisionError, "división por cero")
 
     if (DBL_MANT_DIG < LONG_BIT and
         (r_uint(abs(x)) >> DBL_MANT_DIG or r_uint(abs(y)) >> DBL_MANT_DIG)):
@@ -179,15 +179,14 @@ def _mod(space, x, y):
     try:
         z = ovfcheck(x % y)
     except ZeroDivisionError:
-        raise oefmt(space.w_ZeroDivisionError, "integer modulo by zero")
+        raise oefmt(space.w_ZeroDivisionError, "entero modulo por cero")
     return wrapint(space, z)
-
 
 def _divmod(space, x, y):
     try:
         z = ovfcheck(x // y)
     except ZeroDivisionError:
-        raise oefmt(space.w_ZeroDivisionError, "integer divmod by zero")
+        raise oefmt(space.w_ZeroDivisionError, "entero divmod por cero")
     # no overflow possible
     m = x % y
     return space.newtuple([space.newint(z), space.newint(m)])
@@ -206,7 +205,7 @@ def _lshift(space, a, b):
         c = ovfcheck(a << b)
         return wrapint(space, c)
     if b < 0:
-        raise oefmt(space.w_ValueError, "negative shift count")
+        raise oefmt(space.w_ValueError, "total de mover negativo")
     # b >= LONG_BIT
     if a == 0:
         return wrapint(space, a)
@@ -223,7 +222,7 @@ def _lshift_ovf2small(space, a, b):
 def _rshift(space, a, b):
     if r_uint(b) >= LONG_BIT: # not (0 <= b < LONG_BIT)
         if b < 0:
-            raise oefmt(space.w_ValueError, "negative shift count")
+            raise oefmt(space.w_ValueError, "total de mover negativo")
         # b >= LONG_BIT
         if a == 0:
             return wrapint(space, a)
@@ -240,8 +239,8 @@ def _pow(space, iv, iw, iz):
     if iw < 0:
         if iz != 0:
             raise oefmt(space.w_TypeError,
-                        "pow() 2nd argument cannot be negative when 3rd "
-                        "argument specified")
+                        "pot() argumento segundo no puede ser negativo cuando "
+                        "argument tercero exista")
         # bounce it, since it always returns float
         raise ValueError
     temp = iv
@@ -332,7 +331,7 @@ class W_IntObject(W_AbstractIntObject):
         intval = self.intval
         if intval < 0:
             raise oefmt(space.w_ValueError,
-                        "cannot convert negative integer to unsigned")
+                        "no puede convertir entero negativo a entero sin signo")
         return r_uint(intval)
 
     def bigint_w(self, space, allow_conversion=True):
@@ -357,7 +356,7 @@ class W_IntObject(W_AbstractIntObject):
     @staticmethod
     @unwrap_spec(w_x=WrappedDefault(0))
     def descr_new(space, w_inttype, w_x, w_base=None):
-        """T.__new__(S, ...) -> a new object with type S, a subtype of T"""
+        """T.__nuevo__(S, ...) -> objecto nuevo con tipo S, un subtipo de T"""
         return _new_int(space, w_inttype, w_x, w_base)
 
     def descr_hash(self, space):
@@ -466,7 +465,7 @@ class W_IntObject(W_AbstractIntObject):
             z = w_modulus.intval
             if z == 0:
                 raise oefmt(space.w_ValueError,
-                            "pow() 3rd argument cannot be 0")
+                            "pot() argumento tercero no puede ser 0")
         else:
             # can't return NotImplemented (space.pow doesn't do full
             # ternary, i.e. w_modulus.__zpow__(self, w_exponent)), so
@@ -709,8 +708,8 @@ def _new_int(space, w_inttype, w_x, w_base=None):
                 if not e.match(space, space.w_TypeError):
                     raise
                 raise oefmt(space.w_TypeError,
-                            "int() argument must be a string or a number, "
-                            "not '%T'", w_value)
+                            "ent() argumento tiene que ser palabra o número, "
+                            "no '%T'", w_value)
             else:
                 value, w_longval = _string_to_int_or_long(space, w_value, buf)
     else:
@@ -724,15 +723,15 @@ def _new_int(space, w_inttype, w_x, w_base=None):
                 s = space.text_w(w_value)
             except OperationError as e:
                 raise oefmt(space.w_TypeError,
-                            "int() can't convert non-string with explicit "
-                            "base")
+                            "ent() no puede convertir no-palabra con base "
+                            "explicito")
 
         value, w_longval = _string_to_int_or_long(space, w_value, s, base)
 
     if w_longval is not None:
         if not space.is_w(w_inttype, space.w_int):
             raise oefmt(space.w_OverflowError,
-                        "long int too large to convert to int")
+                        "ent larg demasiado grande para convertir a ent")
         return w_longval
     elif space.is_w(w_inttype, space.w_int):
         # common case
@@ -744,66 +743,100 @@ def _new_int(space, w_inttype, w_x, w_base=None):
 
 
 W_IntObject.typedef = TypeDef("int",
-    __doc__ = """int(x=0) -> int or long
-int(x, base=10) -> int or long
+    __doc__ = """int(x=0) -> ent or larg
+ent(x, base=10) -> ent or larg
 
-Convert a number or string to an integer, or return 0 if no arguments
-are given.  If x is floating point, the conversion truncates towards zero.
-If x is outside the integer range, the function returns a long instead.
+Convertir un numero o palaba a un entero, o volver 0 si no argumentos
+están dados. Si x es un flot, la conversión trunca a 0. Si x está fuera del
+rango de enteros, la función vuelve larg en lugar de ent.
 
-If x is not a number or if base is given, then x must be a string or
-Unicode object representing an integer literal in the given base.  The
-literal can be preceded by '+' or '-' and be surrounded by whitespace.
-The base defaults to 10.  Valid bases are 0 and 2-36.  Base 0 means to
-interpret the base from the string as an integer literal.
->>> int('0b100', base=0)
+Si x no es un número o el base no está dado, x tiene que ser una palabra o
+objeto unicod que representa un entero literal en el base dado. El literal
+puede ser precedido por '+' o '-' y ser rodeado por espacio blanco. El estándar
+para el base es 10. Bases válidos son 0 y 2-36. Base 0 quiere decir interpretar
+el base de la palabra como un entero literal.
+>>> ent('0b100', base=0)
 4""",
+    __nuevo__ = interp2app(W_IntObject.descr_new),
     __new__ = interp2app(W_IntObject.descr_new),
 
+    numerador = typedef.GetSetProperty(
+        W_IntObject.descr_get_numerator,
+        doc="el numerador de un número racional en terminos bajos"),
     numerator = typedef.GetSetProperty(
         W_IntObject.descr_get_numerator,
-        doc="the numerator of a rational number in lowest terms"),
+        doc="el numerador de un número racional en terminos bajos"),
     denominator = typedef.GetSetProperty(
         W_IntObject.descr_get_denominator,
-        doc="the denominator of a rational number in lowest terms"),
+        doc="el denominador de un número racional en terminos bajos"),
+    denominator = typedef.GetSetProperty(
+        W_IntObject.descr_get_denominator,
+        doc="el denominador de un número racional en terminos bajos"),
     real = typedef.GetSetProperty(
         W_IntObject.descr_get_real,
-        doc="the real part of a complex number"),
+        doc="el parte real de un número complejo"),
+    real = typedef.GetSetProperty(
+        W_IntObject.descr_get_real,
+        doc="el parte real de un número complejo"),
     imag = typedef.GetSetProperty(
         W_IntObject.descr_get_imag,
-        doc="the imaginary part of a complex number"),
+        doc="el parte imaginario de un número complejo"),
+    imag = typedef.GetSetProperty(
+        W_IntObject.descr_get_imag,
+        doc="el parte imaginario de un número complejo"),
 
     __repr__ = interp2app(W_IntObject.descr_repr,
                           doc=W_AbstractIntObject.descr_repr.__doc__),
+    __pal__ = interp2app(W_IntObject.descr_str,
+                         doc=W_AbstractIntObject.descr_str.__doc__),
     __str__ = interp2app(W_IntObject.descr_str,
                          doc=W_AbstractIntObject.descr_str.__doc__),
 
+    conjugar = interp2app(W_IntObject.descr_conjugate,
+                           doc=W_AbstractIntObject.descr_conjugate.__doc__),
     conjugate = interp2app(W_IntObject.descr_conjugate,
                            doc=W_AbstractIntObject.descr_conjugate.__doc__),
+    tamano_bit = interp2app(W_IntObject.descr_bit_length,
+                            doc=W_AbstractIntObject.descr_bit_length.__doc__),
     bit_length = interp2app(W_IntObject.descr_bit_length,
                             doc=W_AbstractIntObject.descr_bit_length.__doc__),
+    __formato__ = interp2app(W_IntObject.descr_format,
+                            doc=W_AbstractIntObject.descr_format.__doc__),
     __format__ = interp2app(W_IntObject.descr_format,
                             doc=W_AbstractIntObject.descr_format.__doc__),
     __hash__ = interp2app(W_IntObject.descr_hash,
                           doc=W_AbstractIntObject.descr_hash.__doc__),
+    __forzar__ = interp2app(W_IntObject.descr_coerce,
+                            doc=W_AbstractIntObject.descr_coerce.__doc__),
     __coerce__ = interp2app(W_IntObject.descr_coerce,
                             doc=W_AbstractIntObject.descr_coerce.__doc__),
     __oct__ = interp2app(W_IntObject.descr_oct,
                          doc=W_AbstractIntObject.descr_oct.__doc__),
     __hex__ = interp2app(W_IntObject.descr_hex,
                          doc=W_AbstractIntObject.descr_hex.__doc__),
+    __sacanuevosargs__ = interp2app(
+        W_IntObject.descr_getnewargs,
+        doc=W_AbstractIntObject.descr_getnewargs.__doc__),
     __getnewargs__ = interp2app(
         W_IntObject.descr_getnewargs,
         doc=W_AbstractIntObject.descr_getnewargs.__doc__),
 
+    __ent__ = interp2app(W_IntObject.int,
+                         doc=W_AbstractIntObject.int.__doc__),
     __int__ = interp2app(W_IntObject.int,
                          doc=W_AbstractIntObject.int.__doc__),
+    __larg__ = interp2app(W_IntObject.descr_long,
+                          doc=W_AbstractIntObject.descr_long.__doc__),
     __long__ = interp2app(W_IntObject.descr_long,
                           doc=W_AbstractIntObject.descr_long.__doc__),
+    __indice__ = interp2app(W_IntObject.descr_index,
+                           doc=W_AbstractIntObject.descr_index.__doc__),
     __index__ = interp2app(W_IntObject.descr_index,
                            doc=W_AbstractIntObject.descr_index.__doc__),
     __trunc__ = interp2app(W_IntObject.descr_trunc,
                            doc=W_AbstractIntObject.descr_trunc.__doc__),
+    __flot__ = interp2app(W_IntObject.descr_float,
+                           doc=W_AbstractIntObject.descr_float.__doc__),
     __float__ = interp2app(W_IntObject.descr_float,
                            doc=W_AbstractIntObject.descr_float.__doc__),
 
@@ -813,83 +846,148 @@ interpret the base from the string as an integer literal.
                          doc=W_AbstractIntObject.descr_neg.__doc__),
     __abs__ = interp2app(W_IntObject.descr_abs,
                          doc=W_AbstractIntObject.descr_abs.__doc__),
+    __nocero__ = interp2app(W_IntObject.descr_nonzero,
+                             doc=W_AbstractIntObject.descr_nonzero.__doc__),
     __nonzero__ = interp2app(W_IntObject.descr_nonzero,
                              doc=W_AbstractIntObject.descr_nonzero.__doc__),
+    __vuelta__ = interp2app(W_IntObject.descr_invert,
+                            doc=W_AbstractIntObject.descr_invert.__doc__),
     __invert__ = interp2app(W_IntObject.descr_invert,
                             doc=W_AbstractIntObject.descr_invert.__doc__),
 
+    __meq__ = interp2app(W_IntObject.descr_lt,
+                        doc=W_AbstractIntObject.descr_lt.__doc__),
     __lt__ = interp2app(W_IntObject.descr_lt,
                         doc=W_AbstractIntObject.descr_lt.__doc__),
+    __mei__ = interp2app(W_IntObject.descr_le,
+                        doc=W_AbstractIntObject.descr_le.__doc__),
     __le__ = interp2app(W_IntObject.descr_le,
                         doc=W_AbstractIntObject.descr_le.__doc__),
+    __ig__ = interp2app(W_IntObject.descr_eq,
+                        doc=W_AbstractIntObject.descr_eq.__doc__),
     __eq__ = interp2app(W_IntObject.descr_eq,
                         doc=W_AbstractIntObject.descr_eq.__doc__),
+    __ni__ = interp2app(W_IntObject.descr_ne,
+                        doc=W_AbstractIntObject.descr_ne.__doc__),
     __ne__ = interp2app(W_IntObject.descr_ne,
                         doc=W_AbstractIntObject.descr_ne.__doc__),
+    __maq__ = interp2app(W_IntObject.descr_gt,
+                        doc=W_AbstractIntObject.descr_gt.__doc__),
     __gt__ = interp2app(W_IntObject.descr_gt,
                         doc=W_AbstractIntObject.descr_gt.__doc__),
+    __mai__ = interp2app(W_IntObject.descr_ge,
+                        doc=W_AbstractIntObject.descr_ge.__doc__),
     __ge__ = interp2app(W_IntObject.descr_ge,
                         doc=W_AbstractIntObject.descr_ge.__doc__),
 
+    __mas__ = interp2app(W_IntObject.descr_add,
+                         doc=W_AbstractIntObject.descr_add.__doc__),
     __add__ = interp2app(W_IntObject.descr_add,
                          doc=W_AbstractIntObject.descr_add.__doc__),
+    __dmas__ = interp2app(W_IntObject.descr_radd,
+                          doc=W_AbstractIntObject.descr_radd.__doc__),
     __radd__ = interp2app(W_IntObject.descr_radd,
                           doc=W_AbstractIntObject.descr_radd.__doc__),
+    __rest__ = interp2app(W_IntObject.descr_sub,
+                         doc=W_AbstractIntObject.descr_sub.__doc__),
     __sub__ = interp2app(W_IntObject.descr_sub,
                          doc=W_AbstractIntObject.descr_sub.__doc__),
+    __drest__ = interp2app(W_IntObject.descr_rsub,
+                          doc=W_AbstractIntObject.descr_rsub.__doc__),
     __rsub__ = interp2app(W_IntObject.descr_rsub,
                           doc=W_AbstractIntObject.descr_rsub.__doc__),
     __mul__ = interp2app(W_IntObject.descr_mul,
                          doc=W_AbstractIntObject.descr_mul.__doc__),
+    __dmul__ = interp2app(W_IntObject.descr_rmul,
+                          doc=W_AbstractIntObject.descr_rmul.__doc__),
     __rmul__ = interp2app(W_IntObject.descr_rmul,
                           doc=W_AbstractIntObject.descr_rmul.__doc__),
 
+    __y__ = interp2app(W_IntObject.descr_and,
+                         doc=W_AbstractIntObject.descr_and.__doc__),
     __and__ = interp2app(W_IntObject.descr_and,
                          doc=W_AbstractIntObject.descr_and.__doc__),
+    __dy__ = interp2app(W_IntObject.descr_rand,
+                          doc=W_AbstractIntObject.descr_rand.__doc__),
     __rand__ = interp2app(W_IntObject.descr_rand,
                           doc=W_AbstractIntObject.descr_rand.__doc__),
+    __o__ = interp2app(W_IntObject.descr_or,
+                        doc=W_AbstractIntObject.descr_or.__doc__),
     __or__ = interp2app(W_IntObject.descr_or,
                         doc=W_AbstractIntObject.descr_or.__doc__),
+    __do__ = interp2app(W_IntObject.descr_ror,
+                         doc=W_AbstractIntObject.descr_ror.__doc__),
     __ror__ = interp2app(W_IntObject.descr_ror,
                          doc=W_AbstractIntObject.descr_ror.__doc__),
+    __oex__ = interp2app(W_IntObject.descr_xor,
+                         doc=W_AbstractIntObject.descr_xor.__doc__),
     __xor__ = interp2app(W_IntObject.descr_xor,
                          doc=W_AbstractIntObject.descr_xor.__doc__),
+    __doex__ = interp2app(W_IntObject.descr_rxor,
+                          doc=W_AbstractIntObject.descr_rxor.__doc__),
     __rxor__ = interp2app(W_IntObject.descr_rxor,
                           doc=W_AbstractIntObject.descr_rxor.__doc__),
 
+    __imover__ = interp2app(W_IntObject.descr_lshift,
+                            doc=W_AbstractIntObject.descr_lshift.__doc__),
     __lshift__ = interp2app(W_IntObject.descr_lshift,
                             doc=W_AbstractIntObject.descr_lshift.__doc__),
+    __dimover__ = interp2app(W_IntObject.descr_rlshift,
+                             doc=W_AbstractIntObject.descr_rlshift.__doc__),
     __rlshift__ = interp2app(W_IntObject.descr_rlshift,
                              doc=W_AbstractIntObject.descr_rlshift.__doc__),
+    __dmover__ = interp2app(W_IntObject.descr_rshift,
+                            doc=W_AbstractIntObject.descr_rshift.__doc__),
     __rshift__ = interp2app(W_IntObject.descr_rshift,
                             doc=W_AbstractIntObject.descr_rshift.__doc__),
+    __ddmover__ = interp2app(W_IntObject.descr_rrshift,
+                             doc=W_AbstractIntObject.descr_rrshift.__doc__),
     __rrshift__ = interp2app(W_IntObject.descr_rrshift,
                              doc=W_AbstractIntObject.descr_rrshift.__doc__),
 
+    __divinferior__ = interp2app(W_IntObject.descr_floordiv,
+                              doc=W_AbstractIntObject.descr_floordiv.__doc__),
     __floordiv__ = interp2app(W_IntObject.descr_floordiv,
                               doc=W_AbstractIntObject.descr_floordiv.__doc__),
+    __ddivinferior__ = interp2app(
+        W_IntObject.descr_rfloordiv,
+        doc=W_AbstractIntObject.descr_rfloordiv.__doc__),
     __rfloordiv__ = interp2app(
         W_IntObject.descr_rfloordiv,
         doc=W_AbstractIntObject.descr_rfloordiv.__doc__),
     __div__ = interp2app(W_IntObject.descr_div,
                          doc=W_AbstractIntObject.descr_div.__doc__),
+    __ddiv__ = interp2app(W_IntObject.descr_rdiv,
+                          doc=W_AbstractIntObject.descr_rdiv.__doc__),
     __rdiv__ = interp2app(W_IntObject.descr_rdiv,
                           doc=W_AbstractIntObject.descr_rdiv.__doc__),
+    __divcierto__ = interp2app(W_IntObject.descr_truediv,
+                             doc=W_AbstractIntObject.descr_truediv.__doc__),
     __truediv__ = interp2app(W_IntObject.descr_truediv,
                              doc=W_AbstractIntObject.descr_truediv.__doc__),
+    __ddivcierto__ = interp2app(W_IntObject.descr_rtruediv,
+                              doc=W_AbstractIntObject.descr_rtruediv.__doc__),
     __rtruediv__ = interp2app(W_IntObject.descr_rtruediv,
                               doc=W_AbstractIntObject.descr_rtruediv.__doc__),
     __mod__ = interp2app(W_IntObject.descr_mod,
                          doc=W_AbstractIntObject.descr_mod.__doc__),
+    __dmod__ = interp2app(W_IntObject.descr_rmod,
+                          doc=W_AbstractIntObject.descr_rmod.__doc__),
     __rmod__ = interp2app(W_IntObject.descr_rmod,
                           doc=W_AbstractIntObject.descr_rmod.__doc__),
     __divmod__ = interp2app(W_IntObject.descr_divmod,
                             doc=W_AbstractIntObject.descr_divmod.__doc__),
+    __ddivmod__ = interp2app(W_IntObject.descr_rdivmod,
+                             doc=W_AbstractIntObject.descr_rdivmod.__doc__),
     __rdivmod__ = interp2app(W_IntObject.descr_rdivmod,
                              doc=W_AbstractIntObject.descr_rdivmod.__doc__),
 
+    __pot__ = interp2app(W_IntObject.descr_pow,
+                         doc=W_AbstractIntObject.descr_pow.__doc__),
     __pow__ = interp2app(W_IntObject.descr_pow,
                          doc=W_AbstractIntObject.descr_pow.__doc__),
+    __dpot__ = interp2app(W_IntObject.descr_rpow,
+                          doc=W_AbstractIntObject.descr_rpow.__doc__),
     __rpow__ = interp2app(W_IntObject.descr_rpow,
                           doc=W_AbstractIntObject.descr_rpow.__doc__),
 )
