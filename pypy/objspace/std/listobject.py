@@ -427,13 +427,13 @@ class W_ListObject(W_Root):
 
     @staticmethod
     def descr_new(space, w_listtype, __args__):
-        """T.__new__(S, ...) -> a new object with type S, a subtype of T"""
+        """T.__new__(S, ...) -> un objecto nuevo con tipo S, un subtipo de T"""
         w_obj = space.allocate_instance(W_ListObject, w_listtype)
         w_obj.clear(space)
         return w_obj
 
     def descr_init(self, space, __args__):
-        """x.__init__(...) initializes x; see help(type(x)) for signature"""
+        """x.__init__(...) inicializa x; vea help(tipo(x)) para firma"""
         # this is on the silly side
         w_iterable, = __args__.parse_obj(
                 None, 'list', init_signature, init_defaults)
@@ -627,16 +627,15 @@ class W_ListObject(W_Root):
         self.deleteslice(start, 1, stop - start)
 
     def descr_reversed(self, space):
-        'L.__reversed__() -- return a reverse iterator over the list'
+        'L.__invertido__() -- vuelve un iterador invertir en la lista'
         return W_ReverseSeqIterObject(space, self, -1)
 
     def descr_reverse(self, space):
-        'L.reverse() -- reverse *IN PLACE*'
+        'L.invertir() -- invertir *EN SU LUGAR*'
         self.reverse()
 
     def descr_count(self, space, w_value):
-        '''L.count(value) -> integer -- return number of
-        occurrences of value'''
+        '''L.total(valor) -> entero -- volver número de casos de valor'''
         # needs to be safe against eq_w() mutating the w_list behind our back
         count = 0
         i = 0
@@ -648,15 +647,15 @@ class W_ListObject(W_Root):
 
     @unwrap_spec(index=int)
     def descr_insert(self, space, index, w_value):
-        'L.insert(index, object) -- insert object before index'
+        'L.insertar(índice, objeto) -- insertar objeto antes de índice'
         length = self.length()
         index = get_positive_index(index, length)
         self.insert(index, w_value)
 
     @unwrap_spec(index=int)
     def descr_pop(self, space, index=-1):
-        '''L.pop([index]) -> item -- remove and return item at
-        index (default last)'''
+        '''L.pop([índice]) -> artículo -- quitar y volver artículo en
+        índice (estándar es el final)'''
         length = self.length()
         if length == 0:
             raise oefmt(space.w_IndexError, "pop de lista vacía")
@@ -669,7 +668,7 @@ class W_ListObject(W_Root):
             return self.pop(index)
         except IndexError:
             raise oefmt(space.w_IndexError, "índice del pop fuera del rango")
-
+## hereAK
     def descr_remove(self, space, w_value):
         'L.remove(value) -- remove first occurrence of value'
         # needs to be safe against eq_w() mutating the w_list behind our back
@@ -2135,7 +2134,7 @@ W_ListObject.typedef = TypeDef("list",
     __doc__ = """lista() -> nueva lista vacía
 lista(iterable) -> nueva lista iniciada de artículos del iterable""",
     __new__ = interp2app(W_ListObject.descr_new),
-    __nueva__ = interp2app(W_ListObject.descr_new),
+    __nuevo__ = interp2app(W_ListObject.descr_new),
     __init__ = interp2app(W_ListObject.descr_init),
     __repr__ = interp2app(W_ListObject.descr_repr),
     __hash__ = None,
@@ -2188,8 +2187,8 @@ lista(iterable) -> nueva lista iniciada de artículos del iterable""",
     adjuntar = interp2app(W_ListObject.append),
     reverse = interp2app(W_ListObject.descr_reverse),
     opuesto = interp2app(W_ListObject.descr_reverse),
+    __invertido__ = interp2app(W_ListObject.descr_reversed),
     __reversed__ = interp2app(W_ListObject.descr_reversed),
-    __opuestado__ = interp2app(W_ListObject.descr_reversed),
     count = interp2app(W_ListObject.descr_count),
     total = interp2app(W_ListObject.descr_count),
     pop = interp2app(W_ListObject.descr_pop),

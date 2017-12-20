@@ -766,7 +766,7 @@ el base de la palabra como un entero literal.
     numerator = typedef.GetSetProperty(
         W_IntObject.descr_get_numerator,
         doc="el numerador de un número racional en terminos bajos"),
-    denominator = typedef.GetSetProperty(
+    denominador = typedef.GetSetProperty(
         W_IntObject.descr_get_denominator,
         doc="el denominador de un número racional en terminos bajos"),
     denominator = typedef.GetSetProperty(
@@ -775,12 +775,6 @@ el base de la palabra como un entero literal.
     real = typedef.GetSetProperty(
         W_IntObject.descr_get_real,
         doc="el parte real de un número complejo"),
-    real = typedef.GetSetProperty(
-        W_IntObject.descr_get_real,
-        doc="el parte real de un número complejo"),
-    imag = typedef.GetSetProperty(
-        W_IntObject.descr_get_imag,
-        doc="el parte imaginario de un número complejo"),
     imag = typedef.GetSetProperty(
         W_IntObject.descr_get_imag,
         doc="el parte imaginario de un número complejo"),

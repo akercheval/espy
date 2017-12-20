@@ -27,3 +27,5 @@
 ..* There's an XXX in dictmultiobject `_add_indirections` function where
         internal function names are created as raw strings. I didn't change it
         because I'm not entirely sure whether it's necessary to, but it might be.
+..* `kwargsdict.py` hasn't been changed - again, not sure what it does and it's 
+        not at all the same format as the other files in the `/std/` directory

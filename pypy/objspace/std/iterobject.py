@@ -1,4 +1,3 @@
-## hereAK
 """Generic iterator implementations"""
 
 from pypy.interpreter.baseobjspace import W_Root
@@ -43,15 +42,18 @@ class W_AbstractSeqIterObject(W_Root):
 
 W_AbstractSeqIterObject.typedef = TypeDef(
     "sequenceiterator",
-    __doc__ = '''iter(collection) -> iterator
-iter(callable, sentinel) -> iterator
+    __doc__ = '''iter(colección) -> iterador
+iter(llamable, centinela) -> iterador
 
-Get an iterator from an object.  In the first form, the argument must
-supply its own iterator, or be a sequence.
-In the second form, the callable is called until it returns the sentinel.''',
+Saca iterador de un objeto. En la forma primera, el argumento tiene que
+suministrar su propia iterador, o ser una secuencia.
+En la segunda forma, el llamable está llamado hasta que vuelva la centinela.''',
     __iter__ = interp2app(W_AbstractSeqIterObject.descr_iter),
+    sig = interpindirect2app(W_AbstractSeqIterObject.descr_next),
     next = interpindirect2app(W_AbstractSeqIterObject.descr_next),
+    __reducir__ = interp2app(W_AbstractSeqIterObject.descr_reduce),
     __reduce__ = interp2app(W_AbstractSeqIterObject.descr_reduce),
+    __tamano_pista__ = interp2app(W_AbstractSeqIterObject.descr_length_hint),
     __length_hint__ = interp2app(W_AbstractSeqIterObject.descr_length_hint),
 )
 W_AbstractSeqIterObject.typedef.acceptable_as_base_class = False
@@ -162,8 +164,11 @@ class W_ReverseSeqIterObject(W_Root):
 W_ReverseSeqIterObject.typedef = TypeDef(
     "reversesequenceiterator",
     __iter__ = interp2app(W_ReverseSeqIterObject.descr_iter),
+    sig = interp2app(W_ReverseSeqIterObject.descr_next),
     next = interp2app(W_ReverseSeqIterObject.descr_next),
+    __reducir__ = interp2app(W_ReverseSeqIterObject.descr_reduce),
     __reduce__ = interp2app(W_ReverseSeqIterObject.descr_reduce),
+    __tamano_pista__ = interp2app(W_ReverseSeqIterObject.descr_length_hint),
     __length_hint__ = interp2app(W_ReverseSeqIterObject.descr_length_hint),
 )
 W_ReverseSeqIterObject.typedef.acceptable_as_base_class = False
