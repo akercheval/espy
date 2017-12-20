@@ -668,9 +668,9 @@ class W_ListObject(W_Root):
             return self.pop(index)
         except IndexError:
             raise oefmt(space.w_IndexError, "índice del pop fuera del rango")
-## hereAK
+
     def descr_remove(self, space, w_value):
-        'L.remove(value) -- remove first occurrence of value'
+        'L.quitar(valor) -- quita primera instancia de valor'
         # needs to be safe against eq_w() mutating the w_list behind our back
         try:
             i = self.find(w_value, 0, sys.maxint)
@@ -682,8 +682,8 @@ class W_ListObject(W_Root):
 
     @unwrap_spec(w_start=WrappedDefault(0), w_stop=WrappedDefault(sys.maxint))
     def descr_index(self, space, w_value, w_start, w_stop):
-        '''L.index(value, [start, [stop]]) -> integer -- return
-        first index of value'''
+        '''L.indice(valor, [empieza, [fin]]) -> entero -- volver
+        primer índice de valor'''
         # needs to be safe against eq_w() mutating the w_list behind our back
         size = self.length()
         i, stop = unwrap_start_stop(space, size, w_start, w_stop)
@@ -696,8 +696,8 @@ class W_ListObject(W_Root):
 
     @unwrap_spec(reverse=bool)
     def descr_sort(self, space, w_cmp=None, w_key=None, reverse=False):
-        """ L.sort(cmp=None, key=None, reverse=False) -- stable
-        sort *IN PLACE*;
+        """ L.ordenar(cmp=Nada, clave=Nada, invertir=Falso) -- ordenación
+        estable *EN SU LUGAR*
         cmp(x, y) -> -1, 0, 1"""
         has_cmp = not space.is_none(w_cmp)
         has_key = not space.is_none(w_key)
@@ -872,7 +872,7 @@ class ListStrategy(object):
         raise NotImplementedError
 
     def _extend_from_iterable(self, w_list, w_iterable):
-        """Extend w_list from a generic iterable"""
+        """Extender w_lista de una iterable generica"""
         length_hint = self.space.length_hint(w_iterable, 0)
         if length_hint:
             w_list._resize_hint(w_list.length() + length_hint)
@@ -893,6 +893,7 @@ class ListStrategy(object):
         return False
 
 
+## no translation, not outward-facing - AK
 class EmptyListStrategy(ListStrategy):
     """EmptyListStrategy is used when a W_List withouth elements is created.
     The storage is None. When items are added to the W_List a new RPython list
@@ -2133,70 +2134,72 @@ class CustomKeyCompareSort(CustomCompareSort):
 W_ListObject.typedef = TypeDef("list",
     __doc__ = """lista() -> nueva lista vacía
 lista(iterable) -> nueva lista iniciada de artículos del iterable""",
-    __new__ = interp2app(W_ListObject.descr_new),
     __nuevo__ = interp2app(W_ListObject.descr_new),
-    __init__ = interp2app(W_ListObject.descr_init),
+    __new__ = interp2app(W_ListObject.descr_new),
     __repr__ = interp2app(W_ListObject.descr_repr),
+    __inic__ = interp2app(W_ListObject.descr_init),
+    __init__ = interp2app(W_ListObject.descr_init),
     __hash__ = None,
 
-    __eq__ = interp2app(W_ListObject.descr_eq),
     __ig__ = interp2app(W_ListObject.descr_eq),
-    __ne__ = interp2app(W_ListObject.descr_ne),
+    __eq__ = interp2app(W_ListObject.descr_eq),
     __ni__ = interp2app(W_ListObject.descr_ne),
-    __lt__ = interp2app(W_ListObject.descr_lt),
+    __ne__ = interp2app(W_ListObject.descr_ne),
     __meq__ = interp2app(W_ListObject.descr_lt),
-    __le__ = interp2app(W_ListObject.descr_le),
+    __lt__ = interp2app(W_ListObject.descr_lt),
     __mei__ = interp2app(W_ListObject.descr_le),
-    __gt__ = interp2app(W_ListObject.descr_gt),
+    __le__ = interp2app(W_ListObject.descr_le),
     __maq__ = interp2app(W_ListObject.descr_gt),
-    __ge__ = interp2app(W_ListObject.descr_ge),
+    __gt__ = interp2app(W_ListObject.descr_gt),
     __mai__ = interp2app(W_ListObject.descr_ge),
+    __ge__ = interp2app(W_ListObject.descr_ge),
 
-    __len__ = interp2app(W_ListObject.descr_len),
     __tam__ = interp2app(W_ListObject.descr_len),
+    __len__ = interp2app(W_ListObject.descr_len),
     __iter__ = interp2app(W_ListObject.descr_iter),
-    __contains__ = interp2app(W_ListObject.descr_contains),
     __contiene__ = interp2app(W_ListObject.descr_contains),
+    __contains__ = interp2app(W_ListObject.descr_contains),
 
-    __add__ = interp2app(W_ListObject.descr_add),
     __mas__ = interp2app(W_ListObject.descr_add),
-    __iadd__ = interp2app(W_ListObject.descr_inplace_add),
+    __add__ = interp2app(W_ListObject.descr_add),
     __imas__ = interp2app(W_ListObject.descr_inplace_add),
-    __mul__ = interp2app(W_ListObject.descr_mul),
+    __iadd__ = interp2app(W_ListObject.descr_inplace_add),
+    __dmul__ = interp2app(W_ListObject.descr_mul),
     __rmul__ = interp2app(W_ListObject.descr_mul),
+    __mul__ = interp2app(W_ListObject.descr_mul),
     __imul__ = interp2app(W_ListObject.descr_inplace_mul),
 
-    __getitem__ = interp2app(W_ListObject.descr_getitem),
     __sacaartic__ = interp2app(W_ListObject.descr_getitem),
-    __getslice__ = interp2app(W_ListObject.descr_getslice),
+    __getitem__ = interp2app(W_ListObject.descr_getitem),
     __sacaparte__ = interp2app(W_ListObject.descr_getslice),
-    __setitem__ = interp2app(W_ListObject.descr_setitem),
+    __getslice__ = interp2app(W_ListObject.descr_getslice),
     __ponartic__ = interp2app(W_ListObject.descr_setitem),
-    __setslice__ = interp2app(W_ListObject.descr_setslice),
+    __setitem__ = interp2app(W_ListObject.descr_setitem),
     __ponparte__ = interp2app(W_ListObject.descr_setslice),
-    __delitem__ = interp2app(W_ListObject.descr_delitem),
+    __setslice__ = interp2app(W_ListObject.descr_setslice),
     __elimartic__ = interp2app(W_ListObject.descr_delitem),
-    __delslice__ = interp2app(W_ListObject.descr_delslice),
+    __delitem__ = interp2app(W_ListObject.descr_delitem),
     __elimparte__ = interp2app(W_ListObject.descr_delslice),
+    __delslice__ = interp2app(W_ListObject.descr_delslice),
 
-    sort = interp2app(W_ListObject.descr_sort),
     ordenar = interp2app(W_ListObject.descr_sort),
-    index = interp2app(W_ListObject.descr_index),
+    sort = interp2app(W_ListObject.descr_sort),
     indice = interp2app(W_ListObject.descr_index),
-    append = interp2app(W_ListObject.append),
+    index = interp2app(W_ListObject.descr_index),
     adjuntar = interp2app(W_ListObject.append),
-    reverse = interp2app(W_ListObject.descr_reverse),
+    append = interp2app(W_ListObject.append),
     opuesto = interp2app(W_ListObject.descr_reverse),
+    reverse = interp2app(W_ListObject.descr_reverse),
     __invertido__ = interp2app(W_ListObject.descr_reversed),
     __reversed__ = interp2app(W_ListObject.descr_reversed),
-    count = interp2app(W_ListObject.descr_count),
     total = interp2app(W_ListObject.descr_count),
+    count = interp2app(W_ListObject.descr_count),
     pop = interp2app(W_ListObject.descr_pop),
-    extend = interp2app(W_ListObject.extend),
     extender = interp2app(W_ListObject.extend),
-    insert = interp2app(W_ListObject.descr_insert),
+    extend = interp2app(W_ListObject.extend),
     insertar = interp2app(W_ListObject.descr_insert),
-    remove = interp2app(W_ListObject.descr_remove),
+    insert = interp2app(W_ListObject.descr_insert),
     quitar = interp2app(W_ListObject.descr_remove),
+    remove = interp2app(W_ListObject.descr_remove),
 )
 W_ListObject.typedef.flag_sequence_bug_compat = True
