@@ -61,13 +61,13 @@ class W_AbstractLongObject(W_Root):
         return space.newtuple([newlong(space, self.asbigint())])
 
     def descr_conjugate(self, space):
-        """Returns self, the complex conjugate of any long."""
+        """Vuelve mismo, el conjugado complejo de un larg."""
         return space.long(self)
 
     def descr_bit_length(self, space):
-        """long.bit_length() -> int or long
+        """larg.bit_tamano() -> ent o larg
 
-        Number of bits necessary to represent self in binary.
+        Número de bits necesito para representar mismo en binario.
         >>> bin(37L)
         '0b100101'
         >>> (37L).bit_length()
@@ -77,32 +77,32 @@ class W_AbstractLongObject(W_Root):
         try:
             return space.newint(bigint.bit_length())
         except OverflowError:
-            raise oefmt(space.w_OverflowError, "too many digits in integer")
+            raise oefmt(space.w_OverflowError, "demasiado dígitos en entero")
 
     def _truediv(self, space, w_other):
         try:
             f = self.asbigint().truediv(w_other.asbigint())
         except ZeroDivisionError:
             raise oefmt(space.w_ZeroDivisionError,
-                        "long division or modulo by zero")
+                        "larg división o modulo por cero")
         except OverflowError:
             raise oefmt(space.w_OverflowError,
-                        "long/long too large for a float")
+                        "larg/larg demasiado grande para un flot")
         return space.newfloat(f)
 
     @delegate_other
     def descr_truediv(self, space, w_other):
-        """x.__truediv__(y) <==> x/y"""
+        """x.__divcierto__(y) <==> x/y"""
         return W_AbstractLongObject._truediv(self, space, w_other)
 
     @delegate_other
     def descr_rtruediv(self, space, w_other):
-        """x.__rtruediv__(y) <==> y/x"""
+        """x.__ddivcierto__(y) <==> y/x"""
         return W_AbstractLongObject._truediv(w_other, space, self)
 
     @delegate_other
     def descr_coerce(self, space, w_other):
-        """x.__coerce__(y) <==> coerce(x, y)"""
+        """x.__forzar__(y) <==> forzar(x, y)"""
         return space.newtuple([self, w_other])
 
     def descr_get_numerator(self, space):
@@ -140,10 +140,10 @@ class W_AbstractLongObject(W_Root):
     descr_hex = _make_descr_unaryop_text('hex')
 
     def descr_pow(self, space, w_exponent, w_modulus=None):
-        """x.__pow__(y[, z]) <==> pow(x, y[, z])"""
+        """x.__pot__(y[, z]) <==> pot(x, y[, z])"""
         raise NotImplementedError
     descr_rpow = func_with_new_name(descr_pow, 'descr_rpow')
-    descr_rpow.__doc__ = "y.__rpow__(x[, z]) <==> pow(x, y[, z])"
+    descr_rpow.__doc__ = "y.__rpot__(x[, z]) <==> pot(x, y[, z])"
 
     def _abstract_unaryop(opname, doc=None):
         @func_renamer('descr_' + opname)
@@ -152,17 +152,17 @@ class W_AbstractLongObject(W_Root):
         descr_unaryop.__doc__ = doc
         return descr_unaryop
 
-    descr_long = _abstract_unaryop('long', "x.__long__() <==> long(x)")
-    descr_float = _abstract_unaryop('float', "x.__float__() <==> float(x)")
+    descr_long = _abstract_unaryop('long', "x.__larg__() <==> larg(x)")
+    descr_float = _abstract_unaryop('float', "x.__flot__() <==> flot(x)")
     descr_index = _abstract_unaryop(
-        'index', "x[y:z] <==> x[y.__index__():z.__index__()]")
+        'index', "x[y:z] <==> x[y.__indice__():z.__indice__()]")
     descr_trunc = _abstract_unaryop('trunc',
-                                    "Truncating an Integral returns itself.")
+                                    "Truncar un Entero vuelve sí mismo")
     descr_pos = _abstract_unaryop('pos', "x.__pos__() <==> +x")
     descr_neg = _abstract_unaryop('neg', "x.__neg__() <==> -x")
     descr_abs = _abstract_unaryop('abs', "x.__abs__() <==> abs(x)")
-    descr_nonzero = _abstract_unaryop('nonzero', "x.__nonzero__() <==> x != 0")
-    descr_invert = _abstract_unaryop('invert', "x.__invert__() <==> ~x")
+    descr_nonzero = _abstract_unaryop('nonzero', "x.__nocero__() <==> x != 0")
+    descr_invert = _abstract_unaryop('invert', "x.__vuelta__() <==> ~x")
 
     def _abstract_cmpop(opname):
         @func_renamer('descr_' + opname)
@@ -230,7 +230,7 @@ class W_LongObject(W_AbstractLongObject):
             return self.num.tofloat()
         except OverflowError:
             raise oefmt(space.w_OverflowError,
-                        "long int too large to convert to float")
+                        "ent larg demasiado grande para convertir a flot")
 
     def toint(self):
         return self.num.toint()
@@ -253,17 +253,17 @@ class W_LongObject(W_AbstractLongObject):
             return self.num.toint()
         except OverflowError:
             raise oefmt(space.w_OverflowError,
-                        "long int too large to convert to int")
+                        "ent larg demasiado grande para convertir a ent")
 
     def uint_w(self, space):
         try:
             return self.num.touint()
         except ValueError:
             raise oefmt(space.w_ValueError,
-                        "cannot convert negative integer to unsigned int")
+                        "no puede convertir entero negativo a ent sin signo")
         except OverflowError:
             raise oefmt(space.w_OverflowError,
-                        "long int too large to convert to unsigned int")
+                        "ent larg demasiado grande para convertir a ent sin signo")
 
     def bigint_w(self, space, allow_conversion=True):
         return self.num
@@ -326,12 +326,12 @@ class W_LongObject(W_AbstractLongObject):
 
         if w_exponent.asbigint().sign < 0:
             raise oefmt(space.w_TypeError,
-                        "pow() 2nd argument cannot be negative when 3rd "
-                        "argument specified")
+                        "pot() argumento segundo no puede ser negativo cuando "
+                        "argumento tercero está dado")
         try:
             result = self.num.pow(w_exponent.asbigint(), w_modulus.asbigint())
         except ValueError:
-            raise oefmt(space.w_ValueError, "pow 3rd argument cannot be 0")
+            raise oefmt(space.w_ValueError, "pot argumento tercero no puede ser 0")
         return W_LongObject(result)
 
     @unwrap_spec(w_modulus=WrappedDefault(None))
@@ -391,7 +391,7 @@ class W_LongObject(W_AbstractLongObject):
 
     def _make_generic_descr_binop(opname):
         if opname not in COMMUTATIVE_OPS:
-            raise Exception("Not supported")
+            raise Exception("No apoyado")
 
         methname = opname + '_' if opname in ('and', 'or') else opname
         descr_rname = 'descr_r' + opname
@@ -453,32 +453,32 @@ class W_LongObject(W_AbstractLongObject):
 
     def _lshift(self, space, w_other):
         if w_other.asbigint().sign < 0:
-            raise oefmt(space.w_ValueError, "negative shift count")
+            raise oefmt(space.w_ValueError, "total de movimiento negativo")
         try:
             shift = w_other.asbigint().toint()
         except OverflowError:   # b too big
-            raise oefmt(space.w_OverflowError, "shift count too large")
+            raise oefmt(space.w_OverflowError, "total de movimiento demasiado grande")
         return W_LongObject(self.num.lshift(shift))
 
     def _int_lshift(self, space, w_other):
         if w_other < 0:
-            raise oefmt(space.w_ValueError, "negative shift count")
+            raise oefmt(space.w_ValueError, "total de movimiento negativo")
         return W_LongObject(self.num.lshift(w_other))
 
     descr_lshift, descr_rlshift = _make_descr_binop(_lshift, _int_lshift)
 
     def _rshift(self, space, w_other):
         if w_other.asbigint().sign < 0:
-            raise oefmt(space.w_ValueError, "negative shift count")
+            raise oefmt(space.w_ValueError, "total de movimiento negativo")
         try:
             shift = w_other.asbigint().toint()
         except OverflowError:   # b too big # XXX maybe just return 0L instead?
-            raise oefmt(space.w_OverflowError, "shift count too large")
+            raise oefmt(space.w_OverflowError, "total de movimiento demasiado grande")
         return newlong(space, self.num.rshift(shift))
 
     def _int_rshift(self, space, w_other):
         if w_other < 0:
-            raise oefmt(space.w_ValueError, "negative shift count")
+            raise oefmt(space.w_ValueError, "total de movimiento negativo")
 
         return newlong(space, self.num.rshift(w_other))
     descr_rshift, descr_rrshift = _make_descr_binop(_rshift, _int_rshift)
@@ -488,7 +488,7 @@ class W_LongObject(W_AbstractLongObject):
             z = self.num.floordiv(w_other.asbigint())
         except ZeroDivisionError:
             raise oefmt(space.w_ZeroDivisionError,
-                        "long division or modulo by zero")
+                        "larg división o modulo por cero")
         return newlong(space, z)
 
     def _floordiv(self, space, w_other):
@@ -496,7 +496,7 @@ class W_LongObject(W_AbstractLongObject):
             z = self.num.floordiv(w_other.asbigint())
         except ZeroDivisionError:
             raise oefmt(space.w_ZeroDivisionError,
-                        "long division or modulo by zero")
+                        "larg división o modulo por cero")
         return newlong(space, z)
     descr_floordiv, descr_rfloordiv = _make_descr_binop(_floordiv)
 
@@ -508,7 +508,7 @@ class W_LongObject(W_AbstractLongObject):
             z = self.num.mod(w_other.asbigint())
         except ZeroDivisionError:
             raise oefmt(space.w_ZeroDivisionError,
-                        "long division or modulo by zero")
+                        "larg división o modulo por cero")
         return newlong(space, z)
 
     def _int_mod(self, space, w_other):
@@ -516,7 +516,7 @@ class W_LongObject(W_AbstractLongObject):
             z = self.num.int_mod(w_other)
         except ZeroDivisionError:
             raise oefmt(space.w_ZeroDivisionError,
-                        "long division or modulo by zero")
+                        "larg división o modulo por cero")
         return newlong(space, z)
     descr_mod, descr_rmod = _make_descr_binop(_mod, _int_mod)
 
@@ -525,7 +525,7 @@ class W_LongObject(W_AbstractLongObject):
             div, mod = self.num.divmod(w_other.asbigint())
         except ZeroDivisionError:
             raise oefmt(space.w_ZeroDivisionError,
-                        "long division or modulo by zero")
+                        "larg división o modulo por cero")
         return space.newtuple([newlong(space, div), newlong(space, mod)])
     descr_divmod, descr_rdivmod = _make_descr_binop(_divmod)
 
@@ -593,8 +593,8 @@ def descr__new__(space, w_longtype, w_x, w_base=None):
                 if not e.match(space, space.w_TypeError):
                     raise
                 raise oefmt(space.w_TypeError,
-                            "long() argument must be a string or a number, "
-                            "not '%T'", w_value)
+                            "larg() argumento tiene que ser palabra o número, "
+                            "no '%T'", w_value)
             else:
                 return _string_to_w_long(space, w_longtype, w_value, buf)
     else:
@@ -608,8 +608,8 @@ def descr__new__(space, w_longtype, w_x, w_base=None):
                 s = space.bytes_w(w_value)
             except OperationError:
                 raise oefmt(space.w_TypeError,
-                            "long() can't convert non-string with explicit "
-                            "base")
+                            "larg() no puede convertir no-palabra con base "
+                            "explícito")
         return _string_to_w_long(space, w_longtype, w_value, s, base)
 
 
@@ -643,95 +643,143 @@ def newbigint(space, w_longtype, bigint):
 
 
 W_AbstractLongObject.typedef = TypeDef("long",
-    __doc__ = """long(x=0) -> long
-long(x, base=10) -> long
+    __doc__ = """larg(x=0) -> larg
+larg(x, base=10) -> larg
 
-Convert a number or string to a long integer, or return 0L if no arguments
-are given.  If x is floating point, the conversion truncates towards zero.
+Convertir un numero o palabra a un entero largo, o volver 0L si no argumentos
+son ddos. Si x es un flot, la conversión trunca a cero.
 
-If x is not a number or if base is given, then x must be a string or
-Unicode object representing an integer literal in the given base.  The
-literal can be preceded by '+' or '-' and be surrounded by whitespace.
-The base defaults to 10.  Valid bases are 0 and 2-36.  Base 0 means to
-interpret the base from the string as an integer literal.
->>> int('0b100', base=0)
+Si x no es un número o el base no está dado, x tiene que ser una palabra o
+Unicod objeto representando un enterl literal en el base dado. El literal
+puede ser precedido por un '+' o '-' y ser envuelto por espacio blanco.
+El estándar para el base es 10. Bases válidas son 0 y 2-36. Base 0 quiere decir
+interpretar el base de la palabra como entero literal.
+>>> ent('0b100', base=0)
 4L""",
+    __nuevo__ = interp2app(descr__new__),
     __new__ = interp2app(descr__new__),
 
+    numerador = typedef.GetSetProperty(
+        W_AbstractLongObject.descr_get_numerator,
+        doc="el numerador de un número racional en términos bajos"),
     numerator = typedef.GetSetProperty(
         W_AbstractLongObject.descr_get_numerator,
-        doc="the numerator of a rational number in lowest terms"),
+        doc="el numerador de un número racional en términos bajos"),
+    denominador = typedef.GetSetProperty(
+        W_AbstractLongObject.descr_get_denominator,
+        doc="el denominador de un número racional en términos bajos"),
     denominator = typedef.GetSetProperty(
         W_AbstractLongObject.descr_get_denominator,
-        doc="the denominator of a rational number in lowest terms"),
+        doc="el denominador de un número racional en términos bajos"),
     real = typedef.GetSetProperty(
         W_AbstractLongObject.descr_get_real,
-        doc="the real part of a complex number"),
+        doc="el parte real de un número complejo"),
     imag = typedef.GetSetProperty(
         W_AbstractLongObject.descr_get_imag,
-        doc="the imaginary part of a complex number"),
+        doc="el parte imaginario de un número complejo"),
 
     __repr__ = interp2app(W_AbstractLongObject.descr_repr),
+    __pal__ = interp2app(W_AbstractLongObject.descr_str),
     __str__ = interp2app(W_AbstractLongObject.descr_str),
 
+    conjugar = interpindirect2app(W_AbstractLongObject.descr_conjugate),
     conjugate = interpindirect2app(W_AbstractLongObject.descr_conjugate),
+    tamano_bit = interpindirect2app(W_AbstractLongObject.descr_bit_length),
     bit_length = interpindirect2app(W_AbstractLongObject.descr_bit_length),
+    __formato__ = interpindirect2app(W_AbstractLongObject.descr_format),
     __format__ = interpindirect2app(W_AbstractLongObject.descr_format),
     __hash__ = interpindirect2app(W_AbstractLongObject.descr_hash),
+    __forzar__ = interpindirect2app(W_AbstractLongObject.descr_coerce),
     __coerce__ = interpindirect2app(W_AbstractLongObject.descr_coerce),
     __oct__ = interpindirect2app(W_AbstractLongObject.descr_oct),
     __hex__ = interpindirect2app(W_AbstractLongObject.descr_hex),
+    __sacanuevosargs__ = interpindirect2app(W_AbstractLongObject.descr_getnewargs),
     __getnewargs__ = interpindirect2app(W_AbstractLongObject.descr_getnewargs),
 
+    __dnt__ = interpindirect2app(W_AbstractLongObject.int),
     __int__ = interpindirect2app(W_AbstractLongObject.int),
+    __larg__ = interpindirect2app(W_AbstractLongObject.descr_long),
     __long__ = interpindirect2app(W_AbstractLongObject.descr_long),
+    __indice__ = interpindirect2app(W_AbstractLongObject.descr_index),
     __index__ = interpindirect2app(W_AbstractLongObject.descr_index),
     __trunc__ = interpindirect2app(W_AbstractLongObject.descr_trunc),
+    __flot__ = interpindirect2app(W_AbstractLongObject.descr_float),
     __float__ = interpindirect2app(W_AbstractLongObject.descr_float),
 
     __pos__ = interpindirect2app(W_AbstractLongObject.descr_pos),
     __neg__ = interpindirect2app(W_AbstractLongObject.descr_neg),
     __abs__ = interpindirect2app(W_AbstractLongObject.descr_abs),
+    __nocero__ = interpindirect2app(W_AbstractLongObject.descr_nonzero),
     __nonzero__ = interpindirect2app(W_AbstractLongObject.descr_nonzero),
+    __vuelta__ = interpindirect2app(W_AbstractLongObject.descr_invert),
     __invert__ = interpindirect2app(W_AbstractLongObject.descr_invert),
 
+    __meq__ = interpindirect2app(W_AbstractLongObject.descr_lt),
     __lt__ = interpindirect2app(W_AbstractLongObject.descr_lt),
+    __mei__ = interpindirect2app(W_AbstractLongObject.descr_le),
     __le__ = interpindirect2app(W_AbstractLongObject.descr_le),
+    __ig__ = interpindirect2app(W_AbstractLongObject.descr_eq),
     __eq__ = interpindirect2app(W_AbstractLongObject.descr_eq),
+    __ni__ = interpindirect2app(W_AbstractLongObject.descr_ne),
     __ne__ = interpindirect2app(W_AbstractLongObject.descr_ne),
+    __maq__ = interpindirect2app(W_AbstractLongObject.descr_gt),
     __gt__ = interpindirect2app(W_AbstractLongObject.descr_gt),
+    __mai__ = interpindirect2app(W_AbstractLongObject.descr_ge),
     __ge__ = interpindirect2app(W_AbstractLongObject.descr_ge),
 
+    __mas__ = interpindirect2app(W_AbstractLongObject.descr_add),
     __add__ = interpindirect2app(W_AbstractLongObject.descr_add),
+    __dmas__ = interpindirect2app(W_AbstractLongObject.descr_radd),
     __radd__ = interpindirect2app(W_AbstractLongObject.descr_radd),
     __sub__ = interpindirect2app(W_AbstractLongObject.descr_sub),
+    __dsub__ = interpindirect2app(W_AbstractLongObject.descr_rsub),
     __rsub__ = interpindirect2app(W_AbstractLongObject.descr_rsub),
     __mul__ = interpindirect2app(W_AbstractLongObject.descr_mul),
+    __dmul__ = interpindirect2app(W_AbstractLongObject.descr_rmul),
     __rmul__ = interpindirect2app(W_AbstractLongObject.descr_rmul),
 
+    __y__ = interpindirect2app(W_AbstractLongObject.descr_and),
     __and__ = interpindirect2app(W_AbstractLongObject.descr_and),
+    __dy__ = interpindirect2app(W_AbstractLongObject.descr_rand),
     __rand__ = interpindirect2app(W_AbstractLongObject.descr_rand),
+    __o__ = interpindirect2app(W_AbstractLongObject.descr_or),
     __or__ = interpindirect2app(W_AbstractLongObject.descr_or),
+    __do__ = interpindirect2app(W_AbstractLongObject.descr_ror),
     __ror__ = interpindirect2app(W_AbstractLongObject.descr_ror),
+    __oex__ = interpindirect2app(W_AbstractLongObject.descr_xor),
     __xor__ = interpindirect2app(W_AbstractLongObject.descr_xor),
+    __doex__ = interpindirect2app(W_AbstractLongObject.descr_rxor),
     __rxor__ = interpindirect2app(W_AbstractLongObject.descr_rxor),
 
+    __imover__ = interpindirect2app(W_AbstractLongObject.descr_lshift),
     __lshift__ = interpindirect2app(W_AbstractLongObject.descr_lshift),
+    __dimover__ = interpindirect2app(W_AbstractLongObject.descr_rlshift),
     __rlshift__ = interpindirect2app(W_AbstractLongObject.descr_rlshift),
+    __dmover__ = interpindirect2app(W_AbstractLongObject.descr_rshift),
     __rshift__ = interpindirect2app(W_AbstractLongObject.descr_rshift),
+    __ddmover__ = interpindirect2app(W_AbstractLongObject.descr_rrshift),
     __rrshift__ = interpindirect2app(W_AbstractLongObject.descr_rrshift),
 
+    __divinferior__ = interpindirect2app(W_AbstractLongObject.descr_floordiv),
     __floordiv__ = interpindirect2app(W_AbstractLongObject.descr_floordiv),
+    __ddivinferior__ = interpindirect2app(W_AbstractLongObject.descr_rfloordiv),
     __rfloordiv__ = interpindirect2app(W_AbstractLongObject.descr_rfloordiv),
     __div__ = interpindirect2app(W_AbstractLongObject.descr_div),
+    __ddiv__ = interpindirect2app(W_AbstractLongObject.descr_rdiv),
     __rdiv__ = interpindirect2app(W_AbstractLongObject.descr_rdiv),
+    __divcierto__ = interpindirect2app(W_AbstractLongObject.descr_truediv),
     __truediv__ = interpindirect2app(W_AbstractLongObject.descr_truediv),
+    __ddivcierto__ = interpindirect2app(W_AbstractLongObject.descr_rtruediv),
     __rtruediv__ = interpindirect2app(W_AbstractLongObject.descr_rtruediv),
     __mod__ = interpindirect2app(W_AbstractLongObject.descr_mod),
+    __dmod__ = interpindirect2app(W_AbstractLongObject.descr_rmod),
     __rmod__ = interpindirect2app(W_AbstractLongObject.descr_rmod),
     __divmod__ = interpindirect2app(W_AbstractLongObject.descr_divmod),
+    __ddivmod__ = interpindirect2app(W_AbstractLongObject.descr_rdivmod),
     __rdivmod__ = interpindirect2app(W_AbstractLongObject.descr_rdivmod),
 
+    __pot__ = interpindirect2app(W_AbstractLongObject.descr_pow),
     __pow__ = interpindirect2app(W_AbstractLongObject.descr_pow),
+    __dpot__ = interpindirect2app(W_AbstractLongObject.descr_rpow),
     __rpow__ = interpindirect2app(W_AbstractLongObject.descr_rpow),
 )
