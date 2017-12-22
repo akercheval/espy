@@ -117,16 +117,16 @@ class W_MemoryView(W_Root):
         if step == 0:  # index only
             dim = self.getndim()
             if dim == 0:
-                raise oefmt(space.w_TypeError, "invalid indexing of 0-dim memory")
+                raise oefmt(space.w_TypeError, "índice de memoria 0-dim inválida")
             elif dim == 1:
                 return self.view.w_getitem(space, start)
             else:
-                raise oefmt(space.w_NotImplementedError, "multi-dimensional sub-views are not implemented")
+                raise oefmt(space.w_NotImplementedError, "sub-vistas multi-dimensionales no son implementadas")
         elif is_slice:
             return self.view.new_slice(start, step, slicelength).wrap(space)
         # multi index is handled at the top of this function
         else:
-            raise TypeError("memoryview: invalid slice key")
+            raise TypeError("vistamemoria: clave de cortar inválida")
 
     @staticmethod
     def copy(w_view):
@@ -137,7 +137,7 @@ class W_MemoryView(W_Root):
     def descr_setitem(self, space, w_index, w_obj):
         self._check_released(space)
         if self.view.readonly:
-            raise oefmt(space.w_TypeError, "cannot modify read-only memory")
+            raise oefmt(space.w_TypeError, "no puede modificar memoria solo-leer")
         start, stop, step, size = space.decode_index4(w_index, self.getlength())
         if step not in (0, 1):
             raise oefmt(space.w_NotImplementedError, "")
@@ -147,7 +147,7 @@ class W_MemoryView(W_Root):
         value = space.buffer_w(w_obj, space.BUF_CONTIG_RO)
         if value.getlength() != slicelength * itemsize:
             raise oefmt(space.w_ValueError,
-                        "cannot modify size of memoryview object")
+                        "no puede modificar tamaño de objeto vistamemoria")
         self.view.setbytes(start * itemsize, value.as_str())
 
     def descr_len(self, space):
@@ -194,7 +194,7 @@ class W_MemoryView(W_Root):
     def _check_released(self, space):
         if self.view is None:
             raise oefmt(space.w_ValueError,
-                        "operation forbidden on released memoryview object")
+                        "operación prohibida en objeto vistamemoria")
 
     def descr_pypy_raw_address(self, space):
         from rpython.rtyper.lltypesystem import lltype, rffi
@@ -203,8 +203,8 @@ class W_MemoryView(W_Root):
         except ValueError:
             # report the error using the RPython-level internal repr of
             # self.view
-            msg = ("cannot find the underlying address of buffer that "
-                   "is internally %r" % (self.view,))
+            msg = ("no puede encontrar la dirección del búfer que es internalmente "
+                   "%r" % (self.view,))
             raise OperationError(space.w_ValueError, space.newtext(msg))
         return space.newint(rffi.cast(lltype.Signed, ptr))
 
@@ -239,25 +239,42 @@ class W_MemoryView(W_Root):
 W_MemoryView.typedef = TypeDef(
     "memoryview",
     __doc__ = """\
-Create a new memoryview object which references the given object.
+Crear un objeto vistamemoria que menciona el objeto dado.
 """,
+    __nuevo__     = interp2app(W_MemoryView.descr_new_memoryview),
     __new__     = interp2app(W_MemoryView.descr_new_memoryview),
+    __ig__      = interp2app(W_MemoryView.descr_eq),
     __eq__      = interp2app(W_MemoryView.descr_eq),
-    __ge__      = interp2app(W_MemoryView.descr_ge),
+    __mai__     = interp2app(W_MemoryView.descr_ge),
+    __ge__     = interp2app(W_MemoryView.descr_ge),
+    __sacaartic__ = interp2app(W_MemoryView.descr_getitem),
     __getitem__ = interp2app(W_MemoryView.descr_getitem),
+    __maq__      = interp2app(W_MemoryView.descr_gt),
     __gt__      = interp2app(W_MemoryView.descr_gt),
+    __mei__      = interp2app(W_MemoryView.descr_le),
     __le__      = interp2app(W_MemoryView.descr_le),
+    __tam__     = interp2app(W_MemoryView.descr_len),
     __len__     = interp2app(W_MemoryView.descr_len),
+    __meq__      = interp2app(W_MemoryView.descr_lt),
     __lt__      = interp2app(W_MemoryView.descr_lt),
+    __ni__      = interp2app(W_MemoryView.descr_ne),
     __ne__      = interp2app(W_MemoryView.descr_ne),
+    __ponartic__ = interp2app(W_MemoryView.descr_setitem),
     __setitem__ = interp2app(W_MemoryView.descr_setitem),
+    abytes     = interp2app(W_MemoryView.descr_tobytes),
     tobytes     = interp2app(W_MemoryView.descr_tobytes),
+    alista      = interp2app(W_MemoryView.descr_tolist),
     tolist      = interp2app(W_MemoryView.descr_tolist),
+    formato      = GetSetProperty(W_MemoryView.w_get_format),
     format      = GetSetProperty(W_MemoryView.w_get_format),
+    tamartic    = GetSetProperty(W_MemoryView.w_get_itemsize),
     itemsize    = GetSetProperty(W_MemoryView.w_get_itemsize),
     ndim        = GetSetProperty(W_MemoryView.w_get_ndim),
+    sololeer    = GetSetProperty(W_MemoryView.w_is_readonly),
     readonly    = GetSetProperty(W_MemoryView.w_is_readonly),
+    forma       = GetSetProperty(W_MemoryView.w_get_shape),
     shape       = GetSetProperty(W_MemoryView.w_get_shape),
+    trancos     = GetSetProperty(W_MemoryView.w_get_strides),
     strides     = GetSetProperty(W_MemoryView.w_get_strides),
     suboffsets  = GetSetProperty(W_MemoryView.w_get_suboffsets),
     _pypy_raw_address = interp2app(W_MemoryView.descr_pypy_raw_address),

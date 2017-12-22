@@ -25,7 +25,7 @@ def _parse_int(space, s, start, end):
         if 0 <= digit <= 9:
             if result > (sys.maxint - digit) / 10:
                 raise oefmt(space.w_ValueError,
-                            "too many decimal digits in format string")
+                            "demasiados dígitos decimales en palabra de formato")
             result = result * 10 + digit
         else:
             break
@@ -85,7 +85,7 @@ def make_template_formatting_class(for_unicode):
             else:
                 out = rstring.StringBuilder()
             if not level:
-                raise oefmt(space.w_ValueError, "Recursion depth exceeded")
+                raise oefmt(space.w_ValueError, "Profundidad de recursión excedida")
             level -= 1
             s = self.template
             return self._do_build_string(start, end, level, out, s)
@@ -103,12 +103,12 @@ def make_template_formatting_class(for_unicode):
                     markup_follows = True
                     if c == "}":
                         if at_end or s[i] != "}":
-                            raise oefmt(space.w_ValueError, "Single '}'")
+                            raise oefmt(space.w_ValueError, "Solo '}'")
                         i += 1
                         markup_follows = False
                     if c == "{":
                         if at_end:
-                            raise oefmt(space.w_ValueError, "Single '{'")
+                            raise oefmt(space.w_ValueError, "Solo '{'")
                         if s[i] == "{":
                             i += 1
                             markup_follows = False
@@ -140,7 +140,7 @@ def make_template_formatting_class(for_unicode):
                                 break
                         i += 1
                     if nested:
-                        raise oefmt(space.w_ValueError, "Unmatched '{'")
+                        raise oefmt(space.w_ValueError, "'{' sin pareja")
                     rendered = self._render_field(field_start, i, recursive, level)
                     out.append(rendered)
                     i += 1
@@ -163,14 +163,14 @@ def make_template_formatting_class(for_unicode):
                         i += 1
                         if i == end:
                             raise oefmt(self.space.w_ValueError,
-                                        "expected conversion")
+                                        "conversión anticipada")
                         conversion = s[i]
                         i += 1
                         if i < end:
                             if s[i] != ':':
                                 raise oefmt(self.space.w_ValueError,
-                                            "expected ':' after format "
-                                            "specifier")
+                                            "anticipó ':' después de especificador "
+                                            "de formato")
                             i += 1
                     else:
                         conversion = None
@@ -207,11 +207,11 @@ def make_template_formatting_class(for_unicode):
                 if self.auto_numbering_state == ANS_MANUAL:
                     if empty:
                         raise oefmt(space.w_ValueError,
-                                    "switching from manual to automatic "
-                                    "numbering")
+                                    "cambiando de enumeración manual a "
+                                    "automática")
                 elif not empty:
                     raise oefmt(space.w_ValueError,
-                                "switching from automatic to manual numbering")
+                                "cambiando de enumeración automática a manual")
             if empty:
                 index = self.auto_numbering
                 self.auto_numbering += 1
@@ -229,7 +229,7 @@ def make_template_formatting_class(for_unicode):
                 try:
                     w_arg = self.args[index]
                 except IndexError:
-                    raise oefmt(space.w_IndexError, "out of range")
+                    raise oefmt(space.w_IndexError, "fuera del rango")
             return self._resolve_lookups(w_arg, name, i, end)
 
         @jit.unroll_safe
@@ -249,7 +249,7 @@ def make_template_formatting_class(for_unicode):
                         i += 1
                     if start == i:
                         raise oefmt(space.w_ValueError,
-                                    "Empty attribute in format string")
+                                    "Atributo vacío en palabra de formato")
                     w_attr = self.wrap(name[start:i])
                     if w_obj is not None:
                         w_obj = space.getattr(w_obj, w_attr)
@@ -267,7 +267,7 @@ def make_template_formatting_class(for_unicode):
                             break
                         i += 1
                     if not got_bracket:
-                        raise oefmt(space.w_ValueError, "Missing ']'")
+                        raise oefmt(space.w_ValueError, "']' perdido")
                     index, reached = _parse_int(self.space, name, start, i)
                     if index != -1 and reached == i:
                         w_item = space.newint(index)
@@ -281,7 +281,7 @@ def make_template_formatting_class(for_unicode):
                             space.w_False, w_item]))
                 else:
                     raise oefmt(space.w_ValueError,
-                                "Only '[' and '.' may follow ']'")
+                                "Solo '[' y '.' pueden seguir ']'")
             return w_obj
 
         def formatter_field_name_split(self):
@@ -321,7 +321,7 @@ def make_template_formatting_class(for_unicode):
                     return space.call_function(space.w_unicode, w_obj)
                 return space.str(w_obj)
             else:
-                raise oefmt(space.w_ValueError, "invalid conversion")
+                raise oefmt(space.w_ValueError, "conversión inválida")
 
         def _render_field(self, start, end, recursive, level):
             name, conversion, spec_start = self._parse_field(start, end)
@@ -485,9 +485,9 @@ def make_formatting_class(for_unicode):
                 i += 1
                 self._precision, i = _parse_int(self.space, spec, i, length)
                 if self._precision == -1:
-                    raise oefmt(space.w_ValueError, "no precision given")
+                    raise oefmt(space.w_ValueError, "no precisión dada")
             if length - i > 1:
-                raise oefmt(space.w_ValueError, "invalid format spec")
+                raise oefmt(space.w_ValueError, "espec de formato inválida")
             if length - i == 1:
                 presentation_type = spec[i]
                 if self.is_unicode:
@@ -495,7 +495,7 @@ def make_formatting_class(for_unicode):
                         the_type = spec[i].encode("ascii")[0]
                     except UnicodeEncodeError:
                         raise oefmt(space.w_ValueError,
-                                    "invalid presentation type")
+                                    "tipo de precisión inválido")
                 else:
                     the_type = presentation_type
                 i += 1
@@ -514,7 +514,7 @@ def make_formatting_class(for_unicode):
                     # ok
                     pass
                 else:
-                    raise oefmt(space.w_ValueError, "invalid type with ','")
+                    raise oefmt(space.w_ValueError, "tipo inválido con ','")
             return False
 
         def _calc_padding(self, string, length):
@@ -558,7 +558,7 @@ def make_formatting_class(for_unicode):
 
         def _unknown_presentation(self, tp):
             raise oefmt(self.space.w_ValueError,
-                        "unknown presentation for %s: '%s'", tp, self._type)
+                        "presentación no conocida para %s: '%s'", tp, self._type)
 
         def format_string(self, string):
             space = self.space
@@ -568,15 +568,15 @@ def make_formatting_class(for_unicode):
                 self._unknown_presentation("string")
             if self._sign != "\0":
                 raise oefmt(space.w_ValueError,
-                            "Sign not allowed in string format specifier")
+                            "Signo no permitido en especificador de formato de palabra")
             if self._alternate:
                 raise oefmt(space.w_ValueError,
-                            "Alternate form (#) not allowed in string format "
-                            "specifier")
+                            "Forma alternativa (#) no permitdo en especificador "
+                            "de formato de palabra")
             if self._align == "=":
                 raise oefmt(space.w_ValueError,
-                            "'=' alignment not allowed in string format "
-                            "specifier")
+                            "'=' aligneamiento no permitido en especificador "
+                            "de formato de palabra")
             length = len(string)
             precision = self._precision
             if precision != -1 and length >= precision:
@@ -775,18 +775,18 @@ def make_formatting_class(for_unicode):
             space = self.space
             if self._precision != -1:
                 raise oefmt(space.w_ValueError,
-                            "precision not allowed in integer type")
+                            "precisión no permitido en tipo de entero")
             sign_char = "\0"
             tp = self._type
             if tp == "c":
                 if self._sign != "\0":
                     raise oefmt(space.w_ValueError,
-                                "sign not allowed with 'c' presentation type")
+                                "signo no permitido con tipo de presentación 'c'")
                 value = space.int_w(w_num)
                 max_char = runicode.MAXUNICODE if self.is_unicode else 0xFF
                 if not (0 <= value <= max_char):
                     raise oefmt(space.w_OverflowError,
-                                "%%c arg not in range(%s)",
+                                "%%c arg no en rango(%s)",
                                 hex(max_char))
                 if self.is_unicode:
                     result = runicode.UNICHR(value)
@@ -942,7 +942,7 @@ def make_formatting_class(for_unicode):
             default_precision = 6
             if self._alternate:
                 raise oefmt(space.w_ValueError,
-                            "Alternate form (#) not allowed in float formats")
+                            "Forma alternativa (#) no permitido en formatos de flot")
             tp = self._type
             self._get_locale(tp)
             if tp == "\0":
@@ -1011,18 +1011,18 @@ def make_formatting_class(for_unicode):
             if self._align == "=":
                 # '=' alignment is invalid
                 raise oefmt(space.w_ValueError,
-                            "'=' alignment flag is not allowed in complex "
-                            "format specifier")
+                            "'=' señal de alineamiento no permitido en "
+                            "especificador de formato")
             if self._fill_char == "0":
                 # zero padding is invalid
                 raise oefmt(space.w_ValueError,
-                            "Zero padding is not allowed in complex format "
-                            "specifier")
+                            "Cero relleno no permitido en especificador de "
+                            "formato complejo")
             if self._alternate:
                 # alternate is invalid
                 raise oefmt(space.w_ValueError,
-                            "Alternate form (#) not allowed in complex format "
-                            "specifier")
+                            "Forma alternativa (#) no permitido en "
+                            "especificador de formato complejo")
             skip_re = 0
             add_parens = 0
             if tp == "\0":

@@ -79,7 +79,7 @@ def marshal(space, w_obj, m):
     try:
         s = w_obj.readbuf_w(space)
     except BufferInterfaceNotFound:
-        raise oefmt(space.w_ValueError, "unmarshallable object")
+        raise oefmt(space.w_ValueError, "objeto no alineable")
     m.atom_str(TYPE_STRING, s.as_str())
 
 def get_unmarshallers():
@@ -111,7 +111,7 @@ def unmarshal_false(space, u, tc):
 @marshaller(W_TypeObject)
 def marshal_stopiter(space, w_type, m):
     if not space.is_w(w_type, space.w_StopIteration):
-        raise oefmt(space.w_ValueError, "unmarshallable object")
+        raise oefmt(space.w_ValueError, "objeto no alineable")
     m.atom(TYPE_STOPITER)
 
 @unmarshaller(TYPE_STOPITER)
@@ -183,7 +183,7 @@ def unmarshal_long(space, u, tc):
     digits = [u.get_short() for i in range(lng)]
     result = rbigint.from_list_n_bits(digits, 15)
     if lng and not result.tobool():
-        raise oefmt(space.w_ValueError, "bad marshal data")
+        raise oefmt(space.w_ValueError, "datos malos de alineación")
     if negative:
         result = result.neg()
     return space.newlong_from_rbigint(result)
@@ -277,7 +277,7 @@ def unmarshal_stringref(space, u, tc):
     try:
         return u.stringtable_w[idx]
     except IndexError:
-        raise oefmt(space.w_ValueError, "bad marshal data")
+        raise oefmt(space.w_ValueError, "datos malos de alineación")
 
 
 @marshaller(W_AbstractTupleObject)
@@ -365,7 +365,7 @@ def unmarshal_str(u):
         return u.space.bytes_w(w_obj)
     except OperationError as e:
         if e.match(u.space, u.space.w_TypeError):
-            u.raise_exc('invalid marshal data for code object')
+            u.raise_exc('dato de alineación inválida para objeto de código')
         raise
 
 def unmarshal_strlist(u, tc):

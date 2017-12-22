@@ -110,16 +110,16 @@ class AbstractAttribute(object):
         return None
 
     def copy(self, obj):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracto")
 
     def length(self):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracto")
 
     def get_terminator(self):
         return self.terminator
 
     def set_terminator(self, obj, terminator):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracto")
 
     @jit.elidable
     def size_estimate(self):
@@ -250,10 +250,10 @@ class AbstractAttribute(object):
             self = obj._get_mapdict_map()
 
     def materialize_r_dict(self, space, obj, dict_w):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracto")
 
     def remove_dict_entries(self, obj):
-        raise NotImplementedError("abstract base class")
+        raise NotImplementedError("clase base abstracto")
 
     def __repr__(self):
         return "<%s>" % (self.__class__.__name__,)
@@ -569,7 +569,7 @@ def _obj_setdict(self, space, w_dict):
     terminator = self._get_mapdict_map().terminator
     assert isinstance(terminator, DictTerminator) or isinstance(terminator, DevolvedDictTerminator)
     if not space.isinstance_w(w_dict, space.w_dict):
-        raise oefmt(space.w_TypeError, "setting dictionary to a non-dict")
+        raise oefmt(space.w_TypeError, "poniendo diccionario a un no-dicc")
     assert isinstance(w_dict, W_DictMultiObject)
     w_olddict = self.getdict(space)
     assert isinstance(w_olddict, W_DictMultiObject)
