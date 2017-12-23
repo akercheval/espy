@@ -52,6 +52,8 @@ class StdObjSpace(ObjSpace):
         self.UnicodeObjectCls = W_UnicodeObject
 
         # singletons XXX ak is this where you change names officially? False -> Falso, etc
+        # hereAK don't forget about this lol
+        self.w_Nada = W_NoneObject.w_None
         self.w_None = W_NoneObject.w_None
         self.w_False = W_BoolObject.w_False
         self.w_True = W_BoolObject.w_True
