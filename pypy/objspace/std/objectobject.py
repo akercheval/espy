@@ -1,5 +1,4 @@
 """The builtin object type implementation"""
-## hereAK be careful with this - not sure what it does
 
 from pypy.interpreter.baseobjspace import W_Root
 from pypy.interpreter.error import OperationError, oefmt
@@ -99,12 +98,12 @@ def descr__new__(space, w_type, __args__):
             w_parent_init is not space.w_object):
             # 2.7: warn about excess arguments when both methods are
             # overridden
-            space.warn(space.newtext("object() takes no parameters"),
+            space.warn(space.newtext("objeto() no toma parámetros"),
                        space.w_DeprecationWarning, 1)
         elif (w_parent_new is not space.w_object or
               w_parent_init is space.w_object):
             raise oefmt(space.w_TypeError,
-                        "object() takes no parameters")
+                        "objeto() no toma parámetros")
     if w_type.is_abstract():
         _abstract_method_error(space, w_type)
     return space.allocate_instance(W_ObjectObject, w_type)
@@ -123,12 +122,12 @@ def descr__init__(space, w_obj, __args__):
             w_parent_new is not space.w_object):
             # 2.7: warn about excess arguments when both methods are
             # overridden
-            space.warn(space.newtext("object.__init__() takes no parameters"),
+            space.warn(space.newtext("objeto.__inic__() no toma parámetros"),
                        space.w_DeprecationWarning, 1)
         elif (w_parent_init is not space.w_object or
               w_parent_new is space.w_object):
             raise oefmt(space.w_TypeError,
-                        "object.__init__() takes no parameters")
+                        "objeto.__inic__() no toma parámetros")
 
 
 def descr_get___class__(space, w_obj):
@@ -139,11 +138,11 @@ def descr_set___class__(space, w_obj, w_newcls):
     from pypy.objspace.std.typeobject import W_TypeObject
     if not isinstance(w_newcls, W_TypeObject):
         raise oefmt(space.w_TypeError,
-                    "__class__ must be set to new-style class, not '%T' "
-                    "object", w_newcls)
+                    "__clase__ tiene que ser puesto a clase nuevo-estilo, no '%T' "
+                    "objeto", w_newcls)
     if not w_newcls.is_heaptype():
         raise oefmt(space.w_TypeError,
-                    "__class__ assignment: only for heap types")
+                    "__clase__ asignación: solo para tipos pila")
     w_oldcls = space.type(w_obj)
     assert isinstance(w_oldcls, W_TypeObject)
     if (w_oldcls.get_full_instance_layout() ==
@@ -151,7 +150,7 @@ def descr_set___class__(space, w_obj, w_newcls):
         w_obj.setclass(space, w_newcls)
     else:
         raise oefmt(space.w_TypeError,
-                    "__class__ assignment: '%N' object layout differs from "
+                    "__clase__ asignación: '%N' objeto formato es diferente que "
                     "'%N'", w_oldcls, w_newcls)
 
 
@@ -176,7 +175,7 @@ def descr__str__(space, w_obj):
     w_impl = w_type.lookup("__repr__")
     if w_impl is None:
         # can it really occur?
-        raise oefmt(space.w_TypeError, "operand does not support unary str")
+        raise oefmt(space.w_TypeError, "operando no apoya pal unária")
     return space.get_and_call_function(w_impl, w_obj)
 
 
@@ -216,29 +215,39 @@ def descr___format__(space, w_obj, w_format_spec):
     elif space.isinstance_w(w_format_spec, space.w_bytes):
         w_as_str = space.str(w_obj)
     else:
-        raise oefmt(space.w_TypeError, "format_spec must be a string")
+        raise oefmt(space.w_TypeError, "espec_formato tiene que ser palabra")
     if space.len_w(w_format_spec) > 0:
-        msg = "object.__format__ with a non-empty format string is deprecated"
+        msg = "objeto.__formato__ con palabra de formato no vacío es despreciado"
         space.warn(space.newtext(msg), space.w_PendingDeprecationWarning)
     return space.format(w_as_str, w_format_spec)
 
 
 W_ObjectObject.typedef = TypeDef("object",
-    __doc__ = "The most base type",
+    __doc__ = "El tipo base máximo",
+    __nuevo__ = interp2app(descr__new__),
     __new__ = interp2app(descr__new__),
     __subclasshook__ = interp2app(descr___subclasshook__, as_classmethod=True),
 
     # these are actually implemented in pypy.objspace.descroperation
+    __sacaatributo__ = interp2app(Object.descr__getattribute__.im_func),
     __getattribute__ = interp2app(Object.descr__getattribute__.im_func),
+    __ponatr__ = interp2app(Object.descr__setattr__.im_func),
     __setattr__ = interp2app(Object.descr__setattr__.im_func),
+    __elimatr__ = interp2app(Object.descr__delattr__.im_func),
     __delattr__ = interp2app(Object.descr__delattr__.im_func),
 
+    __inic__ = interp2app(descr__init__),
     __init__ = interp2app(descr__init__),
+    __clase__ = GetSetProperty(descr_get___class__, descr_set___class__),
     __class__ = GetSetProperty(descr_get___class__, descr_set___class__),
     __repr__ = interp2app(descr__repr__),
+    __pal__ = interp2app(descr__str__),
     __str__ = interp2app(descr__str__),
     __hash__ = interp2app(default_identity_hash),
+    __reducir__ = interp2app(descr__reduce__),
     __reduce__ = interp2app(descr__reduce__),
+    __reducir_ex__ = interp2app(descr__reduce_ex__),
     __reduce_ex__ = interp2app(descr__reduce_ex__),
+    __formato__ = interp2app(descr___format__),
     __format__ = interp2app(descr___format__),
 )

@@ -21,8 +21,8 @@ def transparent_class(name, BaseCls):
 
         def setclass(self, space, w_subtype):
             raise oefmt(space.w_TypeError,
-                        "You cannot override __class__ for transparent "
-                        "proxies")
+                        "No puede ignorar __clase__ para un proxy "
+                        "transparente")
 
         def getdictvalue(self, space, attr):
             try:

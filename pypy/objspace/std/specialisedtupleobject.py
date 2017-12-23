@@ -129,7 +129,7 @@ def make_specialised_class(typetuple):
                     value = getattr(self, 'value%s' % i)
                     value = wraps[i](self.space, value)
                     return value
-            raise oefmt(space.w_IndexError, "tuple index out of range")
+            raise oefmt(space.w_IndexError, "índice del tuple fuera del rango")
 
     cls.__name__ = ('W_SpecialisedTupleObject_' +
                     ''.join([t.__name__[0] for t in typetuple]))
@@ -191,7 +191,7 @@ def _build_zipped_unspec(space, w_list1, w_list2):
 def specialized_zip_2_lists(space, w_list1, w_list2):
     from pypy.objspace.std.listobject import W_ListObject
     if type(w_list1) is not W_ListObject or type(w_list2) is not W_ListObject:
-        raise oefmt(space.w_TypeError, "expected two exact lists")
+        raise oefmt(space.w_TypeError, "anticipó dos listas exactas")
 
     if space.config.objspace.std.withspecialisedtuple:
         intlist1 = w_list1.getitems_int()

@@ -50,18 +50,18 @@ class W_SmallLongObject(W_AbstractLongObject):
         if b == a:
             return b
         raise oefmt(space.w_OverflowError,
-                    "long int too large to convert to int")
+                    "ent larg demasiado grande para convertir a ent")
 
     def uint_w(self, space):
         a = self.longlong
         if a < 0:
             raise oefmt(space.w_ValueError,
-                        "cannot convert negative integer to unsigned int")
+                        "no puede convertir entero negativo a ent sin signo")
         b = r_uint(a)
         if r_longlong(b) == a:
             return b
         raise oefmt(space.w_OverflowError,
-                    "long int too large to convert to unsigned int")
+                    "ent larg demasiado grande para convertir a ent sin signo")
 
     def bigint_w(self, space, allow_conversion=True):
         return self.asbigint()
@@ -137,7 +137,7 @@ class W_SmallLongObject(W_AbstractLongObject):
 
         z = w_modulus.longlong
         if z == 0:
-            raise oefmt(space.w_ValueError, "pow() 3rd argument cannot be 0")
+            raise oefmt(space.w_ValueError, "pot() argumento tercero no puede ser 0")
         try:
             return _pow(space, x, y, z)
         except ValueError:
@@ -266,7 +266,7 @@ class W_SmallLongObject(W_AbstractLongObject):
                 raise OverflowError
             z = x // y
         except ZeroDivisionError:
-            raise oefmt(space.w_ZeroDivisionError, "integer division by zero")
+            raise oefmt(space.w_ZeroDivisionError, "división entero por cero")
         return W_SmallLongObject(z)
     descr_floordiv, descr_rfloordiv = _make_descr_binop(_floordiv)
 
@@ -281,7 +281,7 @@ class W_SmallLongObject(W_AbstractLongObject):
                 raise OverflowError
             z = x % y
         except ZeroDivisionError:
-            raise oefmt(space.w_ZeroDivisionError, "integer modulo by zero")
+            raise oefmt(space.w_ZeroDivisionError, "modulo entero por cero")
         return W_SmallLongObject(z)
     descr_mod, descr_rmod = _make_descr_binop(_mod)
 
@@ -293,7 +293,7 @@ class W_SmallLongObject(W_AbstractLongObject):
                 raise OverflowError
             z = x // y
         except ZeroDivisionError:
-            raise oefmt(space.w_ZeroDivisionError, "integer divmod by zero")
+            raise oefmt(space.w_ZeroDivisionError, "divmod entero por cero")
         # no overflow possible
         m = x % y
         return space.newtuple([W_SmallLongObject(z), W_SmallLongObject(m)])
@@ -309,7 +309,7 @@ class W_SmallLongObject(W_AbstractLongObject):
                 raise OverflowError
             return W_SmallLongObject(c)
         if b < 0:
-            raise oefmt(space.w_ValueError, "negative shift count")
+            raise oefmt(space.w_ValueError, "total de mover negativo")
         # b >= LONGLONG_BIT
         if a == 0:
             return self
@@ -322,7 +322,7 @@ class W_SmallLongObject(W_AbstractLongObject):
         b = space.int_w(w_other)
         if r_uint(b) >= LONGLONG_BIT: # not (0 <= b < LONGLONG_BIT)
             if b < 0:
-                raise oefmt(space.w_ValueError, "negative shift count")
+                raise oefmt(space.w_ValueError, "total de mover negativo")
             # b >= LONGLONG_BIT
             if a == 0:
                 return self
@@ -376,7 +376,7 @@ def _llong_mul_ovf(a, b):
     # 32 * absdiff <= absprod -- 5 good bits is "close enough"
     if 32.0 * absdiff <= absprod:
         return longprod
-    raise OverflowError("integer multiplication")
+    raise OverflowError("multiplicación entero")
 
 
 def _small2long(space, w_small):
@@ -387,8 +387,8 @@ def _pow(space, iv, iw, iz):
     if iw < 0:
         if iz != 0:
             raise oefmt(space.w_TypeError,
-                        "pow() 2nd argument cannot be negative when 3rd "
-                        "argument specified")
+                        "pot() argumento segundo no puede ser negativo cuando "
+                        "tercer argumento está dado")
         raise ValueError
     temp = iv
     ix = r_longlong(1)
