@@ -333,7 +333,6 @@ class W_TypeObject(W_Root):
                     self.dict_w[attr] = w_value
                     return w_value
         return w_value
-
     @elidable
     def _pure_getdictvalue_no_unwrapping(self, space, version_tag, attr):
         return self._getdictvalue_no_unwrapping(space, attr)
@@ -341,10 +340,13 @@ class W_TypeObject(W_Root):
     def setdictvalue(self, space, name, w_value):
         if not self.is_heaptype():
             raise oefmt(space.w_TypeError,
-                        "can't set attributes on type object '%N'", self)
+                        "no puede poner atributos en objeto tipo '%N'", self)
         if name == "__del__" and name not in self.dict_w:
             msg = ("a __del__ method added to an existing type will not be "
                    "called")
+        if name == "__elim__" and name not in self.dict_w:
+            msg = ("un __elim__ método añadido a un tipo que existe no será "
+                   "llamado")
             space.warn(space.newtext(msg), space.w_RuntimeWarning)
         version_tag = self.version_tag()
         if version_tag is not None:
@@ -362,7 +364,7 @@ class W_TypeObject(W_Root):
             self._cleanup_()    # force un-lazification
         if not (self.is_heaptype() or self.is_cpytype()):
             raise oefmt(space.w_TypeError,
-                        "can't delete attributes on type object '%N'", self)
+                        "no puede eliminar atributos en objeto tipo '%N'", self)
         try:
             del self.dict_w[key]
         except KeyError:
@@ -481,14 +483,13 @@ class W_TypeObject(W_Root):
         space = self.space
         if not isinstance(w_subtype, W_TypeObject):
             raise oefmt(space.w_TypeError,
-                        "X is not a type object ('%T')", w_subtype)
-        if not w_subtype.issubtype(self):
+                        "X no es un tipo objeto ('%T')", w_subtype)
             raise oefmt(space.w_TypeError,
-                        "%N.__new__(%N): %N is not a subtype of %N",
+                        "%N.__nuevo__(%N): %N no es un sub-tipo de %N",
                         self, w_subtype, w_subtype, self)
         if self.layout.typedef is not w_subtype.layout.typedef:
             raise oefmt(space.w_TypeError,
-                        "%N.__new__(%N) is not safe, use %N.__new__()",
+                        "%N.__nuevo__(%N) no es seguro, usa %N.__nuevo__()",
                         self, w_subtype, w_subtype)
         return w_subtype
 
@@ -624,7 +625,7 @@ class W_TypeObject(W_Root):
         if w_newfunc is None:
             w_newtype, w_newdescr = self.lookup_where('__new__')
             if w_newdescr is None:    # see test_crash_mro_without_object_1
-                raise oefmt(space.w_TypeError, "cannot create '%N' instances",
+                raise oefmt(space.w_TypeError, "no puede crear '%N' instancias",
                             self)
             #
             # issue #2666
@@ -649,7 +650,7 @@ class W_TypeObject(W_Root):
                                                    __args__)
                 if not space.is_w(w_result, space.w_None):
                     raise oefmt(space.w_TypeError,
-                                "__init__() should return None")
+                                "__inic__() debe volver Nada")
         return w_newobject
 
     def hack_which_new_to_call(self, w_newtype, w_newdescr):
@@ -723,7 +724,7 @@ class W_TypeObject(W_Root):
         if w_descr is not None:
             return space.get(w_descr, self)
         raise oefmt(space.w_AttributeError,
-                    "type object '%N' has no attribute %R", self, w_name)
+                    "tipo objeto '%N' no tiene atributo %R", self, w_name)
 
     def descr_eq(self, space, w_other):
         if not isinstance(w_other, W_TypeObject):
@@ -749,16 +750,16 @@ def descr__new__(space, w_typetype, w_name, w_bases=None, w_dict=None):
 
 def _check_new_args(space, w_name, w_bases, w_dict):
     if w_bases is None or w_dict is None:
-        raise oefmt(space.w_TypeError, "type() takes 1 or 3 arguments")
+        raise oefmt(space.w_TypeError, "tipo() toma 1 o 3 argumentos")
     if not space.isinstance_w(w_name, space.w_text):
         raise oefmt(space.w_TypeError,
-                    "type() argument 1 must be string, not %T", w_name)
+                    "tipo() argumento 1 tiene que ser palabra, no %T", w_name)
     if not space.isinstance_w(w_bases, space.w_tuple):
         raise oefmt(space.w_TypeError,
-                    "type() argument 2 must be tuple, not %T", w_bases)
+                    "tipo() argumento 2 tiene que ser tuple, no %T", w_bases)
     if not space.isinstance_w(w_dict, space.w_dict):
         raise oefmt(space.w_TypeError,
-                    "type() argument 3 must be dict, not %T", w_dict)
+                    "tipo() argumento 3 tiene que ser dict, no %T", w_dict)
 
 
 def _create_new_type(space, w_typetype, w_name, w_bases, w_dict):
@@ -778,9 +779,9 @@ def _create_new_type(space, w_typetype, w_name, w_bases, w_dict):
             w_winner = w_typ
             continue
         raise oefmt(space.w_TypeError,
-                    "metaclass conflict: the metaclass of a derived class must"
-                    " be a (non-strict) subclass of the metaclasses of all its"
-                    " bases")
+                "metaclase conflicto: el metaclase de un clase derivado "
+                " tiene que ser un (no-estricto) subclase de los metaclases "
+                " de todos sus bases")
 
     if not space.is_w(w_winner, w_typetype):
         newfunc = space.getattr(w_winner, space.newtext('__new__'))
@@ -791,7 +792,7 @@ def _create_new_type(space, w_typetype, w_name, w_bases, w_dict):
     name = space.text_w(w_name)
     assert isinstance(name, str)
     if '\x00' in name:
-        raise oefmt(space.w_ValueError, "type name must not contain null characters")
+        raise oefmt(space.w_ValueError, "nombre de tipo no puede contener carácteres nulos")
     dict_w = {}
     dictkeys_w = space.listview(w_dict)
     for w_key in dictkeys_w:
@@ -805,22 +806,22 @@ def _create_new_type(space, w_typetype, w_name, w_bases, w_dict):
 
 def _precheck_for_new(space, w_type):
     if not isinstance(w_type, W_TypeObject):
-        raise oefmt(space.w_TypeError, "X is not a type object (%T)", w_type)
+        raise oefmt(space.w_TypeError, "X no es un tipo objeto (%T)", w_type)
     return w_type
 
 
 def descr__init__(space, w_type, __args__):
     if __args__.keywords:
         raise oefmt(space.w_TypeError,
-                    "type.__init__() takes no keyword arguments")
+                    "tipo.__inic__() no tiene argumentos palabras claves")
     if len(__args__.arguments_w) not in (1, 3):
         raise oefmt(space.w_TypeError,
-                    "type.__init__() takes 1 or 3 arguments")
+                    "tipo.__inic__() toma 1 o 3 argumentos")
 
 
 # ____________________________________________________________
 
-def _check(space, w_type, msg="descriptor is for 'type'"):
+def _check(space, w_type, msg="descriptor es para 'tipo'"):
     if not isinstance(w_type, W_TypeObject):
         raise OperationError(space.w_TypeError, space.newtext(msg))
     return w_type
@@ -833,14 +834,14 @@ def descr_get__name__(space, w_type):
 def descr_set__name__(space, w_type, w_value):
     w_type = _check(space, w_type)
     if not w_type.is_heaptype():
-        raise oefmt(space.w_TypeError, "can't set %N.__name__", w_type)
+        raise oefmt(space.w_TypeError, "no puede poner %N.__nombre__", w_type)
     if not space.isinstance_w(w_value, space.w_text):
         raise oefmt(space.w_TypeError,
-                    "can only assign string to %N.__name__, not '%T'",
+                    "solo puede asignar palabra a %N.__nombre__, no '%T'",
                     w_type, w_value)
     name = space.text_w(w_value)
     if '\x00' in name:
-        raise oefmt(space.w_ValueError, "type name must not contain null characters")
+        raise oefmt(space.w_ValueError, "tipo nombre no puede contener carácteres nulos")
     w_type.name = name
 
 def descr_get__mro__(space, w_type):
@@ -867,22 +868,22 @@ def descr_set__bases__(space, w_type, w_value):
     # this assumes all app-level type objects are W_TypeObject
     w_type = _check(space, w_type)
     if not w_type.is_heaptype():
-        raise oefmt(space.w_TypeError, "can't set %N.__bases__", w_type)
+        raise oefmt(space.w_TypeError, "no puede poner %N.__bases__", w_type)
     if not space.isinstance_w(w_value, space.w_tuple):
         raise oefmt(space.w_TypeError,
-                    "can only assign tuple to %N.__bases__, not %T",
+                    "solo puede asignar tuple a %N.__bases__, no %T",
                     w_type, w_value)
     newbases_w = space.fixedview(w_value)
     if len(newbases_w) == 0:
         raise oefmt(space.w_TypeError,
-                    "can only assign non-empty tuple to %N.__bases__, not ()",
+                    "solo puede asignar tuple no vacío a %N.__bases__, no ()",
                     w_type)
 
     for w_newbase in newbases_w:
         if isinstance(w_newbase, W_TypeObject):
             if w_type in w_newbase.compute_default_mro():
                 raise oefmt(space.w_TypeError,
-                            "a __bases__ item causes an inheritance cycle")
+                            "un __bases__ artículo causa un ciclo de herencia")
 
     w_oldbestbase = check_and_find_best_base(space, w_type.bases_w)
     w_newbestbase = check_and_find_best_base(space, newbases_w)
@@ -891,7 +892,7 @@ def descr_set__bases__(space, w_type, w_value):
 
     if oldlayout != newlayout:
         raise oefmt(space.w_TypeError,
-                    "__bases__ assignment: '%N' object layout differs from "
+                    "__bases__ asignación: '%N' objeto formato es diferente que "
                     "'%N'", w_newbestbase, w_oldbestbase)
 
     # invalidate the version_tag of all the current subclasses
@@ -929,8 +930,8 @@ def descr__base(space, w_type):
 
 def descr__doc(space, w_type):
     if space.is_w(w_type, space.w_type):
-        return space.newtext("""type(object) -> the object's type
-type(name, bases, dict) -> a new type""")
+        return space.newtext("""tipo(objeto) -> el tipo del objeto
+tipo(nombre, bases, dicc) -> un tipo nuevo""")
     w_type = _check(space, w_type)
     if not w_type.is_heaptype():
         return w_type.w_doc
@@ -1009,29 +1010,46 @@ def type_get_dict(space, w_cls):
     return W_DictProxyObject(w_dict)
 
 W_TypeObject.typedef = TypeDef("type",
+    __nuevo__ = gateway.interp2app(descr__new__),
     __new__ = gateway.interp2app(descr__new__),
+    __inic__ = gateway.interp2app(descr__init__),
     __init__ = gateway.interp2app(descr__init__),
+    __nombre__ = GetSetProperty(descr_get__name__, descr_set__name__),
     __name__ = GetSetProperty(descr_get__name__, descr_set__name__),
     __bases__ = GetSetProperty(descr_get__bases__, descr_set__bases__),
     __base__ = GetSetProperty(descr__base),
     __mro__ = GetSetProperty(descr_get__mro__),
+    __dicc__=GetSetProperty(type_get_dict),
     __dict__=GetSetProperty(type_get_dict),
     __doc__ = GetSetProperty(descr__doc, cls=W_TypeObject, name='__doc__'),
     mro = gateway.interp2app(descr_mro),
+    __senales__ = GetSetProperty(descr__flags),
     __flags__ = GetSetProperty(descr__flags),
+    __modulo__ = GetSetProperty(descr_get__module, descr_set__module),
     __module__ = GetSetProperty(descr_get__module, descr_set__module),
+    __metodosabstractos__ = GetSetProperty(descr_get___abstractmethods__,
+                                         descr_set___abstractmethods__,
+                                         descr_del___abstractmethods__),
     __abstractmethods__ = GetSetProperty(descr_get___abstractmethods__,
                                          descr_set___abstractmethods__,
                                          descr_del___abstractmethods__),
+    __subclases__ = gateway.interp2app(descr___subclasses__),
     __subclasses__ = gateway.interp2app(descr___subclasses__),
+    __refdebil__ = weakref_descr,
     __weakref__ = weakref_descr,
+    __instanciaverif__ = gateway.interp2app(type_isinstance),
     __instancecheck__ = gateway.interp2app(type_isinstance),
+    __subclaseverif__ = gateway.interp2app(type_issubtype),
     __subclasscheck__ = gateway.interp2app(type_issubtype),
 
+    __llamar__ = gateway.interp2app(W_TypeObject.descr_call),
     __call__ = gateway.interp2app(W_TypeObject.descr_call),
     __repr__ = gateway.interp2app(W_TypeObject.descr_repr),
+    __sacaatributo__ = gateway.interp2app(W_TypeObject.descr_getattribute),
     __getattribute__ = gateway.interp2app(W_TypeObject.descr_getattribute),
+    __ig__ = gateway.interp2app(W_TypeObject.descr_eq),
     __eq__ = gateway.interp2app(W_TypeObject.descr_eq),
+    __ni__ = gateway.interp2app(W_TypeObject.descr_ne),
     __ne__ = gateway.interp2app(W_TypeObject.descr_ne),
 )
 
@@ -1065,10 +1083,10 @@ def check_and_find_best_base(space, bases_w):
     w_bestbase = find_best_base(bases_w)
     if w_bestbase is None:
         raise oefmt(space.w_TypeError,
-                    "a new-style class can't have only classic bases")
+                    "un clase nuevo-estilo no puede tener solamente bases clásicos")
     if not w_bestbase.layout.typedef.acceptable_as_base_class:
         raise oefmt(space.w_TypeError,
-                    "type '%N' is not an acceptable base class", w_bestbase)
+                    "tipo '%N' no es un clase base válido", w_bestbase)
 
     # check that all other bases' layouts are "super-layouts" of the
     # bestbase's layout
@@ -1078,7 +1096,7 @@ def check_and_find_best_base(space, bases_w):
             layout = w_base.layout
             if not best_layout.issublayout(layout):
                 raise oefmt(space.w_TypeError,
-                            "instance layout conflicts in multiple inheritance")
+                            "conflictos de formato de instancia en herencia multiple")
     return w_bestbase
 
 def copy_flags_from_bases(w_self, w_bestbase):
@@ -1278,7 +1296,7 @@ def validate_custom_mro(space, mro_w):
     # the elements in the mro seem to be (old- or new-style) classes.
     for w_class in mro_w:
         if not space.abstract_isclass_w(w_class):
-            raise oefmt(space.w_TypeError, "mro() returned a non-class")
+            raise oefmt(space.w_TypeError, "mro() volvió no-clase")
     return mro_w
 
 def is_mro_purely_of_types(mro_w):
@@ -1354,7 +1372,7 @@ def mro_error(space, orderlists):
     candidate = orderlists[-1][0]
     if candidate in orderlists[-1][1:]:
         # explicit error message for this specific case
-        raise oefmt(space.w_TypeError, "duplicate base class '%N'", candidate)
+        raise oefmt(space.w_TypeError, "duplicado clase base '%N'", candidate)
     while candidate not in cycle:
         cycle.append(candidate)
         nextblockinglist = mro_blockinglist(candidate, orderlists)
@@ -1364,7 +1382,7 @@ def mro_error(space, orderlists):
     cycle.reverse()
     names = [cls.getname(space) for cls in cycle]
     raise oefmt(space.w_TypeError,
-                "cycle among base classes: %s", ' < '.join(names))
+                "ciclo en clases base: %s", ' < '.join(names))
 
 
 class TypeCache(SpaceCache):

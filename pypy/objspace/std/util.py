@@ -17,11 +17,13 @@ IDTAG_SPECIAL = 11    # -1 - (-maxunicode-1): unichar
                       # 259: empty frozenset
 
 CMP_OPS = dict(lt='<', le='<=', eq='==', ne='!=', gt='>', ge='>=')
-BINARY_BITWISE_OPS = {'and': '&', 'lshift': '<<', 'or': '|', 'rshift': '>>',
-                      'xor': '^'}
-BINARY_OPS = dict(add='+', div='/', floordiv='//', mod='%', mul='*', sub='-',
-                  truediv='/', **BINARY_BITWISE_OPS)
-COMMUTATIVE_OPS = ('add', 'mul', 'and', 'or', 'xor')
+BINARY_BITWISE_OPS = {'y': '&', 'and': '&', 'imover': '<<', 'lshift': '<<',
+        'o': '|', 'or': '|', 'dmover': '>>', 'rshift': '>>', 'oex': '^',
+        'xor': '^'}
+BINARY_OPS = dict(add='+', mas='+', div='/', divinferior='//', floordiv='//',
+        mod='%', mul='*', rest='-', sub='-', divcierto='/'. truediv='/',
+        **BINARY_BITWISE_OPS)
+COMMUTATIVE_OPS = ('add', 'mas', 'mul', 'and', 'y', 'or', 'o', 'xor', 'oex')
 
 
 def negate(f):

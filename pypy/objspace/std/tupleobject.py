@@ -1,5 +1,4 @@
 """The builtin tuple implementation"""
-## hereAK
 
 import sys
 
@@ -188,7 +187,7 @@ class W_AbstractTupleObject(W_Root):
     def descr_getitem(self, space, w_index):
         if isinstance(w_index, W_SliceObject):
             return self._getslice(space, w_index)
-        index = space.getindex_w(w_index, space.w_IndexError, "tuple index")
+        index = space.getindex_w(w_index, space.w_IndexError, "índice de tuple")
         return self.getitem(space, index)
 
     def _getslice(self, space, w_index):
@@ -231,38 +230,54 @@ class W_AbstractTupleObject(W_Root):
             w_item = self.tolist()[i]
             if space.eq_w(w_item, w_obj):
                 return space.newint(i)
-        raise oefmt(space.w_ValueError, "tuple.index(x): x not in tuple")
+        raise oefmt(space.w_ValueError, "tuple.indice(x): x no en tuple")
 
 W_AbstractTupleObject.typedef = TypeDef(
     "tuple",
-    __doc__ = """tuple() -> an empty tuple
-tuple(sequence) -> tuple initialized from sequence's items
+    __doc__ = """tuple() -> un tuple vacío
+tuple(sequencia) -> tuple initializada de artículos de la secuencia
 
-If the argument is a tuple, the return value is the same object.""",
+Si el argumento es un tiple, el mismo objeto está volvido.""",
+    __nuevo__ = interp2app(W_AbstractTupleObject.descr_new),
     __new__ = interp2app(W_AbstractTupleObject.descr_new),
     __repr__ = interp2app(W_AbstractTupleObject.descr_repr),
     __hash__ = interpindirect2app(W_AbstractTupleObject.descr_hash),
 
+    __ig__ = interpindirect2app(W_AbstractTupleObject.descr_eq),
     __eq__ = interpindirect2app(W_AbstractTupleObject.descr_eq),
+    __ni__ = interpindirect2app(W_AbstractTupleObject.descr_ne),
     __ne__ = interpindirect2app(W_AbstractTupleObject.descr_ne),
+    __meq__ = interp2app(W_AbstractTupleObject.descr_lt),
     __lt__ = interp2app(W_AbstractTupleObject.descr_lt),
+    __mei__ = interp2app(W_AbstractTupleObject.descr_le),
     __le__ = interp2app(W_AbstractTupleObject.descr_le),
+    __maq__ = interp2app(W_AbstractTupleObject.descr_gt),
     __gt__ = interp2app(W_AbstractTupleObject.descr_gt),
+    __mai__ = interp2app(W_AbstractTupleObject.descr_ge),
     __ge__ = interp2app(W_AbstractTupleObject.descr_ge),
 
+    __tam__ = interp2app(W_AbstractTupleObject.descr_len),
     __len__ = interp2app(W_AbstractTupleObject.descr_len),
     __iter__ = interp2app(W_AbstractTupleObject.descr_iter),
+    __contiene__ = interp2app(W_AbstractTupleObject.descr_contains),
     __contains__ = interp2app(W_AbstractTupleObject.descr_contains),
 
+    __mas__ = interp2app(W_AbstractTupleObject.descr_add),
     __add__ = interp2app(W_AbstractTupleObject.descr_add),
     __mul__ = interp2app(W_AbstractTupleObject.descr_mul),
+    __dmul__ = interp2app(W_AbstractTupleObject.descr_mul),
     __rmul__ = interp2app(W_AbstractTupleObject.descr_mul),
 
+    __sacaartic__ = interp2app(W_AbstractTupleObject.descr_getitem),
     __getitem__ = interp2app(W_AbstractTupleObject.descr_getitem),
+    __sacaparte__ = interp2app(W_AbstractTupleObject.descr_getslice),
     __getslice__ = interp2app(W_AbstractTupleObject.descr_getslice),
 
+    __sacanuevosargs__ = interp2app(W_AbstractTupleObject.descr_getnewargs),
     __getnewargs__ = interp2app(W_AbstractTupleObject.descr_getnewargs),
+    total = interp2app(W_AbstractTupleObject.descr_count),
     count = interp2app(W_AbstractTupleObject.descr_count),
+    indice = interp2app(W_AbstractTupleObject.descr_index)
     index = interp2app(W_AbstractTupleObject.descr_index)
 )
 W_AbstractTupleObject.typedef.flag_sequence_bug_compat = True
@@ -343,7 +358,7 @@ class W_TupleObject(W_AbstractTupleObject):
         try:
             return self.wrappeditems[index]
         except IndexError:
-            raise oefmt(space.w_IndexError, "tuple index out of range")
+            raise oefmt(space.w_IndexError, "índice de tuple fuera del rango")
 
 
 def wraptuple(space, list_w):
