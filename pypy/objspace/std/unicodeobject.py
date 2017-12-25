@@ -358,8 +358,6 @@ class W_UnicodeObject(W_Root):
                     raise oefmt(space.w_TypeError,
                                 "mapar carácteres tiene que volver entero, Nada "
                                 "o unicod")
-                                "character mapping must return integer, None "
-                                "or unicode")
         return W_UnicodeObject(u''.join(result))
 
     def descr_encode(self, space, w_encoding=None, w_errors=None):
@@ -1122,14 +1120,14 @@ W_UnicodeObject.typedef = TypeDef(
                          doc=UnicodeDocstrings.isupper.__doc__),
     isupper = interp2app(W_UnicodeObject.descr_isupper,
                          doc=UnicodeDocstrings.isupper.__doc__),
-    juntar = interp2app(w_unicodeobject.descr_join,
-                      doc=unicodedocstrings.join.__doc__),
-    join = interp2app(w_unicodeobject.descr_join,
-                      doc=unicodedocstrings.join.__doc__),
-    ijust = interp2app(w_unicodeobject.descr_ljust,
-                       doc=unicodedocstrings.ljust.__doc__),
-    ljust = interp2app(w_unicodeobject.descr_ljust,
-                       doc=unicodedocstrings.ljust.__doc__),
+    juntar = interp2app(W_UnicodeObject.descr_join,
+                      doc=UnicodeDocstrings.join.__doc__),
+    join = interp2app(W_UnicodeObject.descr_join,
+                      doc=UnicodeDocstrings.join.__doc__),
+    ijust = interp2app(W_UnicodeObject.descr_ljust,
+                       doc=UnicodeDocstrings.ljust.__doc__),
+    ljust = interp2app(W_UnicodeObject.descr_ljust,
+                       doc=UnicodeDocstrings.ljust.__doc__),
     djust = interp2app(W_UnicodeObject.descr_rjust,
                        doc=UnicodeDocstrings.rjust.__doc__),
     rjust = interp2app(W_UnicodeObject.descr_rjust,

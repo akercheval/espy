@@ -277,7 +277,7 @@ Si el argumento es un tiple, el mismo objeto está volvido.""",
     __getnewargs__ = interp2app(W_AbstractTupleObject.descr_getnewargs),
     total = interp2app(W_AbstractTupleObject.descr_count),
     count = interp2app(W_AbstractTupleObject.descr_count),
-    indice = interp2app(W_AbstractTupleObject.descr_index)
+    indice = interp2app(W_AbstractTupleObject.descr_index),
     index = interp2app(W_AbstractTupleObject.descr_index)
 )
 W_AbstractTupleObject.typedef.flag_sequence_bug_compat = True

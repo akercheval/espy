@@ -21,7 +21,7 @@ BINARY_BITWISE_OPS = {'y': '&', 'and': '&', 'imover': '<<', 'lshift': '<<',
         'o': '|', 'or': '|', 'dmover': '>>', 'rshift': '>>', 'oex': '^',
         'xor': '^'}
 BINARY_OPS = dict(add='+', mas='+', div='/', divinferior='//', floordiv='//',
-        mod='%', mul='*', rest='-', sub='-', divcierto='/'. truediv='/',
+        mod='%', mul='*', rest='-', sub='-', divcierto='/', truediv='/',
         **BINARY_BITWISE_OPS)
 COMMUTATIVE_OPS = ('add', 'mas', 'mul', 'and', 'y', 'or', 'o', 'xor', 'oex')
 
