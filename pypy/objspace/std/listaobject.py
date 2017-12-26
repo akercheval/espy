@@ -38,7 +38,7 @@ from pypy.objspace.std.tupleobject import W_AbstractTupleObject
 from pypy.objspace.std.unicodeobject import W_UnicodeObject
 from pypy.objspace.std.util import get_positive_index, negate
 
-__all__ = ['W_ListObject', 'make_range_list', 'make_empty_list_with_size']
+__all__ = ['W_ListaObject', 'make_range_list', 'make_empty_list_with_size']
 
 
 UNROLL_CUTOFF = 5
@@ -54,19 +54,19 @@ def make_range_list(space, start, step, length):
     else:
         strategy = space.fromcache(RangeListStrategy)
         storage = strategy.erase((start, step, length))
-    return W_ListObject.from_storage_and_strategy(space, storage, strategy)
+    return W_ListaObject.from_storage_and_strategy(space, storage, strategy)
 
 
 def make_empty_list(space):
     strategy = space.fromcache(EmptyListStrategy)
     storage = strategy.erase(None)
-    return W_ListObject.from_storage_and_strategy(space, storage, strategy)
+    return W_ListaObject.from_storage_and_strategy(space, storage, strategy)
 
 
 def make_empty_list_with_size(space, hint):
     strategy = SizeListStrategy(space, hint)
     storage = strategy.erase(None)
-    return W_ListObject.from_storage_and_strategy(space, storage, strategy)
+    return W_ListaObject.from_storage_and_strategy(space, storage, strategy)
 
 
 @jit.look_inside_iff(lambda space, list_w, sizehint:
@@ -168,7 +168,7 @@ def list_unroll_condition(w_list1, space, w_list2):
                                          UNROLL_CUTOFF))
 
 
-class W_ListObject(W_Root):
+class W_ListaObject(W_Root):
     strategy = None
 
     def __init__(self, space, wrappeditems, sizehint=-1):
@@ -183,7 +183,7 @@ class W_ListObject(W_Root):
 
     @staticmethod
     def from_storage_and_strategy(space, storage, strategy):
-        self = instantiate(W_ListObject)
+        self = instantiate(W_ListaObject)
         self.space = space
         self.strategy = strategy
         self.lstorage = storage
@@ -195,32 +195,32 @@ class W_ListObject(W_Root):
     def newlist_bytes(space, list_b):
         strategy = space.fromcache(BytesListStrategy)
         storage = strategy.erase(list_b)
-        return W_ListObject.from_storage_and_strategy(space, storage, strategy)
+        return W_ListaObject.from_storage_and_strategy(space, storage, strategy)
 
     @staticmethod
     def newlist_unicode(space, list_u):
         strategy = space.fromcache(UnicodeListStrategy)
         storage = strategy.erase(list_u)
-        return W_ListObject.from_storage_and_strategy(space, storage, strategy)
+        return W_ListaObject.from_storage_and_strategy(space, storage, strategy)
 
     @staticmethod
     def newlist_int(space, list_i):
         strategy = space.fromcache(IntegerListStrategy)
         storage = strategy.erase(list_i)
-        return W_ListObject.from_storage_and_strategy(space, storage, strategy)
+        return W_ListaObject.from_storage_and_strategy(space, storage, strategy)
 
     @staticmethod
     def newlist_float(space, list_f):
         strategy = space.fromcache(FloatListStrategy)
         storage = strategy.erase(list_f)
-        return W_ListObject.from_storage_and_strategy(space, storage, strategy)
+        return W_ListaObject.from_storage_and_strategy(space, storage, strategy)
 
     @staticmethod
     def newlist_cpyext(space, list):
         from pypy.module.cpyext.sequence import CPyListStrategy, CPyListStorage
         strategy = space.fromcache(CPyListStrategy)
         storage = strategy.erase(CPyListStorage(space, list))
-        return W_ListObject.from_storage_and_strategy(space, storage, strategy)
+        return W_ListaObject.from_storage_and_strategy(space, storage, strategy)
 
     def __repr__(self):
         """ representation for debugging purposes """
@@ -246,7 +246,7 @@ class W_ListObject(W_Root):
         list_w = self.getitems()
         strategy = self.space.fromcache(ObjectListStrategy)
         storage = strategy.erase(list_w)
-        w_objectlist = W_ListObject.from_storage_and_strategy(
+        w_objectlist = W_ListaObject.from_storage_and_strategy(
                 self.space, storage, strategy)
         return w_objectlist
 
@@ -428,7 +428,7 @@ class W_ListObject(W_Root):
     @staticmethod
     def descr_new(space, w_listtype, __args__):
         """T.__new__(S, ...) -> un objecto nuevo con tipo S, un subtipo de T"""
-        w_obj = space.allocate_instance(W_ListObject, w_listtype)
+        w_obj = space.allocate_instance(W_ListaObject, w_listtype)
         w_obj.clear(space)
         return w_obj
 
@@ -447,7 +447,7 @@ class W_ListObject(W_Root):
         return listrepr(space, space.get_objects_in_repr(), self)
 
     def descr_eq(self, space, w_other):
-        if not isinstance(w_other, W_ListObject):
+        if not isinstance(w_other, W_ListaObject):
             return space.w_NotImplemented
         return self._descr_eq(space, w_other)
 
@@ -472,7 +472,7 @@ class W_ListObject(W_Root):
         op = getattr(operator, name)
 
         def compare_unwrappeditems(self, space, w_list2):
-            if not isinstance(w_list2, W_ListObject):
+            if not isinstance(w_list2, W_ListaObject):
                 return space.w_NotImplemented
             return _compare_unwrappeditems(self, space, w_list2)
 
@@ -515,14 +515,14 @@ class W_ListObject(W_Root):
             return space.w_False
 
     def descr_add(self, space, w_list2):
-        if not isinstance(w_list2, W_ListObject):
+        if not isinstance(w_list2, W_ListaObject):
             return space.w_NotImplemented
         w_clone = self.clone()
         w_clone.extend(w_list2)
         return w_clone
 
     def descr_inplace_add(self, space, w_iterable):
-        if isinstance(w_iterable, W_ListObject):
+        if isinstance(w_iterable, W_ListaObject):
             self.extend(w_iterable)
             return self
 
@@ -581,11 +581,11 @@ class W_ListObject(W_Root):
         if isinstance(w_index, W_SliceObject):
             oldsize = self.length()
             start, stop, step, slicelength = w_index.indices4(space, oldsize)
-            if isinstance(w_any, W_ListObject):
+            if isinstance(w_any, W_ListaObject):
                 self.setslice(start, step, slicelength, w_any)
             else:
                 sequence_w = space.listview(w_any)
-                w_other = W_ListObject(space, sequence_w)
+                w_other = W_ListaObject(space, sequence_w)
                 self.setslice(start, step, slicelength, w_other)
             return
 
@@ -599,11 +599,11 @@ class W_ListObject(W_Root):
         length = self.length()
         start, stop = normalize_simple_slice(space, length, w_start, w_stop)
 
-        if isinstance(w_iterable, W_ListObject):
+        if isinstance(w_iterable, W_ListaObject):
             self.setslice(start, 1, stop - start, w_iterable)
         else:
             sequence_w = space.listview(w_iterable)
-            w_other = W_ListObject(space, sequence_w)
+            w_other = W_ListaObject(space, sequence_w)
             self.setslice(start, 1, stop - start, w_other)
 
     def descr_delitem(self, space, w_idx):
@@ -860,7 +860,7 @@ class ListStrategy(object):
 
     def extend(self, w_list, w_any):
         space = self.space
-        if type(w_any) is W_ListObject or (isinstance(w_any, W_ListObject) and
+        if type(w_any) is W_ListaObject or (isinstance(w_any, W_ListaObject) and
                                            space._uses_list_iter(w_any)):
             self._extend_from_list(w_list, w_any)
         elif space.is_generator(w_any):
@@ -917,7 +917,7 @@ class EmptyListStrategy(ListStrategy):
     unerase = staticmethod(unerase)
 
     def clone(self, w_list):
-        return W_ListObject.from_storage_and_strategy(
+        return W_ListaObject.from_storage_and_strategy(
                 self.space, w_list.lstorage, self)
 
     def copy_into(self, w_list, w_other):
@@ -940,7 +940,7 @@ class EmptyListStrategy(ListStrategy):
     def getslice(self, w_list, start, stop, step, length):
         # will never be called because the empty list case is already caught in
         # getslice__List_ANY_ANY and getitem__List_Slice
-        return W_ListObject(self.space, [])
+        return W_ListaObject(self.space, [])
 
     def getitems(self, w_list):
         return []
@@ -1077,7 +1077,7 @@ class BaseRangeListStrategy(ListStrategy):
 
     def clone(self, w_list):
         storage = w_list.lstorage  # lstorage is tuple, no need to clone
-        w_clone = W_ListObject.from_storage_and_strategy(self.space, storage,
+        w_clone = W_ListaObject.from_storage_and_strategy(self.space, storage,
                                                          self)
         return w_clone
 
@@ -1356,7 +1356,7 @@ class AbstractUnwrappedStrategy(object):
     def clone(self, w_list):
         l = self.unerase(w_list.lstorage)
         storage = self.erase(l[:])
-        w_clone = W_ListObject.from_storage_and_strategy(
+        w_clone = W_ListaObject.from_storage_and_strategy(
                 self.space, storage, self)
         return w_clone
 
@@ -1419,14 +1419,14 @@ class AbstractUnwrappedStrategy(object):
             assert stop >= 0
             sublist = l[start:stop]
             storage = self.erase(sublist)
-            return W_ListObject.from_storage_and_strategy(
+            return W_ListaObject.from_storage_and_strategy(
                     self.space, storage, self)
         else:
             subitems_w = [self._none_value] * length
             l = self.unerase(w_list.lstorage)
             self._fill_in_with_sliced_items(subitems_w, l, start, step, length)
             storage = self.erase(subitems_w)
-            return W_ListObject.from_storage_and_strategy(
+            return W_ListaObject.from_storage_and_strategy(
                     self.space, storage, self)
 
     def _fill_in_with_sliced_items(self, subitems_w, l, start, step, length):
@@ -1601,7 +1601,7 @@ class AbstractUnwrappedStrategy(object):
 
     def mul(self, w_list, times):
         l = self.unerase(w_list.lstorage)
-        return W_ListObject.from_storage_and_strategy(
+        return W_ListaObject.from_storage_and_strategy(
             self.space, self.erase(l * times), self)
 
     def inplace_mul(self, w_list, times):
@@ -1703,7 +1703,7 @@ class IntegerListStrategy(ListStrategy):
     def setslice(self, w_list, start, step, slicelength, w_other):
         if w_other.strategy is self.space.fromcache(RangeListStrategy):
             storage = self.erase(w_other.getitems_int())
-            w_other = W_ListObject.from_storage_and_strategy(
+            w_other = W_ListaObject.from_storage_and_strategy(
                     self.space, storage, self)
         if (w_other.strategy is self.space.fromcache(FloatListStrategy) or
             w_other.strategy is self.space.fromcache(IntOrFloatListStrategy)):
@@ -1930,7 +1930,7 @@ class IntOrFloatListStrategy(ListStrategy):
 
     def _temporary_longlong_list(self, longlong_list):
         storage = self.erase(longlong_list)
-        return W_ListObject.from_storage_and_strategy(self.space, storage, self)
+        return W_ListaObject.from_storage_and_strategy(self.space, storage, self)
 
     def setslice(self, w_list, start, step, slicelength, w_other):
         if w_other.strategy is self.space.fromcache(IntegerListStrategy):
@@ -2131,75 +2131,75 @@ class CustomKeyCompareSort(CustomCompareSort):
         return CustomCompareSort.lt(self, a.w_key, b.w_key)
 
 
-W_ListObject.typedef = TypeDef("lista",
+W_ListaObject.typedef = TypeDef("lista",
     __doc__ = """lista() -> nueva lista vacía
 lista(iterable) -> nueva lista iniciada de artículos del iterable""",
-    __nuevo__ = interp2app(W_ListObject.descr_new),
-    __new__ = interp2app(W_ListObject.descr_new),
-    __repr__ = interp2app(W_ListObject.descr_repr),
-    __inic__ = interp2app(W_ListObject.descr_init),
-    __init__ = interp2app(W_ListObject.descr_init),
+    __nuevo__ = interp2app(W_ListaObject.descr_new),
+    __new__ = interp2app(W_ListaObject.descr_new),
+    __repr__ = interp2app(W_ListaObject.descr_repr),
+    __inic__ = interp2app(W_ListaObject.descr_init),
+    __init__ = interp2app(W_ListaObject.descr_init),
     __hash__ = None,
 
-    __ig__ = interp2app(W_ListObject.descr_eq),
-    __eq__ = interp2app(W_ListObject.descr_eq),
-    __ni__ = interp2app(W_ListObject.descr_ne),
-    __ne__ = interp2app(W_ListObject.descr_ne),
-    __meq__ = interp2app(W_ListObject.descr_lt),
-    __lt__ = interp2app(W_ListObject.descr_lt),
-    __mei__ = interp2app(W_ListObject.descr_le),
-    __le__ = interp2app(W_ListObject.descr_le),
-    __maq__ = interp2app(W_ListObject.descr_gt),
-    __gt__ = interp2app(W_ListObject.descr_gt),
-    __mai__ = interp2app(W_ListObject.descr_ge),
-    __ge__ = interp2app(W_ListObject.descr_ge),
+    __ig__ = interp2app(W_ListaObject.descr_eq),
+    __eq__ = interp2app(W_ListaObject.descr_eq),
+    __ni__ = interp2app(W_ListaObject.descr_ne),
+    __ne__ = interp2app(W_ListaObject.descr_ne),
+    __meq__ = interp2app(W_ListaObject.descr_lt),
+    __lt__ = interp2app(W_ListaObject.descr_lt),
+    __mei__ = interp2app(W_ListaObject.descr_le),
+    __le__ = interp2app(W_ListaObject.descr_le),
+    __maq__ = interp2app(W_ListaObject.descr_gt),
+    __gt__ = interp2app(W_ListaObject.descr_gt),
+    __mai__ = interp2app(W_ListaObject.descr_ge),
+    __ge__ = interp2app(W_ListaObject.descr_ge),
 
-    __tam__ = interp2app(W_ListObject.descr_len),
-    __len__ = interp2app(W_ListObject.descr_len),
-    __iter__ = interp2app(W_ListObject.descr_iter),
-    __contiene__ = interp2app(W_ListObject.descr_contains),
-    __contains__ = interp2app(W_ListObject.descr_contains),
+    __tam__ = interp2app(W_ListaObject.descr_len),
+    __len__ = interp2app(W_ListaObject.descr_len),
+    __iter__ = interp2app(W_ListaObject.descr_iter),
+    __contiene__ = interp2app(W_ListaObject.descr_contains),
+    __contains__ = interp2app(W_ListaObject.descr_contains),
 
-    __mas__ = interp2app(W_ListObject.descr_add),
-    __add__ = interp2app(W_ListObject.descr_add),
-    __imas__ = interp2app(W_ListObject.descr_inplace_add),
-    __iadd__ = interp2app(W_ListObject.descr_inplace_add),
-    __dmul__ = interp2app(W_ListObject.descr_mul),
-    __rmul__ = interp2app(W_ListObject.descr_mul),
-    __mul__ = interp2app(W_ListObject.descr_mul),
-    __imul__ = interp2app(W_ListObject.descr_inplace_mul),
+    __mas__ = interp2app(W_ListaObject.descr_add),
+    __add__ = interp2app(W_ListaObject.descr_add),
+    __imas__ = interp2app(W_ListaObject.descr_inplace_add),
+    __iadd__ = interp2app(W_ListaObject.descr_inplace_add),
+    __dmul__ = interp2app(W_ListaObject.descr_mul),
+    __rmul__ = interp2app(W_ListaObject.descr_mul),
+    __mul__ = interp2app(W_ListaObject.descr_mul),
+    __imul__ = interp2app(W_ListaObject.descr_inplace_mul),
 
-    __sacaartic__ = interp2app(W_ListObject.descr_getitem),
-    __getitem__ = interp2app(W_ListObject.descr_getitem),
-    __sacaparte__ = interp2app(W_ListObject.descr_getslice),
-    __getslice__ = interp2app(W_ListObject.descr_getslice),
-    __ponartic__ = interp2app(W_ListObject.descr_setitem),
-    __setitem__ = interp2app(W_ListObject.descr_setitem),
-    __ponparte__ = interp2app(W_ListObject.descr_setslice),
-    __setslice__ = interp2app(W_ListObject.descr_setslice),
-    __elimartic__ = interp2app(W_ListObject.descr_delitem),
-    __delitem__ = interp2app(W_ListObject.descr_delitem),
-    __elimparte__ = interp2app(W_ListObject.descr_delslice),
-    __delslice__ = interp2app(W_ListObject.descr_delslice),
+    __sacaartic__ = interp2app(W_ListaObject.descr_getitem),
+    __getitem__ = interp2app(W_ListaObject.descr_getitem),
+    __sacaparte__ = interp2app(W_ListaObject.descr_getslice),
+    __getslice__ = interp2app(W_ListaObject.descr_getslice),
+    __ponartic__ = interp2app(W_ListaObject.descr_setitem),
+    __setitem__ = interp2app(W_ListaObject.descr_setitem),
+    __ponparte__ = interp2app(W_ListaObject.descr_setslice),
+    __setslice__ = interp2app(W_ListaObject.descr_setslice),
+    __elimartic__ = interp2app(W_ListaObject.descr_delitem),
+    __delitem__ = interp2app(W_ListaObject.descr_delitem),
+    __elimparte__ = interp2app(W_ListaObject.descr_delslice),
+    __delslice__ = interp2app(W_ListaObject.descr_delslice),
 
-    ordenar = interp2app(W_ListObject.descr_sort),
-    sort = interp2app(W_ListObject.descr_sort),
-    indice = interp2app(W_ListObject.descr_index),
-    index = interp2app(W_ListObject.descr_index),
-    adjuntar = interp2app(W_ListObject.append),
-    append = interp2app(W_ListObject.append),
-    opuesto = interp2app(W_ListObject.descr_reverse),
-    reverse = interp2app(W_ListObject.descr_reverse),
-    __invertido__ = interp2app(W_ListObject.descr_reversed),
-    __reversed__ = interp2app(W_ListObject.descr_reversed),
-    total = interp2app(W_ListObject.descr_count),
-    count = interp2app(W_ListObject.descr_count),
-    pop = interp2app(W_ListObject.descr_pop),
-    extender = interp2app(W_ListObject.extend),
-    extend = interp2app(W_ListObject.extend),
-    insertar = interp2app(W_ListObject.descr_insert),
-    insert = interp2app(W_ListObject.descr_insert),
-    quitar = interp2app(W_ListObject.descr_remove),
-    remove = interp2app(W_ListObject.descr_remove),
+    ordenar = interp2app(W_ListaObject.descr_sort),
+    sort = interp2app(W_ListaObject.descr_sort),
+    indice = interp2app(W_ListaObject.descr_index),
+    index = interp2app(W_ListaObject.descr_index),
+    adjuntar = interp2app(W_ListaObject.append),
+    append = interp2app(W_ListaObject.append),
+    opuesto = interp2app(W_ListaObject.descr_reverse),
+    reverse = interp2app(W_ListaObject.descr_reverse),
+    __invertido__ = interp2app(W_ListaObject.descr_reversed),
+    __reversed__ = interp2app(W_ListaObject.descr_reversed),
+    total = interp2app(W_ListaObject.descr_count),
+    count = interp2app(W_ListaObject.descr_count),
+    pop = interp2app(W_ListaObject.descr_pop),
+    extender = interp2app(W_ListaObject.extend),
+    extend = interp2app(W_ListaObject.extend),
+    insertar = interp2app(W_ListaObject.descr_insert),
+    insert = interp2app(W_ListaObject.descr_insert),
+    quitar = interp2app(W_ListaObject.descr_remove),
+    remove = interp2app(W_ListaObject.descr_remove),
 )
-W_ListObject.typedef.flag_sequence_bug_compat = True
+W_ListaObject.typedef.flag_sequence_bug_compat = True
