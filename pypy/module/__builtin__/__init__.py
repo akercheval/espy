@@ -30,12 +30,15 @@ class Module(MixedModule):
 
     }
 
+    ## hereAK this might be holy grail (probably not but possibly)
     interpleveldefs = {
         # constants
         '__debug__'     : '(space.w_True)',
         'None'          : '(space.w_None)',
         'False'         : '(space.w_False)',
+        'Falso'         : '(space.w_False)',
         'True'          : '(space.w_True)',
+        'Cierto'          : '(space.w_True)',
         'bytes'         : '(space.w_bytes)',
 
         'file'          : 'state.get(space).w_file',
