@@ -373,7 +373,7 @@ class AppTestImport:
         raises(ImportError, __import__, 'xxxbadmodule', fromlist=[u'xx'])
         mod = __import__('collections', fromlist=[u'defaultdict'])
         assert mod is not None
-        
+
 
     def test_import_relative_back_to_absolute2(self):
         from pkg import abs_x_y

@@ -29,3 +29,78 @@
         because I'm not entirely sure whether it's necessary to, but it might be.
 ..* `kwargsdict.py` hasn't been changed - again, not sure what it does and it's 
         not at all the same format as the other files in the `/std/` directory
+
+
+#### Builtins and their functionality:
+
+English         Spanish         Working?
+----------------------------------------
+abs()           abs()
+all()           todo()
+any()           cualq()
+ascii()         ascii()
+bin()           bin()
+bool()          bool()	
+bytearray()     bytematriz()
+bytes()         bytes()	
+callable()      llamable()
+chr()	        carac()
+classmethod()   metclase()
+compile()       compilar()
+complex()                       *not found yet*
+delattr()       elimatr()
+dict()          dicc()
+dir()           dir()
+divmod()        divmod()
+enumerate()     enumerar()
+eval()          eval()
+exec()          ejec()
+filter()        filtrar()
+float()         flot() 
+format()        formato()
+frozenset()                     *not found yet*
+getattr()       sacaatr()
+globals()       globales()
+hasattr()       tieneatr()
+hash()          hash()
+help()                          *not found yet*
+hex()           hex()
+id()            id()
+input()         entrada()
+int()           ent()
+isinstance()    esinstancia()
+issubclass()    essubclase()
+print()         imprimir()
+len()           tam()
+list()          lista()
+locals()        locales()
+map()           mapa()
+max()           max()
+memoryview()                     *not found yet*
+min()           min()
+next()          sig()
+## hereAK
+object()
+oct()
+open()
+ord()
+pow()
+print()
+property()
+range()
+repr()
+reversed()
+round()
+set()
+setattr()
+slice()
+sorted()
+staticmethod()
+str()
+sum()
+super()
+tuple()
+type()
+vars()
+zip()
+__import__()

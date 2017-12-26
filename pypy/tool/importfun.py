@@ -117,6 +117,7 @@ class Scope(object):
             return None, None
 
 
+# hereAK added ListaObject to this list 12/25, but already compiling on school
 class Module(object):
     def __init__(self, name, system):
         self.name = name
@@ -132,7 +133,7 @@ class Module(object):
                 'W_IntObject', 'W_FloatObject', 'W_LongObject', 'W_TupleObject',
                 'W_ListObject', 'W_DictObject', 'W_SliceObject',
                 'W_StringObject', 'W_UnicodeObject', 'W_SeqIterObject',
-                'W_TupleObject', 'W_DictObject', 'W_DictObject'])
+                'W_TupleObject', 'W_DictObject', 'W_DictObject', 'W_ListaObject'])
         self.toplevelscope = Scope()
         self.importers = []
     def import_(self, modname):
