@@ -79,28 +79,49 @@ max()           max()
 memoryview()                     *not found yet*
 min()           min()
 next()          sig()
-## hereAK
-object()
-oct()
-open()
-ord()
-pow()
-print()
-property()
-range()
-repr()
-reversed()
-round()
-set()
-setattr()
-slice()
-sorted()
-staticmethod()
-str()
-sum()
-super()
-tuple()
-type()
-vars()
-zip()
-__import__()
+object()        objeto()
+oct()           oct()
+open()          abrir()
+ord()           ord()
+pow()           pot()
+print()         imprimir()
+property()      propiedad()
+range()         rango()
+repr()          repr()
+reversed()      invertido()
+round()         redond()
+set()           set()
+setattr()       ponatr()
+slice()         cortar()
+sorted()        ordenado()
+staticmethod()  metestat()
+str()           pal()
+sum()           suma()
+super()         padre()
+tuple()         tuple()
+type()          tipo()
+vars()          vars()
+zip()           zip()
+__import__()    __importar__()
+
+
+#### Etc (unless noted otherwise, not found yet)
+
+English         Spanish         Working?
+----------------------------------------
+True            Cierto          Yes
+False           Falso           Yes
+if              si              
+else            si_no 
+elif            sino
+not             no
+in              en
+pass            pasa
+continue        continuar
+break           romper
+class           clase
+def             def
+for             para
+while           mientras
+do              hacer
+return          volver
