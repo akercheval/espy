@@ -23,6 +23,7 @@ from pypy.objspace.std.floatobject import W_FloatObject
 from pypy.objspace.std.intobject import W_IntObject, setup_prebuilt, wrapint
 from pypy.objspace.std.iterobject import W_AbstractSeqIterObject, W_SeqIterObject
 from pypy.objspace.std.listobject import W_ListObject
+from pypy.objspace.std.listaobject import W_ListaObject
 from pypy.objspace.std.longobject import W_LongObject, newlong
 from pypy.objspace.std.memoryobject import W_MemoryView
 from pypy.objspace.std.noneobject import W_NoneObject
@@ -70,6 +71,7 @@ class StdObjSpace(ObjSpace):
             W_IntObject.typedef: W_IntObject,
             W_AbstractSeqIterObject.typedef: W_AbstractSeqIterObject,
             W_ListObject.typedef: W_ListObject,
+            W_ListaObject.typedef: W_ListaObject,
             W_LongObject.typedef: W_LongObject,
             W_MemoryView.typedef: W_MemoryView,
             W_NoneObject.typedef: W_NoneObject,

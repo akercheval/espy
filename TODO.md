@@ -110,7 +110,7 @@ English         Spanish         Working?
 ----------------------------------------
 True            Cierto          Yes
 False           Falso           Yes
-None            Nada            Yes (sort of - see below)
+None            Nada            Yes
 if              si              
 else            si_no 
 elif            sino
@@ -131,7 +131,3 @@ self            mismo
 and             y
 or              o
 
->>>> test = [Nada] * 5
->>>> test
-[None, None, None, None, None]
-as of 12/26
