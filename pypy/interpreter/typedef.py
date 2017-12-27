@@ -770,6 +770,7 @@ PyTraceback.typedef = TypeDef("traceback",
     )
 assert not PyTraceback.typedef.acceptable_as_base_class  # no __new__
 
+#hereAK this might be useful - come back later
 GeneratorIterator.typedef = TypeDef("generator",
     __repr__   = interp2app(GeneratorIterator.descr__repr__),
     __reduce__   = interp2app(GeneratorIterator.descr__reduce__),

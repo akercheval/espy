@@ -99,7 +99,7 @@ def set_trace_too_long_hook(space, w_hook):
 def wrap_oplist(space, logops, operations, ops_offset=None):
     # this function is called from the JIT
     from rpython.jit.metainterp.resoperation import rop
-    
+
     l_w = []
     jitdrivers_sd = logops.metainterp_sd.jitdrivers_sd
     for op in operations:
