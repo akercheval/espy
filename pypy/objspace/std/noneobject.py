@@ -11,9 +11,10 @@ class W_NoneObject(W_Root):
         return space.w_False
 
     def descr_repr(self, space):
-        return space.newtext('None')
+        return space.newtext('Nada')
 
 
+W_NoneObject.w_Nada = W_NoneObject()
 W_NoneObject.w_None = W_NoneObject()
 
 W_NoneObject.typedef = TypeDef("NoneType",

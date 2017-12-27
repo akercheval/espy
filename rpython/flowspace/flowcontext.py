@@ -1161,6 +1161,8 @@ class FlowContext(object):
     MAKE_CLOSURE = BAD_OPCODE
 
 ### Frame blocks ###
+## hereAK these are flow control functions, but this isn't exactly what we want
+## to screw with because it doesn't have much to do with naming
 
 class FlowSignal(Exception):
     """Abstract base class for translator-level objects that instruct the

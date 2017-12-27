@@ -35,82 +35,82 @@
 
 English         Spanish         Working?
 ----------------------------------------
-abs()           abs()
-all()           todo()
-any()           cualq()
-ascii()         ascii()
-bin()           bin()
-bool()          bool()	
-bytearray()     bytematriz()
-bytes()         bytes()	
-callable()      llamable()
-chr()	        carac()
-classmethod()   metclase()
-compile()       compilar()
+abs()           abs()           Yes
+all()           todo()          Yes
+any()           cualq()         Yes
+ascii()         ascii()         Not defined even in normal pypy
+bin()           bin()           Yes
+bool()          bool()	        Yes
+bytearray()     bytematriz()    **No**
+bytes()         bytes()	        Yes
+callable()      llamable()      Yes
+chr()	        carac()         Yes
+classmethod()   metclase()      Yes
+compile()       compilar()      Yes
 complex()                       *not found yet*
-delattr()       elimatr()
-dict()          dicc()
-dir()           dir()
-divmod()        divmod()
-enumerate()     enumerar()
-eval()          eval()
-exec()          ejec()
-filter()        filtrar()
-float()         flot() 
-format()        formato()
+delattr()       elimatr()       Yes
+dict()          dicc()          **No**
+dir()           dir()           Yes
+divmod()        divmod()        Yes
+enumerate()     enumerar()      Yes
+eval()          eval()          Yes
+exec()          ejec()          **No**
+filter()        filtrar()       Yes
+float()         flot()          **No**
+format()        formato()       Yes
 frozenset()                     *not found yet*
-getattr()       sacaatr()
-globals()       globales()
-hasattr()       tieneatr()
-hash()          hash()
+getattr()       sacaatr()       Yes
+globals()       globales()      Yes
+hasattr()       tieneatr()      Yes
+hash()          hash()          Yes
 help()                          *not found yet*
-hex()           hex()
-id()            id()
-input()         entrada()
-int()           ent()
-isinstance()    esinstancia()
-issubclass()    essubclase()
-print()         imprimir()
-len()           tam()
-list()          lista()
-locals()        locales()
-map()           mapa()
-max()           max()
+hex()           hex()           Yes
+id()            id()            Yes
+input()         entrada()       Yes
+int()           ent()           **No**
+isinstance()    esinstancia()   Yes
+issubclass()    essubclase()    Yes
+len()           tam()           Yes
+list()          lista()         **No**
+locals()        locales()       Yes
+map()           mapa()          Yes
+max()           max()           Yes
 memoryview()                     *not found yet*
-min()           min()
-next()          sig()
-object()        objeto()
-oct()           oct()
-open()          abrir()
-ord()           ord()
-pow()           pot()
-print()         imprimir()
-property()      propiedad()
-range()         rango()
-repr()          repr()
-reversed()      invertido()
-round()         redond()
-set()           set()
-setattr()       ponatr()
-slice()         cortar()
-sorted()        ordenado()
-staticmethod()  metestat()
-str()           pal()
-sum()           suma()
-super()         padre()
-tuple()         tuple()
-type()          tipo()
-vars()          vars()
-zip()           zip()
-__import__()    __importar__()
-
+min()           min()           Yes
+next()          sig()           Yes
+object()        objeto()        **No**
+oct()           oct()           Yes
+open()          abrir()         Yes
+ord()           ord()           Yes
+pow()           pot()           Yes
+print()         imprimir()      Yes
+property()      propiedad()     Yes
+range()         rango()         Yes
+repr()          repr()          Yes
+reversed()      invertido()     Yes
+round()         redond()        Yes
+set()           set()           Yes (but only because name is same)
+setattr()       ponatr()        Yes
+slice()         cortar()        **No**
+sorted()        ordenado()      Yes
+staticmethod()  metestat()      Yes
+str()           pal()           **No**
+sum()           suma()          Yes
+super()         padre()         Yes
+tuple()         tuple()         Yes (but only because name is same)
+type()          tipo()          **No**
+vars()          vars()          Yes
+zip()           zip()           Yes
+__import__()    __importar__()  Yes (but 'importar' doesn't)
 
 #### Etc (unless noted otherwise, not found yet)
+These are probably located in pypy/interpreter
 
 English         Spanish         Working?
 ----------------------------------------
 True            Cierto          Yes
 False           Falso           Yes
+None            Nada            Yes (sort of - see below)
 if              si              
 else            si_no 
 elif            sino
@@ -125,3 +125,13 @@ for             para
 while           mientras
 do              hacer
 return          volver
+try             probar
+except          excepto
+self            mismo
+and             y
+or              o
+
+>>>> test = [Nada] * 5
+>>>> test
+[None, None, None, None, None]
+as of 12/26
