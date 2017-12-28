@@ -78,16 +78,13 @@ exec_stmt: 'exec' expr [('in' | 'en') test [',' test]]
 assert_stmt: ('assert' | 'afirmar') test [',' test]
 
 compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef
-if_stmt: ('if' | 'si') test ':' suite (('elif' | 'sino') test ':' suite)* 
-         [('else' | 'si_no') ':' suite]
+if_stmt: ('if' | 'si') test ':' suite (('elif' | 'sino') test ':' suite)* [('else' | 'si_no') ':' suite]
 while_stmt: ('while' | 'mientras') test ':' suite [('else' | 'si_no') ':' suite]
-for_stmt: ('for' | 'para') exprlist ('in' | 'en') testlist ':' suite 
-          [('else' | 'si_no') ':' suite]
+for_stmt: ('for' | 'para') exprlist ('in' | 'en') testlist ':' suite [('else' | 'si_no') ':' suite]
 try_stmt: (('try' | 'probar') ':' suite
-           ((except_clause ':' suite)+
-	    [('else' | 'si_no') ':' suite]
-	    [('finally' | 'porfin') ':' suite] |
-	   ('finally' | 'porfin') ':' suite))
+           ((except_clause ':' suite)+ [('else' | 'si_no') ':' suite]
+        [('finally' | 'porfin') ':' suite] |
+        ('finally' | 'porfin') ':' suite))
 with_stmt: ('with' | 'con') test [ with_var ] ':' suite
 with_var: (('as' | 'como') | NAME) expr
 # NB compile.c makes sure that the default except clause is last
@@ -108,9 +105,7 @@ or_test: and_test (('or' | 'o') and_test)*
 and_test: not_test (('and' | 'y') not_test)*
 not_test: ('not' | 'no') not_test | comparison
 comparison: expr (comp_op expr)*
-comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='| ('in' | 'en') |
-         ('not' | 'no') ('in' | 'en') | ('is' | 'es') |
-         ('is' | 'es') ('not' | 'no')
+comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='| ('in' | 'en') | ('not' | 'no') ('in' | 'en') | ('is' | 'es') | ('is' | 'es') ('not' | 'no')
 expr: xor_expr ('|' xor_expr)*
 xor_expr: and_expr ('^' and_expr)*
 and_expr: shift_expr ('&' shift_expr)*
