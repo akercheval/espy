@@ -329,17 +329,17 @@ class ASTBuilder(object):
             suite = self.handle_suite(if_node.get_child(3))
             return ast.If(test, suite, None, if_node.get_lineno(), if_node.get_column())
         otherwise_string = if_node.get_child(4).get_value()
-        if otherwise_string == "else":
+        if otherwise_string == "else" or otherwise_string == "si_no":
             test = self.handle_expr(if_node.get_child(1))
             suite = self.handle_suite(if_node.get_child(3))
             else_suite = self.handle_suite(if_node.get_child(6))
             return ast.If(test, suite, else_suite, if_node.get_lineno(),
                           if_node.get_column())
-        elif otherwise_string == "elif":
+        elif otherwise_string == "elif" or otherwise_string == "sino":
             elif_count = child_count - 4
             after_elif = if_node.get_child(elif_count + 1)
             if after_elif.type == tokens.NAME and \
-                    after_elif.get_value() == "else":
+                    (after_elif.get_value() == "else" or after_elif.get_value() == "si_no"):
                 has_else = True
                 elif_count -= 3
             else:
@@ -417,7 +417,8 @@ class ASTBuilder(object):
         finally_suite = None
         possible_extra_clause = try_node.get_child(-3)
         if possible_extra_clause.type == tokens.NAME:
-            if possible_extra_clause.get_value() == "finally":
+            if possible_extra_clause.get_value() == "finally" or \
+                    possible_extra_clause.get_value() == "porfin":
                 if child_count >= 9 and \
                         try_node.get_child(-6).type == tokens.NAME:
                     otherwise = self.handle_suite(try_node.get_child(-4))
@@ -821,9 +822,9 @@ class ASTBuilder(object):
             elif comp_type == tokens.NOTEQUAL:
                 return ast.NotEq
             elif comp_type == tokens.NAME:
-                if comp_node.get_value() == "is":
+                if comp_node.get_value() == "is" or comp_node.get_value() == "es":
                     return ast.Is
-                elif comp_node.get_value() == "in":
+                elif comp_node.get_value() == "in" or comp_node.get_value() == "en":
                     return ast.In
                 else:
                     raise AssertionError("invalid comparison")
@@ -832,7 +833,11 @@ class ASTBuilder(object):
         else:
             if comp_op_node.get_child(1).get_value() == "in":
                 return ast.NotIn
+            elif comp_op_node.get_child(1).get_value() == "en":
+                return ast.NotIn
             elif comp_node.get_value() == "is":
+                return ast.IsNot
+            elif comp_node.get_value() == "es":
                 return ast.IsNot
             else:
                 raise AssertionError("invalid comparison")
