@@ -9,6 +9,7 @@ from pypy.interpreter.pyframe import PyFrame
 from pypy.interpreter.error import oefmt
 from pypy.objspace.std.intobject import W_IntObject
 from pypy.objspace.std.listobject import W_ListObject
+from pypy.objspace.std.listaobject import W_ListaObject
 
 
 class BaseFrame(PyFrame):
@@ -17,7 +18,7 @@ class BaseFrame(PyFrame):
     def LIST_APPEND(self, oparg, next_instr):
         w = self.popvalue()
         v = self.peekvalue(oparg - 1)
-        if type(v) is W_ListObject:
+        if type(v) is W_ListObject or type(v) is W_ListaObject:
             v.append(w)
         else:
             raise AssertionError

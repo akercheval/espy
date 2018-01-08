@@ -241,6 +241,8 @@ def isinstance(space, w_obj, w_klass_or_tuple):
     """Check whether an object is an instance of a class (or of a subclass
 thereof).  When using a tuple as the second argument, check whether 'obj'
 is an instance of any of the classes listed in the tuple."""
+    #if isinstance(w_obj, W_ListaObject):
+    #    return isinstance(space, w_obj, (w_klass_or_tuple, W_ListaObject))
     result = abstract_isinstance_w(space, w_obj, w_klass_or_tuple, True)
     return space.newbool(result)
 

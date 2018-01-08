@@ -302,7 +302,7 @@ class StdObjSpace(ObjSpace):
 
     def newlist(self, list_w, sizehint=-1):
         assert not list_w or sizehint == -1
-        return W_ListObject(self, list_w, sizehint)
+        return W_ListaObject(self, list_w, sizehint)
 
     def newlist_bytes(self, list_s):
         return W_ListObject.newlist_bytes(self, list_s)
