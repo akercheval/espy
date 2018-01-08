@@ -37,7 +37,7 @@ def type_eq(space):
 @specialize.memo()
 def list_iter(space):
     "Utility that returns the app-level descriptor list.__iter__."
-    return space.lookup_in_type(space.w_list, '__iter__')
+    return space.lookup_in_type(space.w_lista, '__iter__')
 
 @specialize.memo()
 def tuple_iter(space):

@@ -1487,6 +1487,8 @@ def setup_library(space):
     lines = ['PyObject *pypy_static_pyobjs[] = {\n']
     include_lines = ['RPY_EXTERN PyObject *pypy_static_pyobjs[];\n']
     for name, (typ, expr) in sorted(GLOBALS.items()):
+        if expr == "space.w_list":
+            expr = "space.w_lista"
         if '#' in name:
             name, header = name.split('#')
             assert typ in ('PyObject*', 'PyTypeObject*', 'PyIntObject*')

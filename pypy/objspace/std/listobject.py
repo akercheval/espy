@@ -2131,7 +2131,7 @@ class CustomKeyCompareSort(CustomCompareSort):
         return CustomCompareSort.lt(self, a.w_key, b.w_key)
 
 
-W_ListObject.typedef = TypeDef("list",
+W_ListObject.typedef = TypeDef("lista",
     __doc__ = """lista() -> nueva lista vacía
 lista(iterable) -> nueva lista iniciada de artículos del iterable""",
     __nuevo__ = interp2app(W_ListObject.descr_new),

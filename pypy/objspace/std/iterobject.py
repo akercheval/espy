@@ -81,11 +81,10 @@ class W_FastListIterObject(W_AbstractSeqIterObject):
 
     def descr_next(self, space):
         from pypy.objspace.std.listobject import W_ListObject
-        from pypy.objspace.std.listaobject import W_ListaObject
         w_seq = self.w_seq
         if w_seq is None:
             raise OperationError(space.w_StopIteration, space.w_None)
-        assert isinstance(w_seq, (W_ListObject, W_ListaObject))
+        assert isinstance(w_seq, W_ListObject)
         index = self.index
         try:
             w_item = w_seq.getitem(index)

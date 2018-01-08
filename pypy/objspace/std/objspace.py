@@ -23,7 +23,7 @@ from pypy.objspace.std.floatobject import W_FloatObject
 from pypy.objspace.std.intobject import W_IntObject, setup_prebuilt, wrapint
 from pypy.objspace.std.iterobject import W_AbstractSeqIterObject, W_SeqIterObject
 from pypy.objspace.std.listobject import W_ListObject
-from pypy.objspace.std.listaobject import W_ListaObject
+#from pypy.objspace.std.listaobject import W_ListaObject
 from pypy.objspace.std.longobject import W_LongObject, newlong
 from pypy.objspace.std.memoryobject import W_MemoryView
 from pypy.objspace.std.noneobject import W_NoneObject
@@ -71,7 +71,7 @@ class StdObjSpace(ObjSpace):
             W_IntObject.typedef: W_IntObject,
             W_AbstractSeqIterObject.typedef: W_AbstractSeqIterObject,
             W_ListObject.typedef: W_ListObject,
-            W_ListaObject.typedef: W_ListaObject,
+            #W_ListaObject.typedef: W_ListaObject,
             W_LongObject.typedef: W_LongObject,
             W_MemoryView.typedef: W_MemoryView,
             W_NoneObject.typedef: W_NoneObject,
@@ -100,7 +100,7 @@ class StdObjSpace(ObjSpace):
         self.w_dict.flag_map_or_seq = 'M'
         from pypy.objspace.std import dictproxyobject
         dictproxyobject._set_flag_map_or_seq(self)
-        self.w_list.flag_map_or_seq = 'S'
+        self.w_lista.flag_map_or_seq = 'S'
         self.w_tuple.flag_map_or_seq = 'S'
         self.builtin_types["NotImplemented"] = self.w_NotImplemented
         self.builtin_types["Ellipsis"] = self.w_Ellipsis
@@ -302,7 +302,7 @@ class StdObjSpace(ObjSpace):
 
     def newlist(self, list_w, sizehint=-1):
         assert not list_w or sizehint == -1
-        return W_ListaObject(self, list_w, sizehint)
+        return W_ListObject(self, list_w, sizehint)
 
     def newlist_bytes(self, list_s):
         return W_ListObject.newlist_bytes(self, list_s)
