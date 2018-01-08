@@ -7,17 +7,8 @@
 * Don't break the help() function: for example, help(list) makes no sense in 
     espy. I think that this is because I put the Spanish references to functions
     below their English counterparts in W_ListObject.typedef, but I'm not sure.
-* Add new builtin functions every time espy runs. There could be some sort of 
-    [global somewhere]("https://stackoverflow.com/questions/29798592/overwriting-built-in-function-in-python"),
-    but I'm not sure how that would work or where it would be go. Alternately, 
-    this codeblock shows how to overwrite some builtins, but I'm not sure how 
-    temporary it is (and also it doesn't seem to work with print()):
-    ```
-        >>>> import __builtin__ as builtin
-        >>>> builtin.tam = builtin.len
-        >>>> tam([1, 2, 3])
-        3
-    ```
+* Remove all the unnecessary stuff pypy throws up when the interpreter starts,
+    and translate it to Spanish.
 * Allow for accents in type definitions: Right now, for example, the "index" 
     function of the list type, which should be called "índice" is called
     "indice" because the pypy compiler freaks out when it finds an accent.
@@ -103,7 +94,7 @@
 | zip()         |  zip()         |  Yes
 | __import__()  |  __importar__()|  Yes
 
-#### Etc (unless noted otherwise, not found yet)
+#### Etc
 
 | English         | Spanish       |   Working?
 | ----------------| --------------| ----------
@@ -116,17 +107,19 @@
 | not             | no            |   Yes
 | in              | en            |   Yes
 | pass            | pasa          |   Yes
-| continue        | continuar     |
-| break           | romper        |
-| class           | clase         |
+| continue        | continuar     |   Yes
+| break           | romper        |   Yes
+| class           | clase         |   Yes
 | def             | def           |   Yes
 | for             | para          |   Yes
 | while           | mientras      |   Yes
-| do              | hacer         |
-| return          | volver        |
-| try             | probar        |
-| except          | excepto       |
-| self            | mismo         |
+| return          | volver        |   Yes
+| try             | probar        |   Yes
+| except          | excepto       |   Yes
+| self            | mismo         |   Yes
 | and             | y             |   Yes
 | or              | o             |   Yes
-
+| help            | ayuda         |   **Not found**
+| copyright       | copyright     |   N/A (same word)
+| credits         | atrib         |   **Not found**
+| license         | licencia      |   **Not found**
