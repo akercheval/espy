@@ -107,8 +107,9 @@ class StdObjSpace(ObjSpace):
         self.w_basestring = self.builtin_types['basestring'] = \
             self.gettypeobject(basestring_typedef)
 
-        # hereAK added to see if build works
+        # English references to Spanish counterparts
         self.w_list = self.w_lista
+        self.w_bytearray = self.w_bytematriz
 
         # exceptions & builtins
         self.make_builtins()

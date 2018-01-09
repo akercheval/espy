@@ -62,7 +62,7 @@
 | isinstance()  |  esinstancia() |  Yes
 | issubclass()  |  essubclase()  |  Yes
 | len()         |  tam()         |  Yes
-| list()        |  lista()       |  **No**
+| list()        |  lista()       |  Yes
 | locals()      |  locales()     |  Yes
 | map()         |  mapa()        |  Yes
 | max()         |  max()         |  Yes
