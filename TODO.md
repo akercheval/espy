@@ -28,13 +28,13 @@
 | ascii()       |  ascii()       |  Not defined even in normal pypy
 | bin()         |  bin()         |  Yes
 | bool()        |  bool()	     |  Yes
-| bytearray()   |  bytematriz()  |  Yes but (1)
+| bytearray()   |  bytematriz()  |  Yes but (1, 2)
 | bytes()       |  bytes()	     |  Yes
 | callable()    |  llamable()    |  Yes
 | chr()	        |  carac()       |  Yes
 | classmethod() |  metclase()    |  Yes
 | compile()     |  compilar()    |  Yes
-| complex()     |  complejo()    |  **No**
+| complex()     |  complejo()    |  Yes but (1)
 | delattr()     |  elimatr()     |  Yes
 | dict()        |  dicc()        |  **No**
 | dir()         |  dir()         |  Yes
@@ -90,11 +90,11 @@
 | zip()         |  zip()         |  Yes
 | __import__()  |  __importar__()|  Yes
 
-1. A couple things: `bytematriz()` creates a new object that passes the
+1. Spanish keyword works, English one doesn't.
+2. A couple things: `bytematriz()` creates a new object that passes the
    `type()` and `isinstance()` tests. However, the physical call of `bytematriz()`
    returns `bytearray(b'')` (or something) in the console. This might just be
-   a one-line fix in bytematriz's repr function, but I haven't looked yet. Also,
-   whereas both `lista()` and `list()` work, `bytearray()` no longer works. 
+   a one-line fix in bytematriz's repr function, but I haven't looked yet.
 
 #### Etc
 

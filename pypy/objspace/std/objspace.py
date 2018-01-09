@@ -96,7 +96,7 @@ class StdObjSpace(ObjSpace):
             setattr(self, 'w_' + name, w_type)
             self._interplevel_classes[w_type] = cls
         self.w_text = self.w_bytes   # 'space.w_text' is w_unicode on Py3
-        self.w_dict.flag_map_or_seq = 'M'
+        self.w_dicc.flag_map_or_seq = 'M'
         from pypy.objspace.std import dictproxyobject
         dictproxyobject._set_flag_map_or_seq(self)
         self.w_lista.flag_map_or_seq = 'S'
@@ -110,6 +110,8 @@ class StdObjSpace(ObjSpace):
         self.w_list = self.w_lista
         self.w_bytearray = self.w_bytematriz
         self.w_complex = self.w_complejo
+        self.w_dict = self.w_dicc
+
 
         # exceptions & builtins
         self.make_builtins()

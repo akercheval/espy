@@ -241,9 +241,9 @@ class W_BytearrayObject(W_Root):
         s, start, end, _ = self._convert_idx_params(space, None, None)
 
         # Good default if there are no replacements.
-        buf = StringBuilder(len("bytearray(b'')") + (end - start))
+        buf = StringBuilder(len("bytematriz(b'')") + (end - start))
 
-        buf.append("bytearray(b")
+        buf.append("bytematriz(b")
         quote = "'"
         for i in range(start, end):
             c = s[i]

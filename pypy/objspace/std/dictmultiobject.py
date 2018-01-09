@@ -601,7 +601,7 @@ app = applevel('''
 dictrepr = app.interphook("dictrepr")
 
 
-W_DictMultiObject.typedef = TypeDef("dict",
+W_DictMultiObject.typedef = TypeDef("dicc",
     __doc__ = '''dicc() -> diccionario nuevo vacío.
 dicc(mapa) -> diccionario nuevo inicializado de los pares (clave, valor)
     de una mapa.
