@@ -1,9 +1,5 @@
 ## TODO
 
-* Change python's internal reference to a class without breaking everything 
-    (i.e. alias "lista" to "list"). Changing "list" to "lista" in listobject.py
-    really messes things up, but it means that when espy is running, the command
-    `type([])` returns "list", not "lista". 
 * Don't break the help() function: for example, help(list) makes no sense in 
     espy. I think that this is because I put the Spanish references to functions
     below their English counterparts in W_ListObject.typedef, but I'm not sure.
@@ -31,9 +27,9 @@
 | any()         |  cualq()       |  Yes
 | ascii()       |  ascii()       |  Not defined even in normal pypy
 | bin()         |  bin()         |  Yes
-| bool()        |  bool()	     |   Yes
-| bytearray()   |  bytematriz()  |  **No**
-| bytes()       |  bytes()	     |   Yes
+| bool()        |  bool()	     |  Yes
+| bytearray()   |  bytematriz()  |  Yes but (1)
+| bytes()       |  bytes()	     |  Yes
 | callable()    |  llamable()    |  Yes
 | chr()	        |  carac()       |  Yes
 | classmethod() |  metclase()    |  Yes
@@ -93,6 +89,12 @@
 | vars()        |  vars()        |  Yes
 | zip()         |  zip()         |  Yes
 | __import__()  |  __importar__()|  Yes
+
+1. A couple things: `bytematriz()` creates a new object that passes the
+   `type()` and `isinstance()` tests. However, the physical call of `bytematriz()`
+   returns `bytearray(b'')` (or something) in the console. This might just be
+   a one-line fix in bytematriz's repr function, but I haven't looked yet. Also,
+   whereas both `lista()` and `list()` work, `bytearray()` no longer works. 
 
 #### Etc
 
