@@ -257,7 +257,7 @@ def _optimize_charset(charset, fixup, fixes, isunicode):
     # internal: optimize character set
     out = []
     tail = []
-    charmap = bytearray(256)
+    charmap = bytematriz(256)
     for op, av in charset:
         while True:
             try:
