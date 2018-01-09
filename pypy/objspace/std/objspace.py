@@ -23,7 +23,6 @@ from pypy.objspace.std.floatobject import W_FloatObject
 from pypy.objspace.std.intobject import W_IntObject, setup_prebuilt, wrapint
 from pypy.objspace.std.iterobject import W_AbstractSeqIterObject, W_SeqIterObject
 from pypy.objspace.std.listobject import W_ListObject
-#from pypy.objspace.std.listaobject import W_ListaObject
 from pypy.objspace.std.longobject import W_LongObject, newlong
 from pypy.objspace.std.memoryobject import W_MemoryView
 from pypy.objspace.std.noneobject import W_NoneObject
@@ -110,6 +109,7 @@ class StdObjSpace(ObjSpace):
         # English references to Spanish counterparts
         self.w_list = self.w_lista
         self.w_bytearray = self.w_bytematriz
+        self.w_complex = self.w_complejo
 
         # exceptions & builtins
         self.make_builtins()
