@@ -107,6 +107,9 @@ class StdObjSpace(ObjSpace):
         self.w_basestring = self.builtin_types['basestring'] = \
             self.gettypeobject(basestring_typedef)
 
+        # hereAK added to see if build works
+        self.w_list = self.w_lista
+
         # exceptions & builtins
         self.make_builtins()
 
