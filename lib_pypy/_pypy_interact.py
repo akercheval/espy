@@ -3,7 +3,8 @@
 import sys
 import os
 
-irc_header = "And now for something completely different"
+# hereAK commented out crap at interpreter start
+#irc_header = "And now for something completely different"
 
 
 def interactive_console(mainmodule=None, quiet=False, future_flags=0):
@@ -14,17 +15,17 @@ def interactive_console(mainmodule=None, quiet=False, future_flags=0):
     if not hasattr(sys, 'ps2'):
         sys.ps2 = '.... '
     #
-    if not quiet:
-        try:
-            from _pypy_irc_topic import some_topic
-            text = "%s: ``%s''" % ( irc_header, some_topic())
-            while len(text) >= 80:
-                i = text[:80].rfind(' ')
-                print(text[:i])
-                text = text[i+1:]
-            print(text)
-        except ImportError:
-            pass
+#    if not quiet:
+#        try:
+#            from _pypy_irc_topic import some_topic
+#            text = "%s: ``%s''" % ( irc_header, some_topic())
+#            while len(text) >= 80:
+#                i = text[:80].rfind(' ')
+#                print(text[:i])
+#                text = text[i+1:]
+#            print(text)
+#        except ImportError:
+#            pass
     #
     try:
         if not os.isatty(sys.stdin.fileno()):

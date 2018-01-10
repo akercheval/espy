@@ -652,7 +652,7 @@ class W_FloatObject(W_Root):
             return space.newtext("0x%sp%s%d" % (s, sign, exp))
 
 
-W_FloatObject.typedef = TypeDef("float",
+W_FloatObject.typedef = TypeDef("flot",
     __doc__ = '''flot(x) -> número flot
 
 Convertir una palabra o número a flot, si es posible.''',

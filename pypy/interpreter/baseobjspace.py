@@ -2064,6 +2064,7 @@ ObjSpace.ConstantTable = [
     'NotImplemented',
 ]
 
+# hereAK exceptions?
 ObjSpace.ExceptionTable = [
     'ArithmeticError',
     'AssertionError',
@@ -2090,6 +2091,7 @@ ObjSpace.ExceptionTable = [
     'OverflowError',
     'ReferenceError',
     'RuntimeError',
+    'RandomTestError',
     'StandardError',
     'StopIteration',
     'SyntaxError',

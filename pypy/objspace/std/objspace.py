@@ -70,7 +70,6 @@ class StdObjSpace(ObjSpace):
             W_IntObject.typedef: W_IntObject,
             W_AbstractSeqIterObject.typedef: W_AbstractSeqIterObject,
             W_ListObject.typedef: W_ListObject,
-            #W_ListaObject.typedef: W_ListaObject,
             W_LongObject.typedef: W_LongObject,
             W_MemoryView.typedef: W_MemoryView,
             W_NoneObject.typedef: W_NoneObject,
@@ -111,6 +110,7 @@ class StdObjSpace(ObjSpace):
         self.w_bytearray = self.w_bytematriz
         self.w_complex = self.w_complejo
         self.w_dict = self.w_dicc
+        self.w_float = self.w_flot
 
 
         # exceptions & builtins

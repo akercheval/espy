@@ -5,6 +5,10 @@
     below their English counterparts in W_ListObject.typedef, but I'm not sure.
 * Remove all the unnecessary stuff pypy throws up when the interpreter starts,
     and translate it to Spanish.
+* Traceback translations, found in `/pypy/interpreter/error.py`
+* Translate error names
+* Translate object method names: for example, I've never seen the definition of 
+  `list.append` yet and as such haven't translated it.
 * Allow for accents in type definitions: Right now, for example, the "index" 
     function of the list type, which should be called "índice" is called
     "indice" because the pypy compiler freaks out when it finds an accent.
@@ -118,6 +122,7 @@
 | return          | volver        |   Yes
 | try             | probar        |   Yes
 | except          | excepto       |   Yes
+| raise           | levantar      |   Yes
 | self            | mismo         |   Yes
 | and             | y             |   Yes
 | or              | o             |   Yes

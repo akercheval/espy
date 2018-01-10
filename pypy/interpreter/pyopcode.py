@@ -894,6 +894,8 @@ class __extend__(pyframe.PyFrame):
             varname = "lista"
         elif varname == "dict":
             varname = "dicc"
+        elif varname == "float":
+            varname = "flot"
         w_value = self.space.finditem_str(self.get_w_globals(), varname)
         if w_value is None:
             # not in the globals, now look in the built-ins
