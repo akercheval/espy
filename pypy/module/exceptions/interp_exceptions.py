@@ -263,9 +263,8 @@ W_StandardError = _new_exception('StandardError', W_Exception,
 W_BufferError = _new_exception('BufferError', W_StandardError,
                          """Buffer error.""")
 
-# hereAK value -> valor
 W_ValorError = _new_exception('ValorError', W_StandardError,
-                         """Inappropriate argument value (of correct type).""")
+                         """Valor de argumento incorrecto (de tipo correcto).""")
 
 W_ValueError = _new_exception('ValueError', W_StandardError,
                          """Inappropriate argument value (of correct type).""")
@@ -469,6 +468,9 @@ W_BytesWarning = _new_exception('BytesWarning', W_Warning,
 
 W_DeprecationWarning = _new_exception('DeprecationWarning', W_Warning,
                         """Base class for warnings about deprecated features.""")
+
+W_AritmeticaError = _new_exception('AritmeticaError', W_StandardError,
+                         """Clase base para errores de aritmetica.""")
 
 W_ArithmeticError = _new_exception('ArithmeticError', W_StandardError,
                          """Base class for arithmetic errors.""")

@@ -2067,6 +2067,7 @@ ObjSpace.ConstantTable = [
 # hereAK changed this 1/9
 ObjSpace.ExceptionTable = [
     'ArithmeticError',
+    'AritmeticaError',
     'AssertionError',
     'AttributeError',
     'BaseException',

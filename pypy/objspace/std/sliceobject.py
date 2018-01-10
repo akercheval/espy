@@ -29,7 +29,7 @@ class W_SliceObject(W_Root):
         else:
             step = _eval_slice_index(space, w_slice.w_step)
             if step == 0:
-                raise oefmt(space.w_ValueError, "slice step cannot be zero")
+                raise oefmt(space.w_ValueError, "paso de cortar no puede ser cero")
         if space.is_w(w_slice.w_start, space.w_None):
             if step < 0:
                 start = length - 1
@@ -97,15 +97,15 @@ class W_SliceObject(W_Root):
         elif len(args_w) == 3:
             w_start, w_stop, w_step = args_w
         elif len(args_w) > 3:
-            raise oefmt(space.w_TypeError, "slice() takes at most 3 arguments")
+            raise oefmt(space.w_TypeError, "cortar() toma por lo máximo 3 argumentos")
         else:
-            raise oefmt(space.w_TypeError, "slice() takes at least 1 argument")
+            raise oefmt(space.w_TypeError, "cortar() toma por lo menos 1 argumento")
         w_obj = space.allocate_instance(W_SliceObject, w_slicetype)
         W_SliceObject.__init__(w_obj, w_start, w_stop, w_step)
         return w_obj
 
     def descr_repr(self, space):
-        return space.newtext("slice(%s, %s, %s)" % (
+        return space.newtext("cortar(%s, %s, %s)" % (
             space.text_w(space.repr(self.w_start)),
             space.text_w(space.repr(self.w_stop)),
             space.text_w(space.repr(self.w_step))))
@@ -158,12 +158,12 @@ class W_SliceObject(W_Root):
             return space.lt(self.w_start, w_other.w_start)
 
     def descr_indices(self, space, w_length):
-        """S.indices(len) -> (start, stop, stride)
+        """S.indices(tam) -> (empieza, fin, paso)
 
-        Assuming a sequence of length len, calculate the start and stop
-        indices, and the stride length of the extended slice described by
-        S. Out of bounds indices are clipped in a manner consistent with the
-        handling of normal slices.
+        Asumiendo una secuencia de tamaño tam, calcular los indices
+        empieza y fin, y el tamaño del paso del cortar extendido describido
+        por S. Índices fueras del rango son cortadas en una manera consistente
+        con cortares normales.
         """
         length = space.getindex_w(w_length, space.w_OverflowError)
         start, stop, step = self.indices3(space, length)
@@ -175,25 +175,34 @@ def slicewprop(name):
     def fget(space, w_obj):
         from pypy.objspace.std.sliceobject import W_SliceObject
         if not isinstance(w_obj, W_SliceObject):
-            raise oefmt(space.w_TypeError, "descriptor is for 'slice'")
+            raise oefmt(space.w_TypeError, "descriptor es para 'cortar'")
         return getattr(w_obj, name)
     return GetSetProperty(fget)
 
-W_SliceObject.typedef = TypeDef("slice",
-    __doc__ = '''slice([start,] stop[, step])
+W_SliceObject.typedef = TypeDef("cortar",
+    __doc__ = '''cortar([empieza,] fin[, paso])
 
-Create a slice object.  This is used for extended slicing (e.g. a[0:10:2]).''',
+Crear un objeto cortar. Está usado por cortar extendido (e.g. a[0:10:2]).''',
+
+    __nuevo__ = gateway.interp2app(W_SliceObject.descr__new__),
     __new__ = gateway.interp2app(W_SliceObject.descr__new__),
     __repr__ = gateway.interp2app(W_SliceObject.descr_repr),
     __hash__ = None,
+    __reducir__ = gateway.interp2app(W_SliceObject.descr__reduce__),
     __reduce__ = gateway.interp2app(W_SliceObject.descr__reduce__),
 
+    __ig__ = gateway.interp2app(W_SliceObject.descr_eq),
     __eq__ = gateway.interp2app(W_SliceObject.descr_eq),
     __ne__ = gateway.interp2app(W_SliceObject.descr_ne),
+    __ni__ = gateway.interp2app(W_SliceObject.descr_ne),
+    __meq__ = gateway.interp2app(W_SliceObject.descr_lt),
     __lt__ = gateway.interp2app(W_SliceObject.descr_lt),
 
+    empieza = slicewprop('w_start'),
     start = slicewprop('w_start'),
+    fin = slicewprop('w_stop'),
     stop = slicewprop('w_stop'),
+    paso = slicewprop('w_step'),
     step = slicewprop('w_step'),
     indices = gateway.interp2app(W_SliceObject.descr_indices),
 )

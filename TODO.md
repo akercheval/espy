@@ -73,7 +73,7 @@
 | memoryview()  |                |   *not found yet*
 | min()         |  min()         |  Yes
 | next()        |  sig()         |  Yes
-| object()      |  objeto()      |  **No**
+| object()      |  objeto()      |  Yes
 | oct()         |  oct()         |  Yes
 | open()        |  abrir()       |  Yes
 | ord()         |  ord()         |  Yes
