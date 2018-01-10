@@ -251,49 +251,49 @@ def _new_exception(name, base, docstring, **kwargs):
     W_Exc.typedef.applevel_subclasses_base = realbase
     return W_Exc
 
-W_Exception = _new_exception('Exception', W_BaseException,
+W_Exception = _new_exception('Excepcion', W_BaseException,
                          """Common base class for all non-exit exceptions.""")
 
 W_Excepcion = _new_exception('Excepcion', W_BaseException,
                         """Clase base para todos excepciones no-salir.""")
 
-W_GeneratorExit = _new_exception('GeneratorExit', W_BaseException,
+W_GeneratorExit = _new_exception('GeneradorSalir', W_BaseException,
                           """Request that a generator exit.""")
 
 W_GeneradorSalir = _new_exception('GeneradorSalir', W_BaseException,
                           """Solicitar que salga un generador.""")
 
-W_StandardError = _new_exception('StandardError', W_Exception,
+W_StandardError = _new_exception('ErrorEstandar', W_Exception,
                          """Base class for all standard Python exceptions.""")
 
 W_ErrorEstandar = _new_exception('ErrorEstandar', W_Exception,
                     """Clase base para todos excepciones estándares de Python.""")
 
-W_BufferError = _new_exception('BufferError', W_StandardError,
+W_BufferError = _new_exception('BuferError', W_StandardError,
                          """Buffer error.""")
 
 W_BuferError = _new_exception('BuferError', W_StandardError,
                          """Búfer error.""")
 
-W_ValueError = _new_exception('ValueError', W_StandardError,
+W_ValueError = _new_exception('ValorError', W_StandardError,
                          """Inappropriate argument value (of correct type).""")
 
 W_ValorError = _new_exception('ValorError', W_StandardError,
                          """Valor de argumento incorrecto (de tipo correcto).""")
 
-W_ImportError = _new_exception('ImportError', W_StandardError,
+W_ImportError = _new_exception('ImportarError', W_StandardError,
                   """Import can't find module, or can't find name in module.""")
 
 W_ImportarError = _new_exception('ImportarError', W_StandardError,
     """Importar no puede encontrar módulo, o no puede encontrar nombre en módulo.""")
 
-W_RuntimeError = _new_exception('RuntimeError', W_StandardError,
+W_RuntimeError = _new_exception('EjecError', W_StandardError,
                      """Unspecified run-time error.""")
 
 W_EjecError = _new_exception('EjecError', W_StandardError,
                      """Error no especificado en tiempo de ejecución.""")
 
-W_UnicodeError = _new_exception('UnicodeError', W_ValueError,
+W_UnicodeError = _new_exception('UnicodError', W_ValueError,
                           """Unicode related error.""")
 
 W_UnicodError = _new_exception('UnicodError', W_ValueError,
@@ -348,9 +348,11 @@ W_UnicodeTranslateError.typedef = TypeDef(
     reason = readwrite_attrproperty_w('w_reason', W_UnicodeTranslateError),
 )
 
-W_LookupError = _new_exception('LookupError', W_StandardError,
+W_LookupError = _new_exception('BusquedaError', W_StandardError,
                                """Base class for lookup errors.""")
 
+W_BusquedaError = _new_exception('BusquedaError', W_StandardError,
+                               """Clase base para errores de búsqueda.""")
 def key_error_str(self, space):
     if len(self.args_w) == 0:
         return space.newtext('')
@@ -359,19 +361,33 @@ def key_error_str(self, space):
     else:
         return space.str(space.newtuple(self.args_w))
 
-W_KeyError = _new_exception('KeyError', W_LookupError,
+W_KeyError = _new_exception('ClaveError', W_LookupError,
                             """Mapping key not found.""",
                             __str__ = key_error_str)
 
-W_StopIteration = _new_exception('StopIteration', W_Exception,
+W_ClaveError = _new_exception('ClaveError', W_LookupError,
+                            """Clave de mapa no encontrada.""",
+                            __str__ = key_error_str)
+
+W_StopIteration = _new_exception('PareIteracion', W_Exception,
                                  """Signal the end from iterator.next().""")
 
-W_Warning = _new_exception('Warning', W_Exception,
+W_PareIteracion = _new_exception('PareIteratcion', W_Exception,
+                                 """Señalar el final de iterador.sig().""")
+
+W_Warning = _new_exception('Aviso', W_Exception,
                            """Base class for warning categories.""")
 
-W_PendingDeprecationWarning = _new_exception('PendingDeprecationWarning',
+W_Aviso = _new_exception('Aviso', W_Exception,
+                           """Clase base para categorias avisos.""")
+
+W_PendingDeprecationWarning = _new_exception('AvisoDespreciadoPendiente',
                                              W_Warning,
        """Base class for warnings about features which will be deprecated in the future.""")
+
+W_AvisoDespreciadoPendiente = _new_exception('AvisoDespreciadoPendiente',
+                                             W_Warning,
+       """Clase base para avisos sobre cosas que serán despreciados en el futuro.""")
 
 class W_EnvironmentError(W_StandardError):
     """Base class for I/O related errors."""
@@ -484,26 +500,41 @@ W_WindowsError.typedef = TypeDef(
     winerror = readwrite_attrproperty_w('w_winerror', W_WindowsError),
     )
 
-W_BytesWarning = _new_exception('BytesWarning', W_Warning,
+W_BytesWarning = _new_exception('BytesAviso', W_Warning,
                                 """Mixing bytes and unicode""")
 
-W_DeprecationWarning = _new_exception('DeprecationWarning', W_Warning,
+W_BytesAviso = _new_exception('BytesAviso', W_Warning,
+                                """Mezclando bytes y unicod""")
+
+W_DeprecationWarning = _new_exception('DespreciadoAviso', W_Warning,
                         """Base class for warnings about deprecated features.""")
+
+W_DespreciadoAviso = _new_exception('DespreciadoAviso', W_Warning,
+                        """Clase base para avisos sobre cosas despreciadas.""")
 
 W_AritmeticaError = _new_exception('AritmeticaError', W_StandardError,
                          """Clase base para errores de aritmetica.""")
 
-W_ArithmeticError = _new_exception('ArithmeticError', W_StandardError,
+W_ArithmeticError = _new_exception('AritmeticaError', W_StandardError,
                          """Base class for arithmetic errors.""")
 
-W_FloatingPointError = _new_exception('FloatingPointError', W_ArithmeticError,
+W_FloatingPointError = _new_exception('FlotError', W_ArithmeticError,
                                       """Floating point operation failed.""")
 
-W_ReferenceError = _new_exception('ReferenceError', W_StandardError,
+W_FlotError = _new_exception('FlotError', W_ArithmeticError,
+                                      """Operación de flot fracasó.""")
+
+W_ReferenceError = _new_exception('ReferenciaError', W_StandardError,
                            """Weak ref proxy used after referent went away.""")
 
-W_NameError = _new_exception('NameError', W_StandardError,
+W_ReferenciaError = _new_exception('ReferenciaError', W_StandardError,
+                           """Ref proxy no fuerte usado después de salió referente.""")
+
+W_NameError = _new_exception('NombreError', W_StandardError,
                              """Name not found globally.""")
+
+W_NombreError = _new_exception('NombreError', W_StandardError,
+                             """Nombre no encontrado en globales""")
 
 W_IOError = _new_exception('IOError', W_EnvironmentError,
                            """I/O operation failed.""")

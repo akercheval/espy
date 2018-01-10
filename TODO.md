@@ -86,7 +86,7 @@
 | slice()       |  cortar()      |  Yes
 | sorted()      |  ordenado()    |  Yes
 | staticmethod()|  metestat()    |  Yes
-| str()         |  pal()         |  **No**
+| str()         |  pal()         |  Yes
 | sum()         |  suma()        |  Yes
 | super()       |  padre()       |  Yes
 | tuple()       |  tuple()       |  Yes

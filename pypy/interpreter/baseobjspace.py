@@ -2064,15 +2064,19 @@ ObjSpace.ConstantTable = [
     'NotImplemented',
 ]
 
-# hereAK changed this 1/9
+# not included: BytesAviso
 ObjSpace.ExceptionTable = [
     'ArithmeticError',
     'AritmeticaError',
     'AssertionError',
     'AttributeError',
+    'Aviso',
+    'AvisoDespreciadoPendiente',
     'BaseException',
     'BufferError',
     'BuferError',
+    'BusquedaError',
+    'ClaveError',
     'DeprecationWarning',
     'EjecError',
     'EOFError',
@@ -2081,6 +2085,7 @@ ObjSpace.ExceptionTable = [
     'Exception',
     'Excepcion',
     'FloatingPointError',
+    'FlotError',
     'IOError',
     'ImportError',
     'ImportarError',
@@ -2092,10 +2097,13 @@ ObjSpace.ExceptionTable = [
     'LookupError',
     'MemoryError',
     'NameError',
+    'NombreError',
     'NotImplementedError',
     'OSError',
     'OverflowError',
+    'PareIteracion',
     'ReferenceError',
+    'ReferenciaError',
     'RuntimeError',
     'RandomTestError',
     'StandardError',

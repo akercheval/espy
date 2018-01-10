@@ -115,6 +115,7 @@ class StdObjSpace(ObjSpace):
         self.w_object = self.w_objeto
         self.w_slice = self.w_cortar
         self.w_bytes = self.w_pal
+        self.w_type = self.w_tipo
 
 
         # exceptions & builtins

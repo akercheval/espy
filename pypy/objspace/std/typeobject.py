@@ -700,9 +700,9 @@ class W_TypeObject(W_Root):
         else:
             mod = space.text_w(w_mod)
         if not self.is_heaptype():
-            kind = 'type'
+            kind = 'tipo'
         else:
-            kind = 'class'
+            kind = 'clase'
         if mod is not None and mod != '__builtin__':
             return space.newtext("<%s '%s.%s'>" % (kind, mod, self.getname(space)))
         else:
@@ -1009,7 +1009,7 @@ def type_get_dict(space, w_cls):
         return space.w_None
     return W_DictProxyObject(w_dict)
 
-W_TypeObject.typedef = TypeDef("type",
+W_TypeObject.typedef = TypeDef("tipo",
     __nuevo__ = gateway.interp2app(descr__new__),
     __new__ = gateway.interp2app(descr__new__),
     __inic__ = gateway.interp2app(descr__init__),

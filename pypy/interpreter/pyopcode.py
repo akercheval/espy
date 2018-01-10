@@ -904,6 +904,8 @@ class __extend__(pyframe.PyFrame):
             varname = "cortar"
         elif varname == "str":
             varname = "pal"
+        elif varname == "type":
+            varname = "tipo"
         w_value = self.space.finditem_str(self.get_w_globals(), varname)
         if w_value is None:
             # not in the globals, now look in the built-ins
