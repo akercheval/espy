@@ -112,13 +112,14 @@ class StdObjSpace(ObjSpace):
         self.w_dict = self.w_dicc
         self.w_float = self.w_flot
         self.w_int = self.w_ent
+        self.w_object = self.w_objeto
 
 
         # exceptions & builtins
         self.make_builtins()
 
-        # for exceptions
-        #self.w_IndexError = self.w_IndiceError
+        # for exceptions hereAK changed this 1/9
+        #self.w_ValueError = self.w_ValorError
 
         # the type of old-style classes
         self.w_classobj = self.builtin.get('__metaclass__')

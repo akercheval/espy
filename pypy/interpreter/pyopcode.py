@@ -898,6 +898,8 @@ class __extend__(pyframe.PyFrame):
             varname = "flot"
         elif varname == "int":
             varname = "ent"
+        elif varname == "object":
+            varname = "objeto"
         w_value = self.space.finditem_str(self.get_w_globals(), varname)
         if w_value is None:
             # not in the globals, now look in the built-ins

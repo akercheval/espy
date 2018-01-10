@@ -62,7 +62,7 @@
 | hex()         |  hex()         |  Yes
 | id()          |  id()          |  Yes
 | input()       |  entrada()     |  Yes
-| int()         |  ent()         |  **No**
+| int()         |  ent()         |  Yes
 | isinstance()  |  esinstancia() |  Yes
 | issubclass()  |  essubclase()  |  Yes
 | len()         |  tam()         |  Yes

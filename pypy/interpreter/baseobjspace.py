@@ -2064,7 +2064,7 @@ ObjSpace.ConstantTable = [
     'NotImplemented',
 ]
 
-# hereAK exceptions?
+# hereAK changed this 1/9
 ObjSpace.ExceptionTable = [
     'ArithmeticError',
     'AssertionError',
@@ -2105,6 +2105,7 @@ ObjSpace.ExceptionTable = [
     'UnicodeEncodeError',
     'UnicodeTranslateError',
     'ValueError',
+    'ValorError',
     'ZeroDivisionError',
     'RuntimeWarning',
     'PendingDeprecationWarning',

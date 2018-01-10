@@ -3,7 +3,6 @@
 import sys
 import os
 
-# hereAK commented out crap at interpreter start
 #irc_header = "And now for something completely different"
 
 

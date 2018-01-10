@@ -222,7 +222,7 @@ def descr___format__(space, w_obj, w_format_spec):
     return space.format(w_as_str, w_format_spec)
 
 
-W_ObjectObject.typedef = TypeDef("object",
+W_ObjectObject.typedef = TypeDef("objeto",
     __doc__ = "El tipo base máximo",
     __nuevo__ = interp2app(descr__new__),
     __new__ = interp2app(descr__new__),

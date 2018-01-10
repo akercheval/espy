@@ -52,7 +52,8 @@ class Module(MixedModule):
         'UnicodeTranslateError' : 'interp_exceptions.W_UnicodeTranslateError',
         'UnicodeWarning' : 'interp_exceptions.W_UnicodeWarning',
         'UserWarning' : 'interp_exceptions.W_UserWarning',
-        'ValueError' : 'interp_exceptions.W_ValueError',
+        'ValueError' : 'interp_exceptions.W_ValorError',
+        'ValorError' : 'interp_exceptions.W_ValorError',
         'Warning' : 'interp_exceptions.W_Warning',
         'ZeroDivisionError' : 'interp_exceptions.W_ZeroDivisionError',
         }

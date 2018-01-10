@@ -117,7 +117,6 @@ class Scope(object):
             return None, None
 
 
-# hereAK added ListaObject to this list 12/25, but already compiling on school
 class Module(object):
     def __init__(self, name, system):
         self.name = name
