@@ -742,8 +742,8 @@ def _new_int(space, w_inttype, w_x, w_base=None):
         return w_obj
 
 
-W_IntObject.typedef = TypeDef("int",
-    __doc__ = """int(x=0) -> ent or larg
+W_IntObject.typedef = TypeDef("ent",
+    __doc__ = """ent(x=0) -> ent or larg
 ent(x, base=10) -> ent or larg
 
 Convertir un numero o palaba a un entero, o volver 0 si no argumentos

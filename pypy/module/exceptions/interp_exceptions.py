@@ -263,7 +263,8 @@ W_StandardError = _new_exception('StandardError', W_Exception,
 W_BufferError = _new_exception('BufferError', W_StandardError,
                          """Buffer error.""")
 
-W_ValueError = _new_exception('ValueError', W_StandardError,
+# hereAK value -> valor
+W_ValueError = _new_exception('ValorError', W_StandardError,
                          """Inappropriate argument value (of correct type).""")
 
 W_ImportError = _new_exception('ImportError', W_StandardError,

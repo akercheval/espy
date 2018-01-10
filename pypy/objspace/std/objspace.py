@@ -105,16 +105,20 @@ class StdObjSpace(ObjSpace):
         self.w_basestring = self.builtin_types['basestring'] = \
             self.gettypeobject(basestring_typedef)
 
-        # English references to Spanish counterparts
+        # English references to Spanish counterparts for objects
         self.w_list = self.w_lista
         self.w_bytearray = self.w_bytematriz
         self.w_complex = self.w_complejo
         self.w_dict = self.w_dicc
         self.w_float = self.w_flot
+        self.w_int = self.w_ent
 
 
         # exceptions & builtins
         self.make_builtins()
+
+        # for exceptions
+        #self.w_IndexError = self.w_IndiceError
 
         # the type of old-style classes
         self.w_classobj = self.builtin.get('__metaclass__')

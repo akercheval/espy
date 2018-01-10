@@ -5,8 +5,12 @@
     below their English counterparts in W_ListObject.typedef, but I'm not sure.
 * Remove all the unnecessary stuff pypy throws up when the interpreter starts,
     and translate it to Spanish.
-* Traceback translations, found in `/pypy/interpreter/error.py`
+* Traceback translations, found in `pypy/interpreter/error.py`
 * Translate error names
+  * 1/9 I did two things to see which works: I changed what I believe is the 
+    `__name__` attribute of `ValueError` to `ValorError` in 
+    `pypy/module/exceptions/interp_exceptions.py`, and I mapped the string
+    `IndiceError` to `IndexError`'s typedef in `pypy/module/exceptions/__init__.py`
 * Translate object method names: for example, I've never seen the definition of 
   `list.append` yet and as such haven't translated it.
 * Allow for accents in type definitions: Right now, for example, the "index" 
@@ -40,14 +44,14 @@
 | compile()     |  compilar()    |  Yes
 | complex()     |  complejo()    |  Yes but (1)
 | delattr()     |  elimatr()     |  Yes
-| dict()        |  dicc()        |  **No**
+| dict()        |  dicc()        |  Yes
 | dir()         |  dir()         |  Yes
 | divmod()      |  divmod()      |  Yes
 | enumerate()   |  enumerar()    |  Yes
 | eval()        |  eval()        |  Yes
-| exec()        |  ejec()        |  **No**
+| exec()        |  ejec()        |  **No**, but probably won't include
 | filter()      |  filtrar()     |  Yes
-| float()       |  flot()        |  **No**
+| float()       |  flot()        |  Yes
 | format()      |  formato()     |  Yes
 | frozenset()   |                |  *not found yet*
 | getattr()     |  sacaatr()     |  Yes
@@ -95,10 +99,6 @@
 | __import__()  |  __importar__()|  Yes
 
 1. Spanish keyword works, English one doesn't.
-2. A couple things: `bytematriz()` creates a new object that passes the
-   `type()` and `isinstance()` tests. However, the physical call of `bytematriz()`
-   returns `bytearray(b'')` (or something) in the console. This might just be
-   a one-line fix in bytematriz's repr function, but I haven't looked yet.
 
 #### Etc
 

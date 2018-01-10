@@ -3,7 +3,8 @@ from pypy.interpreter.mixedmodule import MixedModule
 
 class Module(MixedModule):
     appleveldefs = {}
-    
+
+    #hereAK index -> indice
     interpleveldefs = {
         'ArithmeticError' : 'interp_exceptions.W_ArithmeticError',
         'AssertionError' : 'interp_exceptions.W_AssertionError',
@@ -23,6 +24,7 @@ class Module(MixedModule):
         'ImportWarning' : 'interp_exceptions.W_ImportWarning',
         'IndentationError' : 'interp_exceptions.W_IndentationError',
         'IndexError' : 'interp_exceptions.W_IndexError',
+        #'IndiceError' : 'interp_exceptions.W_IndexError',
         'KeyError' : 'interp_exceptions.W_KeyError',
         'KeyboardInterrupt' : 'interp_exceptions.W_KeyboardInterrupt',
         'LookupError' : 'interp_exceptions.W_LookupError',
