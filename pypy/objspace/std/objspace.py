@@ -94,7 +94,7 @@ class StdObjSpace(ObjSpace):
                 name = 'bytes'
             setattr(self, 'w_' + name, w_type)
             self._interplevel_classes[w_type] = cls
-        self.w_text = self.w_bytes   # 'space.w_text' is w_unicode on Py3
+        self.w_text = self.w_pal   # 'space.w_text' is w_unicode on Py3
         self.w_dicc.flag_map_or_seq = 'M'
         from pypy.objspace.std import dictproxyobject
         dictproxyobject._set_flag_map_or_seq(self)
@@ -114,6 +114,7 @@ class StdObjSpace(ObjSpace):
         self.w_int = self.w_ent
         self.w_object = self.w_objeto
         self.w_slice = self.w_cortar
+        self.w_bytes = self.w_pal
 
 
         # exceptions & builtins

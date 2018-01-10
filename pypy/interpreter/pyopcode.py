@@ -902,6 +902,8 @@ class __extend__(pyframe.PyFrame):
             varname = "objeto"
         elif varname == "slice":
             varname = "cortar"
+        elif varname == "str":
+            varname = "pal"
         w_value = self.space.finditem_str(self.get_w_globals(), varname)
         if w_value is None:
             # not in the globals, now look in the built-ins
