@@ -839,7 +839,7 @@ W_BytesObject.EMPTY = W_BytesObject('')
 
 
 W_BytesObject.typedef = TypeDef(
-    "str", basestring_typedef, None, "read",
+    "pal", basestring_typedef, None, "read",
     __new__ = interp2app(W_BytesObject.descr_new),
     __doc__ = """pal(objeto='') -> palabra
 

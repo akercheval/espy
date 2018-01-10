@@ -254,29 +254,50 @@ def _new_exception(name, base, docstring, **kwargs):
 W_Exception = _new_exception('Exception', W_BaseException,
                          """Common base class for all non-exit exceptions.""")
 
+W_Excepcion = _new_exception('Excepcion', W_BaseException,
+                        """Clase base para todos excepciones no-salir.""")
+
 W_GeneratorExit = _new_exception('GeneratorExit', W_BaseException,
                           """Request that a generator exit.""")
+
+W_GeneradorSalir = _new_exception('GeneradorSalir', W_BaseException,
+                          """Solicitar que salga un generador.""")
 
 W_StandardError = _new_exception('StandardError', W_Exception,
                          """Base class for all standard Python exceptions.""")
 
+W_ErrorEstandar = _new_exception('ErrorEstandar', W_Exception,
+                    """Clase base para todos excepciones estándares de Python.""")
+
 W_BufferError = _new_exception('BufferError', W_StandardError,
                          """Buffer error.""")
 
-W_ValorError = _new_exception('ValorError', W_StandardError,
-                         """Valor de argumento incorrecto (de tipo correcto).""")
+W_BuferError = _new_exception('BuferError', W_StandardError,
+                         """Búfer error.""")
 
 W_ValueError = _new_exception('ValueError', W_StandardError,
                          """Inappropriate argument value (of correct type).""")
 
+W_ValorError = _new_exception('ValorError', W_StandardError,
+                         """Valor de argumento incorrecto (de tipo correcto).""")
+
 W_ImportError = _new_exception('ImportError', W_StandardError,
                   """Import can't find module, or can't find name in module.""")
+
+W_ImportarError = _new_exception('ImportarError', W_StandardError,
+    """Importar no puede encontrar módulo, o no puede encontrar nombre en módulo.""")
 
 W_RuntimeError = _new_exception('RuntimeError', W_StandardError,
                      """Unspecified run-time error.""")
 
+W_EjecError = _new_exception('EjecError', W_StandardError,
+                     """Error no especificado en tiempo de ejecución.""")
+
 W_UnicodeError = _new_exception('UnicodeError', W_ValueError,
                           """Unicode related error.""")
+
+W_UnicodError = _new_exception('UnicodError', W_ValueError,
+                          """Error de unicod.""")
 
 
 class W_UnicodeTranslateError(W_UnicodeError):

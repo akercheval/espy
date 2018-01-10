@@ -7,10 +7,7 @@
     and translate it to Spanish.
 * Traceback translations, found in `pypy/interpreter/error.py`
 * Translate error names
-  * 1/9 I did two things to see which works: I changed what I believe is the 
-    `__name__` attribute of `ValueError` to `ValorError` in 
-    `pypy/module/exceptions/interp_exceptions.py`, and I mapped the string
-    `IndiceError` to `IndexError`'s typedef in `pypy/module/exceptions/__init__.py`
+* Create some syntax highlighting functionality: `/usr/share/vim/vim74/syntax/python.vim`
 * Translate object method names: for example, I've never seen the definition of 
   `list.append` yet and as such haven't translated it.
 * Allow for accents in type definitions: Right now, for example, the "index" 
@@ -86,7 +83,7 @@
 | round()       |  redond()      |  Yes
 | set()         |  set()         |  Yes (but only because name is same)
 | setattr()     |  ponatr()      |  Yes
-| slice()       |  cortar()      |  **No**
+| slice()       |  cortar()      |  Yes
 | sorted()      |  ordenado()    |  Yes
 | staticmethod()|  metestat()    |  Yes
 | str()         |  pal()         |  **No**
