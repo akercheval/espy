@@ -791,11 +791,12 @@ def run_command_line(interactive,
 
     return status
 
+# hereAK banner
 def print_banner(copyright):
-    print >> sys.stderr, 'Python %s on %s' % (sys.version, sys.platform)
+    print >> sys.stderr, 'Espy %s en %s' % (sys.version, sys.platform)
     if copyright:
-        print >> sys.stderr, ('Type "help", "copyright", "credits" or '
-                              '"license" for more information.')
+        print >> sys.stderr, ('Escribe "ayuda", "copyright", "atrib" o '
+                              '"licencia" para más información.')
 
 STDLIB_WARNING = """\
 debug: WARNING: Library path not found, using compiled-in sys.path, with

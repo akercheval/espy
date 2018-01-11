@@ -2064,7 +2064,7 @@ ObjSpace.ConstantTable = [
     'NotImplemented',
 ]
 
-# not included: BytesAviso
+# not included: BytesAviso, FutureAviso
 ObjSpace.ExceptionTable = [
     'ArithmeticError',
     'AritmeticaError',
@@ -2106,6 +2106,7 @@ ObjSpace.ExceptionTable = [
     'ReferenciaError',
     'RuntimeError',
     'RandomTestError',
+    'SangriaError',
     'StandardError',
     'StopIteration',
     'SyntaxError',

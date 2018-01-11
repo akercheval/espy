@@ -629,8 +629,11 @@ W_SyntaxError.typedef = TypeDef(
     lastlineno = readwrite_attrproperty_w('w_lastlineno', W_SyntaxError),
 )
 
-W_FutureWarning = _new_exception('FutureWarning', W_Warning,
+W_FutureWarning = _new_exception('FuturoAviso', W_Warning,
     """Base class for warnings about constructs that will change semantically in the future.""")
+
+W_FuturoAviso = _new_exception('FuturoAviso', W_Warning,
+    """Clase base para avisos sobre constructos que van a cambiar semanticamente.""")
 
 class W_SystemExit(W_BaseException):
     """Request to exit from the interpreter."""
@@ -658,8 +661,11 @@ W_SystemExit.typedef = TypeDef(
 W_EOFError = _new_exception('EOFError', W_StandardError,
                             """Read beyond end of file.""")
 
-W_IndentationError = _new_exception('IndentationError', W_SyntaxError,
+W_IndentationError = _new_exception('SangriaError', W_SyntaxError,
                                     """Improper indentation.""")
+
+W_SangriaError = _new_exception('SangriaError', W_SyntaxError,
+                                    """Sangria (tabs) malo.""")
 
 W_TabError = _new_exception('TabError', W_IndentationError,
                             """Improper mixture of spaces and tabs.""")

@@ -308,6 +308,11 @@ class W_ListObject(W_Root):
         """L.append(object) -- append object to end"""
         self.strategy.append(self, w_item)
 
+    # hereAK added adjuntar to list
+    def adjuntar(self, w_item):
+        """L.adjuntar(objeto) -- adjuntar objeto al final"""
+        self.strategy.append(self, w_item)
+
     def length(self):
         return self.strategy.length(self)
 
@@ -893,7 +898,6 @@ class ListStrategy(object):
         return False
 
 
-## no translation, not outward-facing - AK
 class EmptyListStrategy(ListStrategy):
     """EmptyListStrategy is used when a W_List withouth elements is created.
     The storage is None. When items are added to the W_List a new RPython list

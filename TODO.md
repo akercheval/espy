@@ -5,9 +5,9 @@
     below their English counterparts in W_ListObject.typedef, but I'm not sure.
 * Remove all the unnecessary stuff pypy throws up when the interpreter starts,
     and translate it to Spanish.
-* Traceback translations, found in `pypy/interpreter/error.py`
+* Traceback translations, found in `pypy/interpreter/error.py`, and the text of 
+  exceptions (like `NameError`)
 * Translate error names
-* Create some syntax highlighting functionality: `/usr/share/vim/vim74/syntax/python.vim`
 * Translate object method names: for example, I've never seen the definition of 
   `list.append` yet and as such haven't translated it.
 * Allow for accents in type definitions: Right now, for example, the "index" 
@@ -123,7 +123,10 @@
 | self            | mismo         |   Yes
 | and             | y             |   Yes
 | or              | o             |   Yes
-| help            | ayuda         |   **Not found**
+| help            | ayuda         |   **No**
 | copyright       | copyright     |   N/A (same word)
-| credits         | atrib         |   **Not found**
-| license         | licencia      |   **Not found**
+| credits         | atrib         |   **No**
+| license         | licencia      |   **No**
+
+#### Highlighting:
+Is included as a sample for vim in the file `python.vim`

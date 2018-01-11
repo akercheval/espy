@@ -439,15 +439,23 @@ class _Printer(object):
 ##        ["LICENSE.txt", "LICENSE"],
 ##        [os.path.join(here, os.pardir), here, os.curdir])
 
+# hereAK atrib, licencia, ayuda
 def setcopyright():
     # XXX this is the PyPy-specific version.  Should be unified with the above.
     __builtin__.copyright = _Printer("copyright", sys.copyright)
     __builtin__.credits = _Printer(
         "credits",
         "PyPy is maintained by the PyPy developers: http://pypy.org/")
+    __builtin__.atrib = _Printer(
+        "atrib",
+        "PyPy está mantenido por los desarolladores Pypy: http://pypy.org/.
+        Adam Kercheval lo tradució a español: http://akerch.com/.")
     __builtin__.license = _Printer(
         "license",
         "See https://bitbucket.org/pypy/pypy/src/default/LICENSE")
+    __builtin__.licencia = _Printer(
+        "licencia",
+        "Vea https://bitbucket.org/pypy/pypy/src/default/LICENSE")
 
 
 class _Helper(object):
@@ -457,14 +465,15 @@ class _Helper(object):
     """
 
     def __repr__(self):
-        return "Type help() for interactive help, " \
-               "or help(object) for help about object."
+        return "Escribe ayuda() para ayuda interactiva, " \
+               "o ayuda(objeto) para ayuda sobre objetos."
     def __call__(self, *args, **kwds):
         import pydoc
         return pydoc.help(*args, **kwds)
 
 def sethelper():
     __builtin__.help = _Helper()
+    __builtin__.ayuda = _Helper()
 
 def aliasmbcs():
     """On Windows, some default encodings are not provided by Python,
