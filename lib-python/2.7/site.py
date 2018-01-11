@@ -448,8 +448,7 @@ def setcopyright():
         "PyPy is maintained by the PyPy developers: http://pypy.org/")
     __builtin__.atrib = _Printer(
         "atrib",
-        "PyPy está mantenido por los desarolladores Pypy: http://pypy.org/.
-        Adam Kercheval lo tradució a español: http://akerch.com/.")
+        "PyPy está mantenido por los desarolladores Pypy: http://pypy.org/. Adam Kercheval lo tradució a español: http://akerch.com/.")
     __builtin__.license = _Printer(
         "license",
         "See https://bitbucket.org/pypy/pypy/src/default/LICENSE")
@@ -473,7 +472,7 @@ class _Helper(object):
 
 def sethelper():
     __builtin__.help = _Helper()
-    __builtin__.ayuda = _Helper()
+    __builtin__.ayuda = __builtin__.help
 
 def aliasmbcs():
     """On Windows, some default encodings are not provided by Python,
