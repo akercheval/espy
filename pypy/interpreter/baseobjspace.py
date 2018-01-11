@@ -2064,11 +2064,13 @@ ObjSpace.ConstantTable = [
     'NotImplemented',
 ]
 
-# not included: BytesAviso, FutureAviso
+# not included: BytesAviso, FutureAviso, SintaxisAviso, UnicodAviso
 ObjSpace.ExceptionTable = [
+    'AfirmacionError',
     'ArithmeticError',
     'AritmeticaError',
     'AssertionError',
+    'AtributoError',
     'AttributeError',
     'Aviso',
     'AvisoDespreciadoPendiente',
@@ -2076,8 +2078,10 @@ ObjSpace.ExceptionTable = [
     'BufferError',
     'BuferError',
     'BusquedaError',
+    'CeroDivisionError',
     'ClaveError',
     'DeprecationWarning',
+    'EjecAviso',
     'EjecError',
     'EOFError',
     'EnvironmentError',
@@ -2090,14 +2094,19 @@ ObjSpace.ExceptionTable = [
     'ImportError',
     'ImportarError',
     'ImportWarning',
+    'ImportarAviso',
     'IndentationError',
     'IndexError',
+    'IndiceError',
     'KeyError',
     'KeyboardInterrupt',
+    'LocalSueltoError',
     'LookupError',
     'MemoryError',
+    'MemoriaError',
     'NameError',
     'NombreError',
+    'NoImplementadoError',
     'NotImplementedError',
     'OSError',
     'OverflowError',
@@ -2105,14 +2114,16 @@ ObjSpace.ExceptionTable = [
     'ReferenceError',
     'ReferenciaError',
     'RuntimeError',
-    'RandomTestError',
     'SangriaError',
+    'SobranteError',
     'StandardError',
     'StopIteration',
     'SyntaxError',
     'SystemError',
     'SystemExit',
     'TabError',
+    'TecladoInterrumpir',
+    'TipoError',
     'TypeError',
     'UnboundLocalError',
     'UnicodeDecodeError',
@@ -2126,6 +2137,7 @@ ObjSpace.ExceptionTable = [
     'RuntimeWarning',
     'PendingDeprecationWarning',
     'UserWarning',
+    'UsuarioAviso'
 ]
 
 if sys.platform.startswith("win"):
