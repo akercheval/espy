@@ -124,7 +124,7 @@ class PythonParser(parser.Parser):
                     # KeyError
                     space = self.space
                     if e.match(space, space.w_LookupError):
-                        raise error.SyntaxError("Unknown encoding: %s" % enc,
+                        raise error.SyntaxError("Codificación desconocida: %s" % enc,
                                                 filename=compile_info.filename)
                     # Transform unicode errors into SyntaxError
                     if e.match(space, space.w_UnicodeDecodeError):
@@ -175,12 +175,12 @@ class PythonParser(parser.Parser):
                 # SyntaxError.
                 new_err = error.IndentationError
                 if tp == pygram.tokens.INDENT:
-                    msg = "unexpected indent"
+                    msg = "sangría inesperado"
                 elif e.expected == pygram.tokens.INDENT:
-                    msg = "expected an indented block"
+                    msg = "esperó un bloque sangriado"
                 else:
                     new_err = error.SyntaxError
-                    msg = "invalid syntax"
+                    msg = "sintaxis no válida"
                 raise new_err(msg, e.lineno, e.column, e.line,
                               compile_info.filename)
             else:

@@ -65,6 +65,7 @@ class Module(MixedModule):
         'SobranteError' : 'interp_exceptions.W_SobranteError',
         'StandardError' : 'interp_exceptions.W_StandardError',
         'StopIteration' : 'interp_exceptions.W_StopIteration',
+        'SintaxisError' : 'interp_exceptions.W_SintaxisError',
         'SyntaxError' : 'interp_exceptions.W_SyntaxError',
         'SyntaxWarning' : 'interp_exceptions.W_SyntaxWarning',
         'SintaxisAviso' : 'interp_exceptions.W_SintaxisAviso',

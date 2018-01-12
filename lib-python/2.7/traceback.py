@@ -20,7 +20,7 @@ def print_list(extracted_list, file=None):
         file = sys.stderr
     for filename, lineno, name, line in extracted_list:
         _print(file,
-               '  File "%s", line %d, in %s' % (filename,lineno,name))
+               '  Archivo "%s", línea %d, en %s' % (filename,lineno,name))
         if line:
             _print(file, '    %s' % line.strip())
 
@@ -36,7 +36,7 @@ def format_list(extracted_list):
     """
     list = []
     for filename, lineno, name, line in extracted_list:
-        item = '  File "%s", line %d, in %s\n' % (filename,lineno,name)
+        item = '  Archivo "%s", línea %d, en %s\n' % (filename,lineno,name)
         if line:
             item = item + '    %s\n' % line.strip()
         list.append(item)
@@ -64,7 +64,7 @@ def print_tb(tb, limit=None, file=None):
         filename = co.co_filename
         name = co.co_name
         _print(file,
-               '  File "%s", line %d, in %s' % (filename, lineno, name))
+               '  Archivo "%s", línea %d, en %s' % (filename, lineno, name))
         linecache.checkcache(filename)
         line = linecache.getline(filename, lineno, f.f_globals)
         if line: _print(file, '    ' + line.strip())
@@ -121,7 +121,7 @@ def print_exception(etype, value, tb, limit=None, file=None, _encoding=None):
     if file is None:
         file = sys.stderr
     if tb:
-        _print(file, 'Traceback (most recent call last):')
+        _print(file, 'Rastreo (llama más reciente al final):')
         print_tb(tb, limit, file)
     lines = format_exception_only(etype, value, _encoding)
     for line in lines:
@@ -137,7 +137,7 @@ def format_exception(etype, value, tb, limit = None):
     printed as does print_exception().
     """
     if tb:
-        list = ['Traceback (most recent call last):\n']
+        list = ['Rastreo (llama más reciente al final):\n']
         list = list + format_tb(tb, limit)
     else:
         list = []
@@ -185,7 +185,7 @@ def format_exception_only(etype, value, _encoding=None):
         pass
     else:
         filename = filename or "<string>"
-        lines.append('  File "%s", line %d\n' % (filename, lineno))
+        lines.append('  Archivo "%s", línea %d\n' % (filename, lineno))
         if badline is not None:
             lines.append('    %s\n' % badline.strip())
             if offset is not None:

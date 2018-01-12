@@ -607,6 +607,8 @@ class W_SyntaxError(W_StandardError):
             args_w = [self.args_w[0], w_tuple]
             args_repr = space.text_w(space.repr(space.newtuple(args_w)))
             clsname = self.getclass(space).getname(space)
+            # hereAK added this to SyntaxError
+            clsname = "SintaxisError"
             return space.newtext(clsname + args_repr)
         else:
             return W_StandardError.descr_repr(self, space)
@@ -628,6 +630,9 @@ W_SyntaxError.typedef = TypeDef(
                                                    W_SyntaxError),
     lastlineno = readwrite_attrproperty_w('w_lastlineno', W_SyntaxError),
 )
+
+W_SintaxisError = _new_exception('SintaxisError', W_SyntaxError,
+                                    """Mala sintaxis.""")
 
 W_FutureWarning = _new_exception('FuturoAviso', W_Warning,
     """Base class for warnings about constructs that will change semantically in the future.""")

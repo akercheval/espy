@@ -2118,6 +2118,7 @@ ObjSpace.ExceptionTable = [
     'SobranteError',
     'StandardError',
     'StopIteration',
+    'SintaxisError',
     'SyntaxError',
     'SystemError',
     'SystemExit',
