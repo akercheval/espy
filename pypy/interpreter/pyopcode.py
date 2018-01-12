@@ -917,7 +917,7 @@ class __extend__(pyframe.PyFrame):
     @dont_inline
     def _load_global_failed(self, varname):
         raise oefmt(self.space.w_NameError,
-                    "global name '%s' is not defined", varname)
+                    "nombre global '%s' no está definido", varname)
 
     @always_inline
     def LOAD_GLOBAL(self, nameindex, next_instr):

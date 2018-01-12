@@ -1258,7 +1258,8 @@ class TextDoc(Doc):
                 thisclass = attrs[0][2]
             attrs, inherited = _split_list(attrs, lambda t: t[2] is thisclass)
 
-            if thisclass is __builtin__.object:
+            # hereAK added 1/11
+            if thisclass is __builtin__.object or thisclass is __builtin__.objeto:
                 attrs = inherited
                 continue
             elif thisclass is object:

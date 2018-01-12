@@ -123,7 +123,7 @@ class OperationError(Exception):
         tb = self._application_traceback
         if tb:
             import linecache
-            print >> file, "Traceback (application-level):"
+            print >> file, "Rastreo (applicación-nivel):"
             while tb is not None:
                 co = tb.frame.pycode
                 lineno = tb.get_lineno()
@@ -137,8 +137,8 @@ class OperationError(Exception):
                         l = ''
                 else:
                     l = linecache.getline(fname, lineno)
-                print >> file, "  File \"%s\"," % fname,
-                print >> file, "line", lineno, "in", co.co_name
+                print >> file, "  Archivo \"%s\"," % fname,
+                print >> file, "línea", lineno, "en", co.co_name
                 if l:
                     if l.endswith('\n'):
                         l = l[:-1]
@@ -154,7 +154,7 @@ class OperationError(Exception):
             file = sys.stderr
         f = cStringIO.StringIO()
         for i in range(len(self.debug_excs)-1, -1, -1):
-            print >> f, "Traceback (interpreter-level):"
+            print >> f, "Rastreo (interpretador-nivel):"
             traceback.print_tb(self.debug_excs[i][2], file=f)
         f.seek(0)
         debug_print(''.join(['|| ' + line for line in f.readlines()]), file)
@@ -162,7 +162,7 @@ class OperationError(Exception):
             from pypy.tool import tb_server
             tb_server.publish_exc(self.debug_excs[-1])
         self.print_app_tb_only(file)
-        print >> file, '(application-level)', self.errorstr(space)
+        print >> file, '(applicación-nivel)', self.errorstr(space)
         if AUTO_DEBUG:
             debug.fire(self)
 
@@ -404,7 +404,7 @@ class OpErrFmtNoArgs(OperationError):
         # still almost full, because in this case it might be a better
         # idea to propagate the exception than eat it
         if (self.w_type is space.w_RuntimeError and
-            self._value == "maximum recursion depth exceeded" and
+            self._value == "Profundidad de recursión excedida" and
             rstack.stack_almost_full()):
             return True
         return OperationError.async(self, space)
@@ -570,7 +570,7 @@ def get_converted_unexpected_exception(space, e):
         # an app-level RuntimeError by the next case.
         rstackovf.check_stack_overflow()
         return oefmt(space.w_RuntimeError,
-                     "maximum recursion depth exceeded")
+                     "Profundidad de recursión excedida")
     except RuntimeError:   # not on top of py.py
         return OperationError(space.w_RuntimeError, space.w_None)
     except:

@@ -1,13 +1,9 @@
 ## TODO
 
-* Don't break the help() function: for example, help(list) makes no sense in 
-    espy. I think that this is because I put the Spanish references to functions
-    below their English counterparts in W_ListObject.typedef, but I'm not sure.
-* Remove all the unnecessary stuff pypy throws up when the interpreter starts,
-    and translate it to Spanish.
+* Don't break the help() function. It doesn't work right now, and it's not 
+  totally clear why.
 * Traceback translations, found in `pypy/interpreter/error.py`, and the text of 
   exceptions (like `NameError`)
-* Translate error names
 * Translate object method names: for example, I've never seen the definition of 
   `list.append` yet and as such haven't translated it.
 * Allow for accents in type definitions: Right now, for example, the "index" 
@@ -90,7 +86,7 @@
 | sum()         |  suma()        |  Yes
 | super()       |  padre()       |  Yes
 | tuple()       |  tuple()       |  Yes
-| type()        |  tipo()        |  **No**
+| type()        |  tipo()        |  Yes
 | vars()        |  vars()        |  Yes
 | zip()         |  zip()         |  Yes
 | __import__()  |  __importar__()|  Yes
@@ -123,10 +119,10 @@
 | self            | mismo         |   Yes
 | and             | y             |   Yes
 | or              | o             |   Yes
-| help            | ayuda         |   **No**
+| help            | ayuda         |   Yes, but function doesn't work
 | copyright       | copyright     |   N/A (same word)
-| credits         | atrib         |   **No**
-| license         | licencia      |   **No**
+| credits         | atrib         |   Yes
+| license         | licencia      |   Yes
 
 #### Highlighting:
 Is included as a sample for vim in the file `python.vim`
