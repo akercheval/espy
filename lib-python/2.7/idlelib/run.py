@@ -175,7 +175,7 @@ def print_exception():
     typ, val, tb = excinfo = sys.exc_info()
     sys.last_type, sys.last_value, sys.last_traceback = excinfo
     tbe = traceback.extract_tb(tb)
-    print>>efile, '\nTraceback (most recent call last):'
+    print>>efile, '\nRastreo (1) (most recent call last):'
     exclude = ("run.py", "rpc.py", "threading.py", "Queue.py",
                "RemoteDebugger.py", "bdb.py")
     cleanup_traceback(tbe, exclude)

@@ -328,7 +328,7 @@ def PyErr_Display(space, w_type, w_value, tb):
 @cpython_api([PyObject, PyObject], rffi.INT_real, error=-1)
 def PyTraceBack_Print(space, w_tb, w_file):
     space.call_method(w_file, "write", space.newtext(
-        'Traceback (most recent call last):\n'))
+        'Rastreo (3) (most recent call last):\n'))
     w_traceback = space.call_method(space.builtin, '__import__',
                                     space.newtext("traceback"))
     space.call_method(w_traceback, "print_tb", w_tb, space.w_None, w_file)

@@ -150,13 +150,13 @@ def _split_list(s, predicate):
     """
 
     yes = []
-    no = []
+    _no = []
     for x in s:
         if predicate(x):
             yes.append(x)
         else:
-            no.append(x)
-    return yes, no
+            _no.append(x)
+    return yes, _no
 
 def visiblename(name, all=None, obj=None):
     """Decide whether to show documentation on a variable."""
