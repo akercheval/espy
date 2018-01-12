@@ -35,7 +35,7 @@ class Console:
     height,
     width,
     """
-    
+
     def refresh(self, screen, xy):
         pass
 
@@ -45,7 +45,7 @@ class Console:
     def restore(self):
         pass
 
-    def move_cursor(self, x, y):
+    def move_cursor(self, x, _y):
         pass
 
     def set_cursor_vis(self, vis):

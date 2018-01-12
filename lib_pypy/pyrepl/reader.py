@@ -435,12 +435,12 @@ feeling more loquacious than I am now."""
     def pos2xy(self, pos):
         """Return the x, y coordinates of position 'pos'."""
         # this *is* incomprehensible, yes.
-        y = 0
+        _y = 0
         assert 0 <= pos <= len(self.buffer)
         if pos == len(self.buffer):
-            y = len(self.screeninfo) - 1
-            p, l2 = self.screeninfo[y]
-            return p + len(l2) - 1, y
+            _y = len(self.screeninfo) - 1
+            p, l2 = self.screeninfo[_y]
+            return p + len(l2) - 1, _y
         else:
             for p, l2 in self.screeninfo:
                 l = l2.count(1)
@@ -448,7 +448,7 @@ feeling more loquacious than I am now."""
                     break
                 else:
                     pos -= l
-                    y += 1
+                    _y += 1
             c = 0
             i = 0
             while c < pos:
@@ -456,7 +456,7 @@ feeling more loquacious than I am now."""
                 i += 1
             while l2[i] == 0:
                 i += 1
-            return p + i, y
+            return p + i, _y
 
     def insert(self, text):
         """Insert 'text' at the insertion point."""

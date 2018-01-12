@@ -80,7 +80,7 @@ class UnixConsole(Console):
     def __init__(self, f_in=0, f_out=1, term=None, encoding=None):
         if encoding is None:
             encoding = sys.getdefaultencoding()
-            
+
         self.encoding = encoding
 
         if isinstance(f_in, int):
@@ -92,12 +92,12 @@ class UnixConsole(Console):
             self.output_fd = f_out
         else:
             self.output_fd = f_out.fileno()
-        
+
         self.pollob = poll()
         self.pollob.register(self.input_fd, POLLIN)
         curses.setupterm(term, self.output_fd)
         self.term = term
-        
+
         self._bel   = _my_getstr("bel")
         self._civis = _my_getstr("civis", optional=1)
         self._clear = _my_getstr("clear")
@@ -122,7 +122,7 @@ class UnixConsole(Console):
         self._ri    = _my_getstr("ri",    1)
         self._rmkx  = _my_getstr("rmkx",  1)
         self._smkx  = _my_getstr("smkx",  1)
-        
+
         ## work out how we're going to sling the cursor around
         if 0 and self._hpa: # hpa don't work in windows telnet :-(
             self.__move_x = self.__move_x_hpa
@@ -162,7 +162,7 @@ class UnixConsole(Console):
 
     def change_encoding(self, encoding):
         self.encoding = encoding
-    
+
     def refresh(self, screen, cxy):
         # this function is still too long (over 90 lines)
 
@@ -175,7 +175,7 @@ class UnixConsole(Console):
                 self.screen.append("")
         else:
             while len(self.screen) < len(screen):
-                self.screen.append("")            
+                self.screen.append("")
 
         if len(screen) > self.height:
             self.__gone_tall = 1
@@ -220,27 +220,27 @@ class UnixConsole(Console):
 
         self.__offset = offset
 
-        for y, oldline, newline, in zip(range(offset, offset + height),
+        for _y, oldline, newline, in zip(range(offset, offset + height),
                                         oldscr,
                                         newscr):
             if oldline != newline:
-                self.__write_changed_line(y, oldline, newline, px)
-                
-        y = len(newscr)
-        while y < len(oldscr):
+                self.__write_changed_line(_y, oldline, newline, px)
+
+        _y = len(newscr)
+        while _y < len(oldscr):
             self.__hide_cursor()
-            self.__move(0, y)
-            self.__posxy = 0, y
+            self.__move(0, _y)
+            self.__posxy = 0, _y
             self.__write_code(self._el)
-            y += 1
+            _y += 1
 
         self.__show_cursor()
-        
+
         self.screen = screen
         self.move_cursor(cx, cy)
         self.flushoutput()
 
-    def __write_changed_line(self, y, oldline, newline, px):
+    def __write_changed_line(self, _y, oldline, newline, px):
         # this is frustrating; there's no reason to test (say)
         # self.dch1 inside the loop -- but alternative ways of
         # structuring this function are equally painful (I'm trying to
@@ -254,41 +254,41 @@ class UnixConsole(Console):
         while x < minlen and oldline[x] == newline[x] and newline[x] != '\x1b':
             x += 1
         if oldline[x:] == newline[x+1:] and self.ich1:
-            if ( y == self.__posxy[1] and x > self.__posxy[0]
+            if ( _y == self.__posxy[1] and x > self.__posxy[0]
                  and oldline[px:x] == newline[px+1:x+1] ):
                 x = px
-            self.__move(x, y)
+            self.__move(x, _y)
             self.__write_code(self.ich1)
             self.__write(newline[x])
-            self.__posxy = x + 1, y
+            self.__posxy = x + 1, _y
         elif x < minlen and oldline[x + 1:] == newline[x + 1:]:
-            self.__move(x, y)
+            self.__move(x, _y)
             self.__write(newline[x])
-            self.__posxy = x + 1, y
+            self.__posxy = x + 1, _y
         elif (self.dch1 and self.ich1 and len(newline) == self.width
               and x < len(newline) - 2
               and newline[x+1:-1] == oldline[x:-2]):
             self.__hide_cursor()
-            self.__move(self.width - 2, y)
-            self.__posxy = self.width - 2, y
+            self.__move(self.width - 2, _y)
+            self.__posxy = self.width - 2, _y
             self.__write_code(self.dch1)
-            self.__move(x, y)
+            self.__move(x, _y)
             self.__write_code(self.ich1)
             self.__write(newline[x])
-            self.__posxy = x + 1, y
+            self.__posxy = x + 1, _y
         else:
             self.__hide_cursor()
-            self.__move(x, y)
+            self.__move(x, _y)
             if len(oldline) > len(newline):
                 self.__write_code(self._el)
             self.__write(newline[x:])
-            self.__posxy = len(newline), y
-        
+            self.__posxy = len(newline), _y
+
         if '\x1b' in newline:
             # ANSI escape characters are present, so we can't assume
             # anything about the position of the cursor.  Moving the cursor
             # to the left margin should work to get to a known position.
-            self.move_cursor(0, y)
+            self.move_cursor(0, _y)
 
     def __write(self, text):
         self.__buffer.append((text, 0))
@@ -300,15 +300,15 @@ class UnixConsole(Console):
         if fmt:
             self.__write_code(fmt, *args)
 
-    def __move_y_cuu1_cud1(self, y):
-        dy = y - self.__posxy[1]
+    def __move_y_cuu1_cud1(self, _y):
+        dy = _y - self.__posxy[1]
         if dy > 0:
             self.__write_code(dy*self._cud1)
         elif dy < 0:
             self.__write_code((-dy)*self._cuu1)
 
-    def __move_y_cuu_cud(self, y):
-        dy = y - self.__posxy[1]
+    def __move_y_cuu_cud(self, _y):
+        dy = _y - self.__posxy[1]
         if dy > 0:
             self.__write_code(self._cud, dy)
         elif dy < 0:
@@ -332,20 +332,20 @@ class UnixConsole(Console):
         elif dx < 0:
             self.__write_code(self._cub, -dx)
 
-    def __move_short(self, x, y):
+    def __move_short(self, x, _y):
         self.__move_x(x)
-        self.__move_y(y)
+        self.__move_y(_y)
 
-    def __move_tall(self, x, y):
-        assert 0 <= y - self.__offset < self.height, y - self.__offset
-        self.__write_code(self._cup, y - self.__offset, x)
+    def __move_tall(self, x, _y):
+        assert 0 <= _y - self.__offset < self.height, _y - self.__offset
+        self.__write_code(self._cup, _y - self.__offset, x)
 
-    def move_cursor(self, x, y):
-        if y < self.__offset or y >= self.__offset + self.height:
+    def move_cursor(self, x, _y):
+        if _y < self.__offset or _y >= self.__offset + self.height:
             self.event_queue.insert(Event('scroll', None))
         else:
-            self.__move(x, y)
-            self.__posxy = x, y
+            self.__move(x, _y)
+            self.__posxy = x, _y
             self.flushoutput()
 
     def prepare(self):
@@ -367,7 +367,7 @@ class UnixConsole(Console):
         self.height, self.width = self.getheightwidth()
 
         self.__buffer = []
-        
+
         self.__posxy = 0, 0
         self.__gone_tall = 0
         self.__move = self.__move_short
@@ -412,7 +412,7 @@ class UnixConsole(Console):
         else:
             self.partial_char = ''
             self.event_queue.push(c)
-        
+
     def get_event(self, block=1):
         while self.event_queue.empty():
             while 1: # All hail Unix!
@@ -505,9 +505,9 @@ class UnixConsole(Console):
             if not m:
                 os.write(self.output_fd, fmt)
                 break
-            x, y = m.span()
+            x, _y = m.span()
             os.write(self.output_fd, fmt[:x])
-            fmt = fmt[y:]
+            fmt = fmt[_y:]
             delay = int(m.group(1))
             if '*' in m.group(2):
                 delay *= self.height
@@ -518,10 +518,10 @@ class UnixConsole(Console):
                 time.sleep(float(delay)/1000.0)
 
     def finish(self):
-        y = len(self.screen) - 1
-        while y >= 0 and not self.screen[y]:
-            y -= 1
-        self.__move(0, min(y, self.height + self.__offset - 1))
+        _y = len(self.screen) - 1
+        while _y >= 0 and not self.screen[_y]:
+            _y -= 1
+        self.__move(0, min(_y, self.height + self.__offset - 1))
         self.__write("\n\r")
         self.flushoutput()
 
@@ -537,7 +537,7 @@ class UnixConsole(Console):
                 e2 = self.event_queue.get()
                 e.data += e2.data
                 e.raw += e.raw
-                
+
             amount = struct.unpack(
                 "i", ioctl(self.input_fd, FIONREAD, "\0\0\0\0"))[0]
             raw = unicode(os.read(self.input_fd, amount), self.encoding, 'replace')
@@ -552,7 +552,7 @@ class UnixConsole(Console):
                 e2 = self.event_queue.get()
                 e.data += e2.data
                 e.raw += e.raw
-                
+
             amount = 10000
             raw = unicode(os.read(self.input_fd, amount), self.encoding, 'replace')
             e.data += raw

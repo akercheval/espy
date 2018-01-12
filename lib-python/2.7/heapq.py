@@ -132,10 +132,10 @@ __all__ = ['heappush', 'heappop', 'heapify', 'heapreplace', 'merge',
 from itertools import islice, count, imap, izip, tee, chain
 from operator import itemgetter
 
-def cmp_lt(x, y):
+def cmp_lt(x, _y):
     # Use __lt__ if available; otherwise, try __le__.
     # In Py3.x, only __lt__ will be called.
-    return (x < y) if hasattr(x, '__lt__') else (not y <= x)
+    return (x < _y) if hasattr(x, '__lt__') else (not _y <= x)
 
 def heappush(heap, item):
     """Push item onto heap, maintaining the heap invariant."""

@@ -778,28 +778,28 @@ class Counter(dict):
 if __name__ == '__main__':
     # verify that instances can be pickled
     from cPickle import loads, dumps
-    Point = namedtuple('Point', 'x, y', True)
-    p = Point(x=10, y=20)
+    Point = namedtuple('Point', 'x, _y', True)
+    p = Point(x=10, _y=20)
     assert p == loads(dumps(p))
 
     # test and demonstrate ability to override methods
-    class Point(namedtuple('Point', 'x y')):
+    class Point(namedtuple('Point', 'x _y')):
         __slots__ = ()
         @property
         def hypot(self):
-            return (self.x ** 2 + self.y ** 2) ** 0.5
+            return (self.x ** 2 + self._y ** 2) ** 0.5
         def __str__(self):
-            return 'Point: x=%6.3f  y=%6.3f  hypot=%6.3f' % (self.x, self.y, self.hypot)
+            return 'Point: x=%6.3f  _y=%6.3f  hypot=%6.3f' % (self.x, self._y, self.hypot)
 
     for p in Point(3, 4), Point(14, 5/7.):
         print p
 
-    class Point(namedtuple('Point', 'x y')):
+    class Point(namedtuple('Point', 'x _y')):
         'Point class with optimized _make() and _replace() without error-checking'
         __slots__ = ()
         _make = classmethod(tuple.__new__)
         def _replace(self, _map=map, **kwds):
-            return self._make(_map(kwds.get, ('x', 'y'), self))
+            return self._make(_map(kwds.get, ('x', '_y'), self))
 
     print Point(11, 22)._replace(x=100)
 

@@ -95,12 +95,12 @@ class yank_arg(commands.Command):
         w = words[a]
         b = r.buffer
         if r.yank_arg_i > 0:
-            o = len(r.yank_arg_yanked)
+            _o = len(r.yank_arg_yanked)
         else:
-            o = 0
-        b[r.pos - o:r.pos] = list(w)
+            _o = 0
+        b[r.pos - _o:r.pos] = list(w)
         r.yank_arg_yanked = w
-        r.pos += len(w) - o
+        r.pos += len(w) - _o
         r.dirty = 1
 
 class forward_history_isearch(commands.Command):
@@ -111,7 +111,7 @@ class forward_history_isearch(commands.Command):
         r.isearch_term = ''
         r.dirty = 1
         r.push_input_trans(r.isearch_trans)
-        
+
 
 class reverse_history_isearch(commands.Command):
     def do(self):
@@ -217,7 +217,7 @@ class HistoricalReader(R):
         self.isearch_trans = input.KeymapTranslator(
             isearch_keymap, invalid_cls=isearch_end,
             character_cls=isearch_add_character)
-        
+
     def select_item(self, i):
         self.transient_history[self.historyi] = self.get_unicode()
         buf = self.transient_history.get(i)
