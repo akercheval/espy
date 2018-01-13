@@ -608,10 +608,11 @@ class W_SyntaxError(W_StandardError):
             args_repr = space.text_w(space.repr(space.newtuple(args_w)))
             clsname = self.getclass(space).getname(space)
             # hereAK added this to SyntaxError
-            clsname = "SintaxisError"
+            clsname = "SintaxisError()"
             return space.newtext(clsname + args_repr)
         else:
-            return W_StandardError.descr_repr(self, space)
+            return "SintaxisError()"
+            #return W_StandardError.descr_repr(self, space)
 
 W_SyntaxError.typedef = TypeDef(
     'exceptions.SyntaxError',

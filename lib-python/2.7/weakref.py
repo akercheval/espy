@@ -97,11 +97,11 @@ class WeakValueDictionary(UserDict.UserDict):
             _remove_dead_weakref(d, key)
 
     def __getitem__(self, key):
-        o = self.data[key]()
-        if o is None:
+        _o = self.data[key]()
+        if _o is None:
             raise KeyError, key
         else:
-            return o
+            return _o
 
     def __delitem__(self, key):
         if self._pending_removals:
@@ -110,17 +110,17 @@ class WeakValueDictionary(UserDict.UserDict):
 
     def __contains__(self, key):
         try:
-            o = self.data[key]()
+            _o = self.data[key]()
         except KeyError:
             return False
-        return o is not None
+        return _o is not None
 
     def has_key(self, key):
         try:
-            o = self.data[key]()
+            _o = self.data[key]()
         except KeyError:
             return False
-        return o is not None
+        return _o is not None
 
     def __repr__(self):
         return "<WeakValueDictionary at %s>" % id(self)
@@ -138,9 +138,9 @@ class WeakValueDictionary(UserDict.UserDict):
     def copy(self):
         new = WeakValueDictionary()
         for key, wr in self.data.items():
-            o = wr()
-            if o is not None:
-                new[key] = o
+            _o = wr()
+            if _o is not None:
+                new[key] = _o
         return new
 
     __copy__ = copy
@@ -149,9 +149,9 @@ class WeakValueDictionary(UserDict.UserDict):
         from copy import deepcopy
         new = self.__class__()
         for key, wr in self.data.items():
-            o = wr()
-            if o is not None:
-                new[deepcopy(key, memo)] = o
+            _o = wr()
+            if _o is not None:
+                new[deepcopy(key, memo)] = _o
         return new
 
     def get(self, key, default=None):
@@ -160,19 +160,19 @@ class WeakValueDictionary(UserDict.UserDict):
         except KeyError:
             return default
         else:
-            o = wr()
-            if o is None:
+            _o = wr()
+            if _o is None:
                 # This should only happen
                 return default
             else:
-                return o
+                return _o
 
     def items(self):
         L = []
         for key, wr in self.data.items():
-            o = wr()
-            if o is not None:
-                L.append((key, o))
+            _o = wr()
+            if _o is not None:
+                L.append((key, _o))
         return L
 
     def iteritems(self):
@@ -215,37 +215,37 @@ class WeakValueDictionary(UserDict.UserDict):
             self._commit_removals()
         while 1:
             key, wr = self.data.popitem()
-            o = wr()
-            if o is not None:
-                return key, o
+            _o = wr()
+            if _o is not None:
+                return key, _o
 
     def pop(self, key, *args):
         if self._pending_removals:
             self._commit_removals()
         try:
-            o = self.data.pop(key)()
+            _o = self.data.pop(key)()
         except KeyError:
-            o = None
-        if o is None:
+            _o = None
+        if _o is None:
             if args:
                 return args[0]
             else:
                 raise KeyError, key
         else:
-            return o
+            return _o
 
     def setdefault(self, key, default=None):
         try:
-            o = self.data[key]()
+            _o = self.data[key]()
         except KeyError:
-            o = None
-        if o is None:
+            _o = None
+        if _o is None:
             if self._pending_removals:
                 self._commit_removals()
             self.data[key] = KeyedRef(default, self._remove, key)
             return default
         else:
-            return o
+            return _o
 
     def update(*args, **kwargs):
         if not args:
@@ -282,9 +282,9 @@ class WeakValueDictionary(UserDict.UserDict):
     def values(self):
         L = []
         for wr in self.data.values():
-            o = wr()
-            if o is not None:
-                L.append(o)
+            _o = wr()
+            if _o is not None:
+                L.append(_o)
         return L
 
 
@@ -364,9 +364,9 @@ class WeakKeyDictionary(UserDict.UserDict):
     def copy(self):
         new = WeakKeyDictionary()
         for key, value in self.data.items():
-            o = key()
-            if o is not None:
-                new[o] = value
+            _o = key()
+            if _o is not None:
+                new[_o] = value
         return new
 
     __copy__ = copy
@@ -375,9 +375,9 @@ class WeakKeyDictionary(UserDict.UserDict):
         from copy import deepcopy
         new = self.__class__()
         for key, value in self.data.items():
-            o = key()
-            if o is not None:
-                new[o] = deepcopy(value, memo)
+            _o = key()
+            if _o is not None:
+                new[_o] = deepcopy(value, memo)
         return new
 
     def get(self, key, default=None):
@@ -400,9 +400,9 @@ class WeakKeyDictionary(UserDict.UserDict):
     def items(self):
         L = []
         for key, value in self.data.items():
-            o = key()
-            if o is not None:
-                L.append((o, value))
+            _o = key()
+            if _o is not None:
+                L.append((_o, value))
         return L
 
     def iteritems(self):
@@ -455,17 +455,17 @@ class WeakKeyDictionary(UserDict.UserDict):
     def keys(self):
         L = []
         for wr in self.data.keys():
-            o = wr()
-            if o is not None:
-                L.append(o)
+            _o = wr()
+            if _o is not None:
+                L.append(_o)
         return L
 
     def popitem(self):
         while 1:
             key, value = self.data.popitem()
-            o = key()
-            if o is not None:
-                return o, value
+            _o = key()
+            if _o is not None:
+                return _o, value
 
     def pop(self, key, *args):
         return self.data.pop(ref(key), *args)
