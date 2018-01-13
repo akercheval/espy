@@ -262,8 +262,8 @@ class WeakValueDictionary(UserDict.UserDict):
         if dict is not None:
             if not hasattr(dict, "items"):
                 dict = type({})(dict)
-            for key, o in dict.items():
-                d[key] = KeyedRef(o, self._remove, key)
+            for key, _o in dict.items():
+                d[key] = KeyedRef(_o, self._remove, key)
         if len(kwargs):
             self.update(kwargs)
 
