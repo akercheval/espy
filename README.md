@@ -13,6 +13,9 @@ code will be open-source. I'll upload a version of the thesis to this repository
 in May 2018, once it's published.
 
 ### To use:
+If you have a 64-bit machine, you should be able to use the pre-built executable 
+binary called `pypy-c` with a good ol' `./pypy-c`. If that doesn't work:
+
 Clone the repository and run [`sh build`](https://github.com/akercheval/espy/blob/master/build),
 and then walk away from your computer for somewhere around an hour and 15 
 minutes. Seriously! The build process, according to 
