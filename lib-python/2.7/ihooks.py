@@ -365,7 +365,7 @@ class BasicModuleImporter(_Verbose):
             return self.modules[name] # Fast path
         stuff = self.loader.find_module(name)
         if not stuff:
-            raise ImportError, "No module named %s" % name
+            raise ImportError, "No hay módulo llamado %s" % name
         return self.loader.load_module(name, stuff)
 
     def reload(self, module, path = None):
@@ -476,7 +476,7 @@ class ModuleImporter(BasicModuleImporter):
             parent = None
             q = self.import_it(head, qname, parent)
             if q: return q, tail
-        raise ImportError, "No module named '%s'" % qname
+        raise ImportError, "No hay módulo llamado '%s'" % qname
 
     def load_tail(self, q, tail):
         m = q
@@ -487,7 +487,7 @@ class ModuleImporter(BasicModuleImporter):
             mname = "%s.%s" % (m.__name__, head)
             m = self.import_it(head, mname, m)
             if not m:
-                raise ImportError, "No module named '%s'" % mname
+                raise ImportError, "No hay módulo llamado '%s'" % mname
         return m
 
     def ensure_fromlist(self, m, fromlist, recursive=0):
@@ -505,7 +505,7 @@ class ModuleImporter(BasicModuleImporter):
                 subname = "%s.%s" % (m.__name__, sub)
                 submod = self.import_it(sub, subname, m)
                 if not submod:
-                    raise ImportError, "No module named '%s'" % subname
+                    raise ImportError, "No hay módulo llamado '%s'" % subname
 
     def import_it(self, partname, fqname, parent, force_load=0):
         if not partname:

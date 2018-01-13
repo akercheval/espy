@@ -670,7 +670,7 @@ class FlowContext(object):
         try:
             return op.getattr(w_module, w_name).eval(self)
         except FlowingError:
-            exc = ImportError("cannot import name '%s'" % w_name.value)
+            exc = ImportError("no puede importar nombre '%s'" % w_name.value)
             raise Raise(const(exc))
 
     def IMPORT_FROM(self, nameindex):

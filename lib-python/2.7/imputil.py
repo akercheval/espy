@@ -106,7 +106,7 @@ class ImportManager:
             top_module = self._import_top_module(parts[0])
             if not top_module:
                 # the topmost module wasn't found at all.
-                raise ImportError, 'No module named ' + fqname
+                raise ImportError, 'No hay módulo llamado ' + fqname
 
         # fast-path simple imports
         if len(parts) == 1:
@@ -144,7 +144,7 @@ class ImportManager:
         # If the importer does not exist, then we have to bail. A missing
         # importer means that something else imported the module, and we have
         # no knowledge of how to get sub-modules out of the thing.
-        raise ImportError, 'No module named ' + fqname
+        raise ImportError, 'No hay módulo llamado ' + fqname
 
     def _determine_import_context(self, globals):
         """Returns the context in which a module should be imported.
@@ -327,7 +327,7 @@ class Importer:
             fqname = "%s.%s" % (m.__name__, part)
             m = self._import_one(m, part, fqname)
             if not m:
-                raise ImportError, "No module named " + fqname
+                raise ImportError, "No hay módulo llamado " + fqname
         return m
 
     def _import_fromlist(self, package, fromlist):
@@ -346,7 +346,7 @@ class Importer:
                 subname = "%s.%s" % (package.__name__, sub)
                 submod = self._import_one(package, sub, subname)
                 if not submod:
-                    raise ImportError, "cannot import name " + subname
+                    raise ImportError, "no puede importar nombre " + subname
 
     def _do_import(self, parent, parts, fromlist):
         """Attempt to import the module relative to parent.

@@ -210,7 +210,7 @@ class ModuleFinder:
                 self.msgout(4, "find_head_package ->", (q, tail))
                 return q, tail
         self.msgout(4, "raise ImportError: No module named", qname)
-        raise ImportError, "No module named " + qname
+        raise ImportError, "No hay módulo llamado " + qname
 
     def load_tail(self, q, tail):
         self.msgin(4, "load_tail", q, tail)
@@ -223,7 +223,7 @@ class ModuleFinder:
             m = self.import_module(head, mname, m)
             if not m:
                 self.msgout(4, "raise ImportError: No module named", mname)
-                raise ImportError, "No module named " + mname
+                raise ImportError, "No hay módulo llamado " + mname
         self.msgout(4, "load_tail ->", m)
         return m
 
@@ -239,7 +239,7 @@ class ModuleFinder:
                 subname = "%s.%s" % (m.__name__, sub)
                 submod = self.import_module(sub, subname, m)
                 if not submod:
-                    raise ImportError, "No module named " + subname
+                    raise ImportError, "No hay módulo llamado " + subname
 
     def find_all_submodules(self, m):
         if not m.__path__:

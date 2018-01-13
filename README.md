@@ -12,7 +12,19 @@ This is part of my senior honors thesis at Tufts University, but naturally the
 code will be open-source. I'll upload a version of the thesis to this repository
 in May 2018, once it's published.
 
-#### A warning: This code is not fully in Spanish yet. Until this message is removed, consider this repository nothing more than a Spanglish pypy that wouldn't be very much fun to use.
-That said, if you want to see where I'm at progress-wise at any given point, feel
-free to clone the repository, run `sh build`, and walk away from your computer for
-literally an hour while this thing boots up.
+### To use:
+Clone the repository and run [`sh build`](https://github.com/akercheval/espy/blob/master/build),
+and then walk away from your computer for somewhere around an hour and 15 
+minutes. Seriously! The build process, according to 
+[pypy's docs](https://pypy.org/download.html#building-from-source) will use 5 
+and 3 GB of RAM on 64- and 32-bit systems, respectively.
+
+Once the build is complete, there will be an executable file called `pypy-c` in
+the repo's main directory. There's Espy!
+
+### Syntax highlighting:
+I've included a file called [`python.vim`](https://github.com/akercheval/espy/blob/master/python.vim)
+that you can put wherever your syntax files are held (for vim), and it will
+highlight the new Spanish words appropriately. I'm working on getting another
+editor's highlighting to work as well, probably Atom, Sublime, or Brackets, but 
+they are proving to be a bit trickier than vim is.

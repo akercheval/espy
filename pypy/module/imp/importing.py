@@ -719,7 +719,7 @@ def load_part(space, w_path, prefix, partname, w_parent, tentative):
         return None
     else:
         # ImportError
-        raise oefmt(space.w_ImportError, "No module named %s", modulename)
+        raise oefmt(space.w_ImportError, "No hay módulo llamado %s", modulename)
 
 @jit.dont_look_inside
 def reload(space, w_module):
@@ -761,7 +761,7 @@ def reload(space, w_module):
 
         if not find_info:
             # ImportError
-            raise oefmt(space.w_ImportError, "No module named %s", modulename)
+            raise oefmt(space.w_ImportError, "No hay módulo llamado %s", modulename)
 
         try:
             try:

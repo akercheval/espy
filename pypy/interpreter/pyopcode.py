@@ -1057,7 +1057,7 @@ class __extend__(pyframe.PyFrame):
             if not e.match(self.space, self.space.w_AttributeError):
                 raise
             raise oefmt(self.space.w_ImportError,
-                        "cannot import name %R", w_name)
+                        "no puede importar nombre %R", w_name)
         self.pushvalue(w_obj)
 
     def YIELD_VALUE(self, oparg, next_instr):

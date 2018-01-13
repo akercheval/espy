@@ -56,7 +56,7 @@ def find_module(space, w_name, w_path=None):
     find_info = importing.find_module(
         space, name, w_name, name, w_path, use_loader=False)
     if not find_info:
-        raise oefmt(space.w_ImportError, "No module named %s", name)
+        raise oefmt(space.w_ImportError, "No hay módulo llamado %s", name)
 
     w_filename = space.newtext(find_info.filename)
     stream = find_info.stream

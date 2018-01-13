@@ -101,7 +101,7 @@ def _get_module_details(mod_name, error=ImportError):
     try:
         loader = get_loader(mod_name)
         if loader is None:
-            raise error("No module named %s" % mod_name)
+            raise error("No hay módulo llamado %s" % mod_name)
         ispkg = loader.is_package(mod_name)
     except ImportError as e:
         raise error(format(e))

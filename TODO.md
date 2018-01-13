@@ -2,10 +2,7 @@
 
 * Don't break the help() function. It doesn't work right now, and it's not 
   totally clear why.
-* Traceback translations, found in `pypy/interpreter/error.py`, and the text of 
-  exceptions (like `NameError`)
-* Translate object method names: for example, I've never seen the definition of 
-  `list.append` yet and as such haven't translated it.
+
 * Allow for accents in type definitions: Right now, for example, the "index" 
     function of the list type, which should be called "índice" is called
     "indice" because the pypy compiler freaks out when it finds an accent.
@@ -51,7 +48,6 @@
 | globals()     |  globales()    |  Yes
 | hasattr()     |  tieneatr()    |  Yes
 | hash()        |  hash()        |  Yes
-| help()        |                |  *not found yet*
 | hex()         |  hex()         |  Yes
 | id()          |  id()          |  Yes
 | input()       |  entrada()     |  Yes
@@ -77,7 +73,7 @@
 | repr()        |  repr()        |  Yes
 | reversed()    |  invertido()   |  Yes
 | round()       |  redond()      |  Yes
-| set()         |  set()         |  Yes (but only because name is same)
+| set()         |  set()         |  Yes
 | setattr()     |  ponatr()      |  Yes
 | slice()       |  cortar()      |  Yes
 | sorted()      |  ordenado()    |  Yes
@@ -120,7 +116,7 @@
 | and             | y             |   Yes
 | or              | o             |   Yes
 | help            | ayuda         |   Yes, but function doesn't work
-| copyright       | copyright     |   N/A (same word)
+| copyright       | copyright     |   Yes
 | credits         | atrib         |   Yes
 | license         | licencia      |   Yes
 
