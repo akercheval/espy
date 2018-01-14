@@ -91,7 +91,7 @@ class Scope(object):
 
     def note_return(self, ret):
         """Called when a return statement is found."""
-        raise SyntaxError("return outside function", ret.lineno,
+        raise SyntaxError("volver fuera de función", ret.lineno,
                           ret.col_offset)
 
     def note_exec(self, exc):

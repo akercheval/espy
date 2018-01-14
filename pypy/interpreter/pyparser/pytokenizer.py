@@ -241,7 +241,7 @@ def generate_tokens(lines, flags):
                 if start < 0:
                     start = pos
                 if start<max and line[start] in single_quoted:
-                    raise TokenError("EOL while scanning string literal",
+                    raise TokenError("EOL mientras leyendo palabra literal",
                              line, lnum, start+1, token_list)
                 tok = (tokens.ERRORTOKEN, line[pos], lnum, pos, line)
                 token_list.append(tok)
