@@ -25,9 +25,24 @@ and 3 GB of RAM on 64- and 32-bit systems, respectively.
 Once the build is complete, there will be an executable file called `pypy-c` in
 the repo's main directory. There's Espy!
 
+Most of the keywords and their respective translations into Spanish can be found
+in [`TODO.md`](https://github.com/akercheval/espy/blob/master/TODO.md), or you 
+can run `python3 pickler.py` in the main directory to run an interactive lookup
+tool.
+
 ### Syntax highlighting:
 I've included a file called [`python.vim`](https://github.com/akercheval/espy/blob/master/python.vim)
 that you can put wherever your syntax files are held (for vim), and it will
 highlight the new Spanish words appropriately. I'm working on getting another
 editor's highlighting to work as well, probably Atom, Sublime, or Brackets, but 
 they are proving to be a bit trickier than vim is.
+
+### Known issues
+* Translating errors (so that, for example, `ValueError` is of type `ValorError`
+  causes a very odd breakdown in the interpreter that raises an `IndentationError`
+  every time it should leave space for a new line. So, right now, the final link
+  between app-level errors and implementation-level errors (the kind of thing that
+  would let `except: ValorError` catch both `ValueError` and `ValorError`) is
+  incomplete.
+* Somewhere down the line, the `help()` function got hopelessly destroyed, and I
+  have yet to figure out why or how to fix it. 

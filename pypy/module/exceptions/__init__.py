@@ -6,9 +6,9 @@ class Module(MixedModule):
 
     interpleveldefs = {
         'AfirmacionError' : 'interp_exceptions.W_AfirmacionError',
-        'ArithmeticError' : 'interp_exceptions.W_ArithmeticError',
+        'ArithmeticError' : 'interp_exceptions.W_AritmeticaError',
         'AritmeticaError' : 'interp_exceptions.W_AritmeticaError',
-        'AssertionError' : 'interp_exceptions.W_AssertionError',
+        'AssertionError' : 'interp_exceptions.W_AfirmacionError',
         'AtributoError' : 'interp_exceptions.W_AtributoError',
         'AttributeError' : 'interp_exceptions.W_AttributeError',
         'Aviso' : 'interp_exceptions.W_Aviso',
