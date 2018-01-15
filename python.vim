@@ -79,7 +79,7 @@ syn keyword pythonStatement	lambda nonlocal pass print return with yield
 syn keyword pythonStatement	lambda pasa imprimir volver con yield
 syn keyword pythonStatement	class def nextgroup=pythonFunction skipwhite
 syn keyword pythonStatement	clase nextgroup=pythonFunction skipwhite
-syn keyword pythonConditional	elif else if sino si_no si
+syn keyword pythonConditional	elif else if osi sino si
 syn keyword pythonRepeat	for while para mientras
 syn keyword pythonOperator	and in is not or y en es no o
 syn keyword pythonException	except finally raise try excepto porfin levantar probar
@@ -94,7 +94,7 @@ syn match   pythonDecorator	"@" display nextgroup=pythonFunction skipwhite
 " doctests.
 " A dot must be allowed because of @MyClass.myfunc decorators.
 syn match   pythonFunction
-      \ "\%(\%(def\s\|class\s\|@\)\s*\)\@<=\h\%(\w\|\.\)*" contained
+      \ "\%(\%(def\s\|class\s\|clase\s\|@\)\s*\)\@<=\h\%(\w\|\.\)*" contained
 
 syn match   pythonComment	"#.*$" contains=pythonTodo,@Spell
 syn keyword pythonTodo		FIXME NOTE NOTES TODO XXX contained
@@ -314,7 +314,7 @@ if !exists("python_no_doctest_highlight")
 endif
 
 " Sync at the beginning of class, function, or method definition.
-syn sync match pythonSync grouphere NONE "^\s*\%(def\|class\)\s\+\h\w*\s*("
+syn sync match pythonSync grouphere NONE "^\s*\%(def\|class\|clase\)\s\+\h\w*\s*("
 
 if version >= 508 || !exists("did_python_syn_inits")
   if version <= 508

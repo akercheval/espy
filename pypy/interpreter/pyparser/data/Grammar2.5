@@ -78,11 +78,11 @@ exec_stmt: 'exec' expr [('in' | 'en') test [',' test]]
 assert_stmt: ('assert' | 'afirmar') test [',' test]
 
 compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef
-if_stmt: ('if' | 'si') test ':' suite (('elif' | 'sino') test ':' suite)* [('else' | 'si_no') ':' suite]
-while_stmt: ('while' | 'mientras') test ':' suite [('else' | 'si_no') ':' suite]
-for_stmt: ('for' | 'para') exprlist ('in' | 'en') testlist ':' suite [('else' | 'si_no') ':' suite]
+if_stmt: ('if' | 'si') test ':' suite (('elif' | 'osi') test ':' suite)* [('else' | 'sino') ':' suite]
+while_stmt: ('while' | 'mientras') test ':' suite [('else' | 'sino') ':' suite]
+for_stmt: ('for' | 'para') exprlist ('in' | 'en') testlist ':' suite [('else' | 'sino') ':' suite]
 try_stmt: (('try' | 'probar') ':' suite
-           ((except_clause ':' suite)+ [('else' | 'si_no') ':' suite]
+           ((except_clause ':' suite)+ [('else' | 'sino') ':' suite]
         [('finally' | 'porfin') ':' suite] |
         ('finally' | 'porfin') ':' suite))
 with_stmt: ('with' | 'con') test [ with_var ] ':' suite
@@ -100,7 +100,7 @@ testlist_safe: old_test [(',' old_test)+ [',']]
 old_test: or_test | old_lambdef
 old_lambdef: 'lambda' [varargslist] ':' old_test
 
-test: or_test [('if' | 'si') or_test ('else' | 'si_no') test] | lambdef
+test: or_test [('if' | 'si') or_test ('else' | 'sino') test] | lambdef
 or_test: and_test (('or' | 'o') and_test)*
 and_test: not_test (('and' | 'y') not_test)*
 not_test: ('not' | 'no') not_test | comparison

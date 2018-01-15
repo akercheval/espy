@@ -329,17 +329,17 @@ class ASTBuilder(object):
             suite = self.handle_suite(if_node.get_child(3))
             return ast.If(test, suite, None, if_node.get_lineno(), if_node.get_column())
         otherwise_string = if_node.get_child(4).get_value()
-        if otherwise_string == "else" or otherwise_string == "si_no":
+        if otherwise_string == "else" or otherwise_string == "sino":
             test = self.handle_expr(if_node.get_child(1))
             suite = self.handle_suite(if_node.get_child(3))
             else_suite = self.handle_suite(if_node.get_child(6))
             return ast.If(test, suite, else_suite, if_node.get_lineno(),
                           if_node.get_column())
-        elif otherwise_string == "elif" or otherwise_string == "sino":
+        elif otherwise_string == "elif" or otherwise_string == "osi":
             elif_count = child_count - 4
             after_elif = if_node.get_child(elif_count + 1)
             if after_elif.type == tokens.NAME and \
-                    (after_elif.get_value() == "else" or after_elif.get_value() == "si_no"):
+                    (after_elif.get_value() == "else" or after_elif.get_value() == "sino"):
                 has_else = True
                 elif_count -= 3
             else:

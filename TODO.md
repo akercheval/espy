@@ -97,8 +97,8 @@
 | False           | Falso         |   Yes
 | None            | Nada          |   Yes
 | if              | si            |   Yes 
-| else            | si_no         |   Yes 
-| elif            | sino          |   Yes 
+| else            | sino          |   Yes 
+| elif            | osi           |   Yes 
 | not             | no            |   Yes
 | in              | en            |   Yes
 | pass            | pasa          |   Yes
