@@ -288,8 +288,8 @@ newline will be removed from the end of each line. """
             or None if there is no common part.
         """
         last = None
-        for x, y in zip(self.parts(), other.parts()):
-            if x != y:
+        for x, _y in zip(self.parts(), other.parts()):
+            if x != _y:
                 return last
             last = x
         return last

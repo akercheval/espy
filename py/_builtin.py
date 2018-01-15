@@ -62,11 +62,11 @@ except NameError:
         use_cmp = None
         if key is not None:
             if cmp is None:
-                def use_cmp(x, y):
-                    return builtin_cmp(x[0], y[0])
+                def use_cmp(x, _y):
+                    return builtin_cmp(x[0], _y[0])
             else:
-                def use_cmp(x, y):
-                    return cmp(x[0], y[0])
+                def use_cmp(x, _y):
+                    return cmp(x[0], _y[0])
             l = [(key(element), element) for element in iterable]
         else:
             if cmp is not None:

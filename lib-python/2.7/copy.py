@@ -125,19 +125,19 @@ def _copy_inst(x):
         return x.__copy__()
     if hasattr(x, '__getinitargs__'):
         args = x.__getinitargs__()
-        y = x.__class__(*args)
+        _y = x.__class__(*args)
     else:
-        y = _EmptyClass()
-        y.__class__ = x.__class__
+        _y = _EmptyClass()
+        _y.__class__ = x.__class__
     if hasattr(x, '__getstate__'):
         state = x.__getstate__()
     else:
         state = x.__dict__
-    if hasattr(y, '__setstate__'):
-        y.__setstate__(state)
+    if hasattr(_y, '__setstate__'):
+        _y.__setstate__(state)
     else:
-        y.__dict__.update(state)
-    return y
+        _y.__dict__.update(state)
+    return _y
 d[types.InstanceType] = _copy_inst
 
 del d
@@ -152,26 +152,26 @@ def deepcopy(x, memo=None, _nil=[]):
         memo = {}
 
     d = id(x)
-    y = memo.get(d, _nil)
-    if y is not _nil:
-        return y
+    _y = memo.get(d, _nil)
+    if _y is not _nil:
+        return _y
 
     cls = type(x)
 
     copier = _deepcopy_dispatch.get(cls)
     if copier:
-        y = copier(x, memo)
+        _y = copier(x, memo)
     else:
         try:
             issc = issubclass(cls, type)
         except TypeError: # cls is not a class (old Boost; see SF #502085)
             issc = 0
         if issc:
-            y = _deepcopy_atomic(x, memo)
+            _y = _deepcopy_atomic(x, memo)
         else:
             copier = getattr(x, "__deepcopy__", None)
             if copier:
-                y = copier(memo)
+                _y = copier(memo)
             else:
                 reductor = dispatch_table.get(cls)
                 if reductor:
@@ -187,11 +187,11 @@ def deepcopy(x, memo=None, _nil=[]):
                         else:
                             raise Error(
                                 "un(deep)copyable object of type %s" % cls)
-                y = _reconstruct(x, rv, 1, memo)
+                _y = _reconstruct(x, rv, 1, memo)
 
-    memo[d] = y
+    memo[d] = _y
     _keep_alive(x, memo) # Make sure x lives at least as long as d
-    return y
+    return _y
 
 _deepcopy_dispatch = d = {}
 
@@ -224,38 +224,38 @@ d[types.FunctionType] = _deepcopy_atomic
 d[weakref.ref] = _deepcopy_atomic
 
 def _deepcopy_list(x, memo):
-    y = []
-    memo[id(x)] = y
+    _y = []
+    memo[id(x)] = _y
     for a in x:
-        y.append(deepcopy(a, memo))
-    return y
+        _y.append(deepcopy(a, memo))
+    return _y
 d[list] = _deepcopy_list
 
 def _deepcopy_tuple(x, memo):
-    y = []
+    _y = []
     for a in x:
-        y.append(deepcopy(a, memo))
+        _y.append(deepcopy(a, memo))
     d = id(x)
     try:
         return memo[d]
     except KeyError:
         pass
     for i in range(len(x)):
-        if x[i] is not y[i]:
-            y = tuple(y)
+        if x[i] is not _y[i]:
+            _y = tuple(_y)
             break
     else:
-        y = x
-    memo[d] = y
-    return y
+        _y = x
+    memo[d] = _y
+    return _y
 d[tuple] = _deepcopy_tuple
 
 def _deepcopy_dict(x, memo):
-    y = {}
-    memo[id(x)] = y
+    _y = {}
+    memo[id(x)] = _y
     for key, value in x.iteritems():
-        y[deepcopy(key, memo)] = deepcopy(value, memo)
-    return y
+        _y[deepcopy(key, memo)] = deepcopy(value, memo)
+    return _y
 d[dict] = _deepcopy_dict
 if PyStringMap is not None:
     d[PyStringMap] = _deepcopy_dict
@@ -286,21 +286,21 @@ def _deepcopy_inst(x, memo):
     if hasattr(x, '__getinitargs__'):
         args = x.__getinitargs__()
         args = deepcopy(args, memo)
-        y = x.__class__(*args)
+        _y = x.__class__(*args)
     else:
-        y = _EmptyClass()
-        y.__class__ = x.__class__
-    memo[id(x)] = y
+        _y = _EmptyClass()
+        _y.__class__ = x.__class__
+    memo[id(x)] = _y
     if hasattr(x, '__getstate__'):
         state = x.__getstate__()
     else:
         state = x.__dict__
     state = deepcopy(state, memo)
-    if hasattr(y, '__setstate__'):
-        y.__setstate__(state)
+    if hasattr(_y, '__setstate__'):
+        _y.__setstate__(state)
     else:
-        y.__dict__.update(state)
-    return y
+        _y.__dict__.update(state)
+    return _y
 d[types.InstanceType] = _deepcopy_inst
 
 def _reconstruct(x, info, deep, memo=None):
@@ -326,37 +326,37 @@ def _reconstruct(x, info, deep, memo=None):
         dictiter = None
     if deep:
         args = deepcopy(args, memo)
-    y = callable(*args)
-    memo[id(x)] = y
+    _y = callable(*args)
+    memo[id(x)] = _y
 
     if state is not None:
         if deep:
             state = deepcopy(state, memo)
-        if hasattr(y, '__setstate__'):
-            y.__setstate__(state)
+        if hasattr(_y, '__setstate__'):
+            _y.__setstate__(state)
         else:
             if isinstance(state, tuple) and len(state) == 2:
                 state, slotstate = state
             else:
                 slotstate = None
             if state is not None:
-                y.__dict__.update(state)
+                _y.__dict__.update(state)
             if slotstate is not None:
                 for key, value in slotstate.iteritems():
-                    setattr(y, key, value)
+                    setattr(_y, key, value)
 
     if listiter is not None:
         for item in listiter:
             if deep:
                 item = deepcopy(item, memo)
-            y.append(item)
+            _y.append(item)
     if dictiter is not None:
         for key, value in dictiter:
             if deep:
                 key = deepcopy(key, memo)
                 value = deepcopy(value, memo)
-            y[key] = value
-    return y
+            _y[key] = value
+    return _y
 
 del d
 
@@ -425,9 +425,9 @@ def _test():
         def __setitem__(self, k, i):
             dict.__setitem__(self, k, i)
             self.a
-    o = odict({"A" : "B"})
-    x = deepcopy(o)
-    print(o, x)
+    _o = odict({"A" : "B"})
+    x = deepcopy(_o)
+    print(_o, x)
 
 if __name__ == '__main__':
     _test()
