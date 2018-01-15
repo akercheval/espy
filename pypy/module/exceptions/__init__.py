@@ -40,7 +40,7 @@ class Module(MixedModule):
         'ImportarError' : 'interp_exceptions.W_ImportarError',
         'ImportarAviso' : 'interp_exceptions.W_ImportarAviso',
         'ImportWarning' : 'interp_exceptions.W_ImportarAviso',
-        'IndentationError' : 'interp_exceptions.W_IndentationError',
+        'IndentationError' : 'interp_exceptions.W_SangriaError',
         'IndexError' : 'interp_exceptions.W_IndexError',
         'IndiceError' : 'interp_exceptions.W_IndiceError',
         'KeyError' : 'interp_exceptions.W_KeyError',
