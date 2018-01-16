@@ -75,7 +75,7 @@ class Module(MixedModule):
         'TecladoInterrumpir' : 'interp_exceptions.W_TecladoInterrumpir',
         'TipoError' : 'interp_exceptions.W_TipoError',
         'TypeError' : 'interp_exceptions.W_TipoError',
-        'UnboundLocalError' : 'interp_exceptions.W_LocalSuentoError',
+        'UnboundLocalError' : 'interp_exceptions.W_LocalSueltoError',
         'UnicodeDecodeError' : 'interp_exceptions.W_UnicodeDecodeError',
         'UnicodeEncodeError' : 'interp_exceptions.W_UnicodeEncodeError',
         'UnicodeError' : 'interp_exceptions.W_UnicodError',
