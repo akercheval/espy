@@ -25,7 +25,7 @@ and 3 GB of RAM on 64- and 32-bit systems, respectively.
 Once the build is complete, there will be an executable file called `pypy-c` in
 the repo's main directory. There's Espy!
 
-All the keywords and their respective translations can be found [here](https://doc s.google.com/spreadsheets/d/1Sub2El7knpA1Z5R4iM2PimXfTPOX2M2vCwZrLQ5C3yU/edit?usp=sharing).
+All the keywords and their respective translations can be found [here](https://docs.google.com/spreadsheets/d/1Sub2El7knpA1Z5R4iM2PimXfTPOX2M2vCwZrLQ5C3yU/edit?usp=sharing).
 You can also run `python3 pickler.py` in the main directory for an interactive lookup
 tool.
 
