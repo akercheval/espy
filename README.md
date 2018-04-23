@@ -9,8 +9,7 @@ because while sí is a preprocessor that changes the language from English to
 Spanish (and vice-versa), espy will be, at its core, in Spanish. 
 
 This is part of my senior honors thesis at Tufts University, and naturally the
-code will be open-source. I'll upload a version of the thesis to this repository
-in May 2018, once it's published.
+code will be open-source. You can read a copy of my thesis [here](https://github.com/akercheval/espy/blob/master/Thesis%20-%20Adam%20Kercheval.pdf)
 
 ### To use:
 If you have a 64-bit machine, you should be able to use the pre-built executable 
