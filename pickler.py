@@ -31,6 +31,11 @@ def pickler():
                 trans[eng] = spn
                 save_obj(trans, "trans")
                 print(eng, "saved as", spn)
+    elif action == 'd':
+        myDict = load_obj("trans")
+        descending = sorted(myDict, key=myDict.get, reverse=True)
+        for val in descending:
+            print(val + "," +  myDict[val])
 
     cont = input("Another? (y/n) ")
     if cont == "y":
