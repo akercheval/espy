@@ -15,7 +15,7 @@ code will be open-source. You can read a copy of my thesis [here](https://github
 If you have a 64-bit machine, you should be able to use the pre-built executable 
 binary called `pypy-c` with a good ol' `./pypy-c`. If that doesn't work:
 
-Clone the repository and run [`sh build`](https://github.com/akercheval/espy/blob/master/build),
+First, install the dependencies needed, listed [here](http://doc.pypy.org/en/latest/build.html#install-build-time-dependencies). Then, clone the repository and run [`sh build`](https://github.com/akercheval/espy/blob/master/build),
 and then walk away from your computer for somewhere around an hour and 15 
 minutes. Seriously! The build process, according to 
 [pypy's docs](https://pypy.org/download.html#building-from-source) will use 5 
