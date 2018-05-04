@@ -35,6 +35,3 @@ highlight the new Spanish words appropriately. I'm working on getting another
 editor's highlighting to work as well, probably Atom, Sublime, or Brackets, but 
 they are proving to be a bit trickier than vim is.
 
-### Known issue
-* Somewhere down the line, the `help()` function got hopelessly destroyed, and I
-  have yet to figure out why or how to fix it. 

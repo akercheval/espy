@@ -791,7 +791,6 @@ def run_command_line(interactive,
 
     return status
 
-# hereAK banner
 def print_banner(copyright):
     print >> sys.stderr, 'Espy %s en %s' % (sys.version, sys.platform)
     if copyright:

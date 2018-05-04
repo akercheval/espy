@@ -1179,9 +1179,9 @@ class TextDoc(Doc):
             return classname(c, m)
 
         if name == realname:
-            title = 'class ' + self.bold(realname)
+            title = 'clase ' + self.bold(realname)
         else:
-            title = self.bold(name) + ' = class ' + realname
+            title = self.bold(name) + ' = clase ' + realname
         if bases:
             parents = map(makename, bases)
             title = title + '(%s)' % join(parents, ', ')
@@ -1193,7 +1193,7 @@ class TextDoc(Doc):
         # List the mro, if non-trivial.
         mro = deque(inspect.getmro(object))
         if len(mro) > 2:
-            push("Method resolution order:")
+            push("Orden de resolución del método:")
             for base in mro:
                 push('    ' + makename(base))
             push('')
@@ -1258,29 +1258,29 @@ class TextDoc(Doc):
                 thisclass = attrs[0][2]
             attrs, inherited = _split_list(attrs, lambda t: t[2] is thisclass)
 
-            # hereAK added 1/11
-            if thisclass is __builtin__.object or thisclass is __builtin__.objeto:
+            # hereAK commented out 5/4
+            if thisclass is __builtin__.objeto: #or thisclass is __builtin__.object:
                 attrs = inherited
                 continue
             elif thisclass is object:
-                tag = "defined here"
+                tag = "definidos aquí"
             else:
-                tag = "inherited from %s" % classname(thisclass,
+                tag = "heredados de %s" % classname(thisclass,
                                                       object.__module__)
 
             # Sort attrs by name.
             attrs.sort()
 
             # Pump out the attrs, segregated by kind.
-            attrs = spill("Methods %s:\n" % tag, attrs,
+            attrs = spill("Métodos %s:\n" % tag, attrs,
                           lambda t: t[1] == 'method')
-            attrs = spill("Class methods %s:\n" % tag, attrs,
+            attrs = spill("Métodos de la clase %s:\n" % tag, attrs,
                           lambda t: t[1] == 'class method')
-            attrs = spill("Static methods %s:\n" % tag, attrs,
+            attrs = spill("Métodos estáticos %s:\n" % tag, attrs,
                           lambda t: t[1] == 'static method')
-            attrs = spilldescriptors("Data descriptors %s:\n" % tag, attrs,
+            attrs = spilldescriptors("Descriptores de data %s:\n" % tag, attrs,
                                      lambda t: t[1] == 'data descriptor')
-            attrs = spilldata("Data and other attributes %s:\n" % tag, attrs,
+            attrs = spilldata("Data y otros atributos %s:\n" % tag, attrs,
                               lambda t: t[1] == 'data')
             assert attrs == []
             attrs = inherited
@@ -1559,7 +1559,7 @@ def render_doc(thing, title='Python Library Documentation: %s', forceload=0):
     if name and '.' in name:
         desc += ' in ' + name[:name.rfind('.')]
     elif module and module is not object:
-        desc += ' in module ' + module.__name__
+        desc += ' en módulo ' + module.__name__
     if type(object) is _OLD_INSTANCE_TYPE:
         # If the passed object is an instance of an old-style class,
         # document its available methods instead of its value.
@@ -1840,9 +1840,9 @@ has the same effect as typing a particular string at the help> prompt.
             elif request in self.symbols: self.showsymbol(request)
             elif request in self.keywords: self.showtopic(request)
             elif request in self.topics: self.showtopic(request)
-            elif request: doc(request, 'Help on %s:')
+            elif request: doc(request, 'Ayuda para %s:')
         elif isinstance(request, Helper): self()
-        else: doc(request, 'Help on %s:')
+        else: doc(request, 'Ayuda para %s:')
         self.output.write('\n')
 
     def intro(self):
